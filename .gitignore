@@ -1,0 +1,18 @@
+﻿# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# OS / Editor temp files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Power BI temp / lock files
+*.lock
+*.tmp
+
+# Large binary / log files
+*.parquet
+*.parquet.*
+*.log
