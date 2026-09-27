@@ -1,0 +1,112 @@
+{
+  "name": "Telco_Customer_Churn",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "en-US",
+    "tables": [
+      {
+        "name": "Telco_Customer",
+        "partitions": [
+          {
+            "name": "Telco_Customer",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"..\\data\\cleaned\\Telco_Customer_Churn_cleaned_data.csv\"),[Delimiter=\",\", Columns=21, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+                "in",
+                "    PromotedHeaders"
+              ]
+            }
+          }
+        ],
+        "columns": [
+          {
+            "name": "customerID",
+            "dataType": "string",
+            "sourceColumn": "customerID",
+            "isHidden": true
+          },
+          {
+            "name": "gender",
+            "dataType": "string",
+            "sourceColumn": "gender"
+          },
+          {
+            "name": "SeniorCitizen",
+            "dataType": "int64",
+            "sourceColumn": "SeniorCitizen"
+          },
+          {
+            "name": "Partner",
+            "dataType": "string",
+            "sourceColumn": "Partner"
+          },
+          {
+            "name": "Dependents",
+            "dataType": "string",
+            "sourceColumn": "Dependents"
+          },
+          {
+            "name": "tenure",
+            "dataType": "int64",
+            "sourceColumn": "tenure"
+          },
+          {
+            "name": "Contract",
+            "dataType": "string",
+            "sourceColumn": "Contract"
+          },
+          {
+            "name": "PaperlessBilling",
+            "dataType": "string",
+            "sourceColumn": "PaperlessBilling"
+          },
+          {
+            "name": "PaymentMethod",
+            "dataType": "string",
+            "sourceColumn": "PaymentMethod"
+          },
+          {
+            "name": "MonthlyCharges",
+            "dataType": "double",
+            "sourceColumn": "MonthlyCharges"
+          },
+          {
+            "name": "TotalCharges",
+            "dataType": "double",
+            "sourceColumn": "TotalCharges"
+          },
+          {
+            "name": "Churn",
+            "dataType": "string",
+            "sourceColumn": "Churn"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Customers",
+            "expression": "COUNTROWS(Telco_Customer)"
+          },
+          {
+            "name": "Churned Customers",
+            "expression": "CALCULATE([Customers], Telco_Customer[Churn] = \"Yes\")"
+          },
+          {
+            "name": "Churn Rate",
+            "expression": "DIVIDE([Churned Customers], [Customers])"
+          },
+          {
+            "name": "Average Monthly Charges",
+            "expression": "AVERAGE(Telco_Customer[MonthlyCharges])"
+          },
+          {
+            "name": "Average Tenure Months",
+            "expression": "AVERAGE(Telco_Customer[tenure])"
+          }
+        ]
+      }
+    ]
+  }
+}

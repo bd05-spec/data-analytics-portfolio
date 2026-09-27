@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "artifacts": [
+    {
+      "semanticModel": {
+        "path": "Telco_Customer_Churn.SemanticModel"
+      }
+    }
+  ]
+}
