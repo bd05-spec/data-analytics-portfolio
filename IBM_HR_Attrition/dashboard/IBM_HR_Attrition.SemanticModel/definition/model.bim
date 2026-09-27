@@ -1,0 +1,88 @@
+{
+  "name": "IBM_HR_Attrition",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "en-US",
+    "tables": [
+      {
+        "name": "HR_Employee",
+        "partitions": [
+          {
+            "name": "HR_Employee",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"..\\data\\cleaned\\IBM_HR_Attrition_cleaned_data.csv\"),[Delimiter=\",\", Columns=35, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+                "in",
+                "    PromotedHeaders"
+              ]
+            }
+          }
+        ],
+        "columns": [
+          {
+            "name": "EmployeeNumber",
+            "dataType": "int64",
+            "sourceColumn": "EmployeeNumber",
+            "isHidden": true
+          },
+          {
+            "name": "Age",
+            "dataType": "int64",
+            "sourceColumn": "Age"
+          },
+          {
+            "name": "Attrition",
+            "dataType": "string",
+            "sourceColumn": "Attrition"
+          },
+          {
+            "name": "Department",
+            "dataType": "string",
+            "sourceColumn": "Department"
+          },
+          {
+            "name": "JobRole",
+            "dataType": "string",
+            "sourceColumn": "JobRole"
+          },
+          {
+            "name": "MonthlyIncome",
+            "dataType": "int64",
+            "sourceColumn": "MonthlyIncome"
+          },
+          {
+            "name": "YearsAtCompany",
+            "dataType": "int64",
+            "sourceColumn": "YearsAtCompany"
+          },
+          {
+            "name": "TotalWorkingYears",
+            "dataType": "int64",
+            "sourceColumn": "TotalWorkingYears"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Employees",
+            "expression": "COUNTROWS(HR_Employee)"
+          },
+          {
+            "name": "Attritions",
+            "expression": "CALCULATE(COUNTROWS(HR_Employee), HR_Employee[Attrition] = \"Yes\")"
+          },
+          {
+            "name": "Attrition Rate",
+            "expression": "DIVIDE([Attritions], [Employees])"
+          },
+          {
+            "name": "Avg Monthly Income",
+            "expression": "AVERAGE(HR_Employee[MonthlyIncome])"
+          }
+        ]
+      }
+    ]
+  }
+}

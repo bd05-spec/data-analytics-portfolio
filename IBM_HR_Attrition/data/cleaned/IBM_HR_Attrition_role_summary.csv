@@ -1,0 +1,10 @@
+JobRole,n,attritions,attrition_rate
+Healthcare Representative,131,9,0.06870229007633588
+Human Resources,52,12,0.23076923076923078
+Laboratory Technician,259,62,0.23938223938223938
+Manager,102,5,0.049019607843137254
+Manufacturing Director,145,10,0.06896551724137931
+Research Director,80,2,0.025
+Research Scientist,292,47,0.16095890410958905
+Sales Executive,326,57,0.17484662576687116
+Sales Representative,83,33,0.39759036144578314
