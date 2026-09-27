@@ -1,0 +1,116 @@
+{
+  "name": "DataCo_Supply_Chain",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "en-US",
+    "tables": [
+      {
+        "name": "FactOrderItem",
+        "partitions": [
+          {
+            "name": "FactOrderItem",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"..\\data\\cleaned\\DataCo_Supply_Chain_cleaned_data.csv\"),[Delimiter=\",\", Columns=47, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+                "in",
+                "    PromotedHeaders"
+              ]
+            }
+          }
+        ],
+        "columns": [
+          {
+            "name": "Order Item Id",
+            "dataType": "int64",
+            "sourceColumn": "Order Item Id",
+            "isHidden": true
+          },
+          {
+            "name": "Order Id",
+            "dataType": "int64",
+            "sourceColumn": "Order Id"
+          },
+          {
+            "name": "Order Customer Id",
+            "dataType": "int64",
+            "sourceColumn": "Order Customer Id"
+          },
+          {
+            "name": "order date (DateOrders)",
+            "dataType": "dateTime",
+            "sourceColumn": "order date (DateOrders)"
+          },
+          {
+            "name": "shipping date (DateOrders)",
+            "dataType": "dateTime",
+            "sourceColumn": "shipping date (DateOrders)"
+          },
+          {
+            "name": "Sales",
+            "dataType": "double",
+            "sourceColumn": "Sales"
+          },
+          {
+            "name": "Order Profit Per Order",
+            "dataType": "double",
+            "sourceColumn": "Order Profit Per Order"
+          },
+          {
+            "name": "Late_delivery_risk",
+            "dataType": "int64",
+            "sourceColumn": "Late_delivery_risk"
+          },
+          {
+            "name": "Delivery Status",
+            "dataType": "string",
+            "sourceColumn": "Delivery Status"
+          },
+          {
+            "name": "Category Name",
+            "dataType": "string",
+            "sourceColumn": "Category Name"
+          },
+          {
+            "name": "Order Region",
+            "dataType": "string",
+            "sourceColumn": "Order Region"
+          },
+          {
+            "name": "Order Status",
+            "dataType": "string",
+            "sourceColumn": "Order Status"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Order Items",
+            "expression": "COUNTROWS(FactOrderItem)"
+          },
+          {
+            "name": "Orders",
+            "expression": "DISTINCTCOUNT(FactOrderItem[Order Id])"
+          },
+          {
+            "name": "Sales",
+            "expression": "SUM(FactOrderItem[Sales])"
+          },
+          {
+            "name": "Order Profit",
+            "expression": "SUM(FactOrderItem[Order Profit Per Order])"
+          },
+          {
+            "name": "Late Items",
+            "expression": "CALCULATE([Order Items], FactOrderItem[Late_delivery_risk] = 1)"
+          },
+          {
+            "name": "Late Risk Rate",
+            "expression": "DIVIDE([Late Items],[Order Items])"
+          }
+        ]
+      }
+    ]
+  }
+}
