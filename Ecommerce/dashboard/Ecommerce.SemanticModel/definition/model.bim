@@ -1,0 +1,499 @@
+{
+  "name": "Ecommerce",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "tables": [
+      {
+        "name": "FactEvents",
+        "description": "One row = one event (view | cart | purchase). 109,950,743 rows, Oct-Nov 2019.",
+        "columns": [
+          {
+            "name": "event_time",
+            "dataType": "string",
+            "sourceColumn": "event_time",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "event_time_parsed",
+            "dataType": "dateTime",
+            "sourceColumn": "event_time_parsed",
+            "formatString": "General Date"
+          },
+          {
+            "name": "event_date",
+            "dataType": "dateTime",
+            "type": "calculated",
+            "formatString": "Short Date",
+            "expression": "DATE(YEAR(FactEvents[event_time_parsed]), MONTH(FactEvents[event_time_parsed]), DAY(FactEvents[event_time_parsed]))"
+          },
+          {
+            "name": "hour",
+            "dataType": "int64",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "HOUR(FactEvents[event_time_parsed])"
+          },
+          {
+            "name": "event_type",
+            "dataType": "string",
+            "sourceColumn": "event_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "product_id",
+            "dataType": "int64",
+            "sourceColumn": "product_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "category_id",
+            "dataType": "string",
+            "sourceColumn": "category_id",
+            "summarizeBy": "none",
+            "description": "Kept as text: values exceed 2^53, so a numeric type would silently round them."
+          },
+          {
+            "name": "category_code",
+            "dataType": "string",
+            "sourceColumn": "category_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "category_main",
+            "dataType": "string",
+            "sourceColumn": "category_main",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "category_sub",
+            "dataType": "string",
+            "sourceColumn": "category_sub",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "category_detail",
+            "dataType": "string",
+            "sourceColumn": "category_detail",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "brand",
+            "dataType": "string",
+            "sourceColumn": "brand",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "price",
+            "dataType": "double",
+            "sourceColumn": "price",
+            "formatString": "$#,0.00",
+            "summarizeBy": "none",
+            "description": "Unit price of the event. Not revenue: never SUM() this across all events."
+          },
+          {
+            "name": "user_id",
+            "dataType": "int64",
+            "sourceColumn": "user_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "user_session",
+            "dataType": "string",
+            "sourceColumn": "user_session",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "brand_is_unknown",
+            "dataType": "int64",
+            "sourceColumn": "brand_is_unknown",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "category_code_is_unknown",
+            "dataType": "int64",
+            "sourceColumn": "category_code_is_unknown",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PurchasePrice",
+            "dataType": "double",
+            "sourceColumn": "PurchasePrice",
+            "formatString": "$#,0.00",
+            "summarizeBy": "sum",
+            "description": "Derived during cleaning: price on purchase rows, 0 elsewhere. The only valid value measure."
+          },
+          {
+            "name": "PriceBand",
+            "dataType": "string",
+            "sourceColumn": "PriceBand",
+            "summarizeBy": "none",
+            "description": "Half-open bins [0,10) ... [500, inf), derived during cleaning."
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Events",
+            "expression": "COUNTROWS(FactEvents)",
+            "description": "Rows = events. Cleaning drops no rows, so this is 109,950,743.",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Views",
+            "expression": "CALCULATE([Total Events], FactEvents[event_type] = \"view\")",
+            "description": "104,335,509 (94.89%)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Carts",
+            "expression": "CALCULATE([Total Events], FactEvents[event_type] = \"cart\")",
+            "description": "3,955,446 (3.60%)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Purchases",
+            "expression": "CALCULATE([Total Events], FactEvents[event_type] = \"purchase\")",
+            "description": "1,659,788 (1.51%)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "View to Cart %",
+            "expression": "DIVIDE([Carts], [Views])",
+            "description": "3.79%",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Cart to Purchase %",
+            "expression": "DIVIDE([Purchases], [Carts])",
+            "description": "41.96% -- directional: cart events are under-recorded, so this can exceed 100% on early-Oct slices.",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "View to Purchase %",
+            "expression": "DIVIDE([Purchases], [Views])",
+            "description": "1.59%",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Distinct Users",
+            "expression": "DISTINCTCOUNT(FactEvents[user_id])",
+            "description": "Q1 parity",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Distinct Sessions",
+            "expression": "DISTINCTCOUNT(FactEvents[user_session])",
+            "description": "Q1 parity (12 rows have no session)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Distinct Products",
+            "expression": "DISTINCTCOUNT(FactEvents[product_id])",
+            "description": "Q1 parity",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Avg Price",
+            "expression": "AVERAGE(FactEvents[price])",
+            "description": "$291.63 across all events",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Avg Price (Views)",
+            "expression": "CALCULATE(AVERAGE(FactEvents[price]), FactEvents[event_type] = \"view\")",
+            "description": "$291.11",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Avg Price (Carts)",
+            "expression": "CALCULATE(AVERAGE(FactEvents[price]), FactEvents[event_type] = \"cart\")",
+            "description": "$300.25",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Avg Price (Purchases)",
+            "expression": "CALCULATE(AVERAGE(FactEvents[price]), FactEvents[event_type] = \"purchase\")",
+            "description": "$304.35",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Unknown Brand %",
+            "expression": "DIVIDE(CALCULATE([Total Events], FactEvents[brand] = \"unknown\"), [Total Events])",
+            "description": "13.95%",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Unknown Category %",
+            "expression": "DIVIDE(CALCULATE([Total Events], FactEvents[category_code] = \"unknown\"), [Total Events])",
+            "description": "32.21%",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Events MTD",
+            "expression": "TOTALMTD([Total Events], DimDate[Date])",
+            "description": "Only 61 days of data, so YTD/YoY comparisons are meaningless; MTD is the usable time calc.",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Total Purchase Price",
+            "expression": "SUM(FactEvents[PurchasePrice])",
+            "description": "$505,152,392.77 -- PurchasePrice = price on purchase rows, 0 elsewhere. Never SUM(price).",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Avg Purchase Price",
+            "expression": "DIVIDE([Total Purchase Price], [Purchases])",
+            "description": "$304.35 per purchase",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Purchase Price per Event",
+            "expression": "DIVIDE([Total Purchase Price], [Total Events])",
+            "description": "$4.59",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Purchase Value Share %",
+            "expression": "DIVIDE([Total Purchase Price], CALCULATE([Total Purchase Price], ALL(FactEvents)))",
+            "description": "100% at total level; use per PriceBand/category/brand to see concentration ($500+ band = 54.9%).",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Sessions with a Purchase %",
+            "expression": "DIVIDE(CALCULATE(DISTINCTCOUNT(FactEvents[user_session]), FactEvents[event_type] = \"purchase\"), [Distinct Sessions])",
+            "description": "Session-level conversion, computed without a session dimension.",
+            "formatString": "0.00%"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "FactEvents",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let\n    Source = Parquet.Document(File.Contents(\"C:\\Users\\pmipm\\Downloads\\analytics_project\\Ecommerce\\data\\cleaned\\Ecommerce_cleaned_combined.parquet\")),\n    Typed = Table.TransformColumnTypes(\n        Source,\n        {\n            {\"event_time_parsed\", type datetime},\n            {\"product_id\", Int64.Type},\n            {\"user_id\", Int64.Type},\n            {\"price\", type number},\n            {\"PurchasePrice\", type number},\n            {\"brand_is_unknown\", Int64.Type},\n            {\"category_code_is_unknown\", Int64.Type}\n        }\n    )\nin\n    Typed"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimDate",
+        "description": "Calendar 2019-10-01 .. 2019-11-30 (61 days of actual data).",
+        "columns": [
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "Date",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "formatString": "Short Date"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "YEAR(DimDate[Date])"
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "MONTH(DimDate[Date])"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "FORMAT(DimDate[Date], \"MMM YYYY\")"
+          },
+          {
+            "name": "Day",
+            "dataType": "int64",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "DAY(DimDate[Date])"
+          },
+          {
+            "name": "DayOfWeek",
+            "dataType": "string",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "FORMAT(DimDate[Date], \"ddd\")"
+          },
+          {
+            "name": "IsWeekend",
+            "dataType": "int64",
+            "type": "calculated",
+            "summarizeBy": "none",
+            "expression": "IF(WEEKDAY(DimDate[Date], 2) >= 6, 1, 0)"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DimDate",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "CALENDAR(DATE(2019, 10, 1), DATE(2019, 11, 30))"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimPriceBand",
+        "description": "Sort table so price bands never sort alphabetically.",
+        "columns": [
+          {
+            "name": "PriceBand",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "PriceBand",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          },
+          {
+            "name": "SortOrder",
+            "dataType": "int64",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "SortOrder",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          }
+        ],
+        "columnProperties": [
+          {
+            "name": "PriceBand",
+            "sortByColumn": "SortOrder"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DimPriceBand",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "DATATABLE(\"PriceBand\", STRING, \"SortOrder\", INTEGER, {{\"$0-10\", 1}, {\"$10-25\", 2}, {\"$25-50\", 3}, {\"$50-100\", 4}, {\"$100-250\", 5}, {\"$250-500\", 6}, {\"$500+\", 7}, {\"unknown\", 8}})"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimCategory",
+        "description": "Distinct category hierarchy (unknown category excluded).",
+        "columns": [
+          {
+            "name": "category_code",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "category_code",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          },
+          {
+            "name": "category_main",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "category_main",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          },
+          {
+            "name": "category_sub",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "category_sub",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          },
+          {
+            "name": "category_detail",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "category_detail",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DimCategory",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "SUMMARIZE(FILTER(FactEvents, FactEvents[category_code] <> \"unknown\"), FactEvents[category_code], FactEvents[category_main], FactEvents[category_sub], FactEvents[category_detail])"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimBrand",
+        "description": "Distinct brands (unknown brand excluded).",
+        "columns": [
+          {
+            "name": "brand",
+            "dataType": "string",
+            "type": "calculatedTableColumn",
+            "sourceColumn": "brand",
+            "isNameInferred": true,
+            "isDataTypeInferred": true
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DimBrand",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "SUMMARIZE(FILTER(FactEvents, FactEvents[brand] <> \"unknown\"), FactEvents[brand])"
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "FactEvents_DimDate",
+        "fromTable": "DimDate",
+        "fromColumn": "Date",
+        "toTable": "FactEvents",
+        "toColumn": "event_date",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "FactEvents_DimPriceBand",
+        "fromTable": "DimPriceBand",
+        "fromColumn": "PriceBand",
+        "toTable": "FactEvents",
+        "toColumn": "PriceBand",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "FactEvents_DimCategory",
+        "fromTable": "DimCategory",
+        "fromColumn": "category_code",
+        "toTable": "FactEvents",
+        "toColumn": "category_code",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "FactEvents_DimBrand",
+        "fromTable": "DimBrand",
+        "fromColumn": "brand",
+        "toTable": "FactEvents",
+        "toColumn": "brand",
+        "crossFilteringBehavior": "oneDirection"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"FactEvents\"]"
+      }
+    ]
+  }
+}

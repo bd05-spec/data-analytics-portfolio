@@ -1,0 +1,92 @@
+{
+  "total_rows_processed": 109950743,
+  "files": {
+    "2019-Oct": {
+      "rows": 42448764,
+      "chunks": 43
+    },
+    "2019-Nov": {
+      "rows": 67501979,
+      "chunks": 68
+    }
+  },
+  "schema_mismatches": [],
+  "duplicate_rows_exact": 130738,
+  "out_of_range_price": 256761,
+  "out_of_range_price_examples": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "invalid_event_time": 0,
+  "invalid_event_type": 0,
+  "encoding_issues": [],
+  "null_before": {
+    "event_time": 0,
+    "event_type": 0,
+    "product_id": 0,
+    "category_id": 0,
+    "category_code": 35413780,
+    "brand": 15341158,
+    "price": 0,
+    "user_id": 0,
+    "user_session": 12
+  },
+  "null_after": {
+    "event_time": 0,
+    "event_type": 0,
+    "product_id": 0,
+    "category_id": 0,
+    "category_code": 0,
+    "brand": 0,
+    "price": 0,
+    "user_id": 0,
+    "user_session": 12,
+    "event_time_parsed": 0,
+    "brand_is_unknown": 0,
+    "category_code_is_unknown": 0
+  },
+  "total_chunks": 111,
+  "bad_rows_logged": 12,
+  "brand_unknown": 15341158,
+  "category_code_unknown": 35413780,
+  "event_type_counts": {
+    "view": 104335509,
+    "purchase": 1659788,
+    "cart": 3955446
+  },
+  "price_invalid_null": 0,
+  "null_before_per_file": {
+    "2019-Oct": {
+      "event_time": 0,
+      "event_type": 0,
+      "product_id": 0,
+      "category_id": 0,
+      "category_code": 13515609,
+      "brand": 6117080,
+      "price": 0,
+      "user_id": 0,
+      "user_session": 2
+    },
+    "2019-Nov": {
+      "event_time": 0,
+      "event_type": 0,
+      "product_id": 0,
+      "category_id": 0,
+      "category_code": 21898171,
+      "brand": 9224078,
+      "price": 0,
+      "user_id": 0,
+      "user_session": 10
+    }
+  }
+}

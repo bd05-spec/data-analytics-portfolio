@@ -1,0 +1,13 @@
+check,value,expected,status
+total_rows_processed,109950743,109950743,PASS
+exact_duplicate_rows (per-chunk sum),130738,"report only, not deduped",REPORTED
+out_of_range_price (<=0 or >100k),256761,0,REVIEW
+invalid_event_time (coerce failed),0,0,PASS
+invalid_event_type (not in view/cart/purchase),0,0,PASS
+encoding_issues,0,0,PASS
+schema_mismatches,0,0,PASS
+bad_rows_logged (core null/invalid),12,0,REVIEW
+brand_is_unknown (flagged),15341158,report,13.95%
+category_code_is_unknown (flagged),35413780,report,32.21%
+price_invalid_null,0,0,PASS
+total_chunks,111,~110,INFO
