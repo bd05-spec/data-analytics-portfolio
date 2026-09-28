@@ -1,36 +1,50 @@
-﻿# IBM HR Attrition Analysis
+# IBM HR Attrition Analysis
 
-## Overview
-This project explores employee attrition using a simulated HR dataset created by IBM data scientists. The goal is to uncover the factors that lead to employee turnover and identify which roles or departments are most at risk.
+1,470 employees, 237 of whom left, and I wanted to know *who*. The headline number is a company-wide attrition rate of 16.12%, but that average hides almost everything interesting - the real story is a 16x spread between the safest and least safe job roles in the business.
 
-**Source:** Kaggle `pavansubhasht/ibm-hr-analytics-attrition-dataset` (v1).
+**Source:** Kaggle `pavansubhasht/ibm-hr-analytics-attrition-dataset` (v1), a simulated dataset built by IBM data scientists. None of these people are real.
 
-## Data Quality & Limitations
-* **Format:** The raw data consists of 1,470 rows and 35 columns, with one row per employee.
-* **Integrity:** The dataset is extremely clean. There are zero null cells and zero duplicate rows.
-* **Redundancy:** Several columns (`EmployeeCount`, `Over18`, `StandardHours`) contained only a single constant value across all 1,470 rows. Because they offer no analytical variance, they were excluded from the BI model.
+## What the data looked like on arrival
 
-## Data Cleaning & Transformation
-1. **Deduplication & Trimming:** Validated that `EmployeeNumber` is strictly unique. String columns were trimmed of whitespace.
-2. **Logical Validation:** Checked for temporal impossibilities (e.g., someone being in their current role longer than they've been at the company). No contradictions were found.
-3. **Derived Metrics:** Calculated attrition rates across departments, roles, and age bands to feed into the dashboard and visuals.
+1,470 rows and 35 columns, one row per employee, and honestly almost nothing to clean. I checked the usual things and they all came back flat:
 
-## Folder Contents
-* [`raw_unedited/WA_Fn-UseC_-HR-Employee-Attrition.csv`](raw_unedited/WA_Fn-UseC_-HR-Employee-Attrition.csv) - The original source file.
-* [`data/cleaned/`](data/cleaned/) - Contains the cleaned analytical dataset and job role summaries.
-* [`notebooks/IBM_HR_Attrition_analysis.ipynb`](notebooks/IBM_HR_Attrition_analysis.ipynb) - Jupyter notebook detailing the data processing.
-* [`sql/IBM_HR_Attrition.sql`](sql/IBM_HR_Attrition.sql) - SQL Server schema and analysis queries.
-* [`dashboard/`](dashboard/) - Power BI semantic model (`.pbip` format).
-* [`visuals/IBM_HR_Attrition_role_attrition.png`](visuals/IBM_HR_Attrition_role_attrition.png) - Exported chart visual.
+* **Zero null cells.** Not one missing value anywhere in 51,450 cells.
+* **Zero duplicate rows**, and `EmployeeNumber` is unique across all 1,470 records, so it works as a primary key.
+* **Three dead columns.** `EmployeeCount`, `Over18` and `StandardHours` each hold a single value for every row (`1`, `N`, `80`). They cannot vary, so they cannot support any analysis. I left them in the CSV and dropped them from the BI model.
+* **No temporal contradictions.** I checked whether anyone had been in their current role longer than they had been at the company, which would be a data-entry error. Nobody had.
 
-## Data Validation
-Metrics were cross-checked between the Python pipeline and SQL queries to ensure exact alignment:
-* **Employee Count:** 1,470 distinct employees.
-* **Attrition Count:** 237 employees flagged as leaving.
-* **Attrition Rate:** 16.12% overall company attrition rate.
+So the cleaning step here was mostly *deliberate removal* rather than repair. The one transformation that mattered was bucketing `Age` into five bands, because the raw range (18-65) was too wide to plot meaningfully.
 
-## Key Finding
+## What I found
 
-Here is a breakdown of the attrition rate by job role. Sales Representatives experience the highest turnover, while Directors and Managers are the most stable:
+The department view is the least interesting of the three, which is part of why I kept it as a slicer instead of a headline chart. Sales sits at 20.6% and HR at 19.0%, R&D at 13.8% - a real spread, but nothing you would act on.
+
+![Attrition rate by department](visuals/IBM_HR_Attrition_dept_attrition.png)
+
+The role breakdown is where it gets sharp. Sales Representatives churn at **39.8%**, Research Directors at **2.5%**. Sixteen times worse. Age moves the same way: under-25s leave at 39.2%, and that rate roughly halves for each decade up to 35-44 (10.1%) before ticking back up slightly at 55+ (15.9%).
 
 ![Attrition rate by job role](visuals/IBM_HR_Attrition_role_attrition.png)
+
+I want to be careful about over-reading this. A role of 83 people (Sales Reps) and one with 2 exits out of 80 (Research Directors) are very different statistical strengths, and a naive ranking makes the small-sample roles look more certain than they are. The pattern is consistent enough across both department and age to be worth flagging to HR, but I would want tenure and exit-reason data before recommending any specific intervention.
+
+## What is in the folder
+
+* [`raw_unedited/WA_Fn-UseC_-HR-Employee-Attrition.csv`](raw_unedited/WA_Fn-UseC_-HR-Employee-Attrition.csv) - the original Kaggle file, untouched.
+* [`data/cleaned/`](data/cleaned/) - cleaned CSV and XLSX, plus `IBM_HR_Attrition_role_summary.csv`, the aggregated role table that feeds the dashboard.
+* [`notebooks/IBM_HR_Attrition_analysis.ipynb`](notebooks/IBM_HR_Attrition_analysis.ipynb) - the pandas pipeline and chart exports.
+* [`sql/IBM_HR_Attrition.sql`](sql/IBM_HR_Attrition.sql) - SQL Server DDL and the four aggregation queries, written independently of the notebook.
+* [`dashboard/`](dashboard/) - the `.pbip` and its semantic model. One page, five KPI cards along the top, a Department slicer on the left, then the two bar charts.
+* [`visuals/`](visuals/) - the two charts embedded above.
+
+## Data validation
+
+I rebuilt the headline numbers in both Python and T-SQL and made sure they agreed, which is the only reason I trust a hand-off number:
+
+| Metric | Python | SQL |
+| --- | --- | --- |
+| Rows | 1,470 | 1,470 |
+| Distinct EmployeeNumber | 1,470 | 1,470 |
+| Attrition count | 237 | 237 |
+| Attrition rate | 16.12% | 16.12% |
+
+The role ranking uses `RANK()` in SQL so the ordering is reproducible, rather than inheriting whatever order the engine happens to return.

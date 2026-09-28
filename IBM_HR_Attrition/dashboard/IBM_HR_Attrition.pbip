@@ -1,10 +1,14 @@
 {
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/pbip/pbipProperties/1.0.0/schema.json",
   "version": "1.0",
   "artifacts": [
     {
-      "semanticModel": {
-        "path": "IBM_HR_Attrition.SemanticModel"
+      "report": {
+        "path": "IBM_HR_Attrition.Report"
       }
     }
-  ]
+  ],
+  "settings": {
+    "enableAutoRecovery": true
+  }
 }
