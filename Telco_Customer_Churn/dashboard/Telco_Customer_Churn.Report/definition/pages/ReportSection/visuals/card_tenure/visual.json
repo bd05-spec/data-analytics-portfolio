@@ -1,0 +1,59 @@
+{
+  "name": "card_tenure",
+  "position": {
+    "x": 670,
+    "y": 85,
+    "z": 400,
+    "width": 150,
+    "height": 90,
+    "tabOrder": 400
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Telco_Customer"
+                    }
+                  },
+                  "Property": "Average Tenure Months"
+                }
+              },
+              "queryRef": "Telco_Customer.Average Tenure Months",
+              "nativeQueryRef": "Average Tenure Months"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Avg Tenure (Months)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

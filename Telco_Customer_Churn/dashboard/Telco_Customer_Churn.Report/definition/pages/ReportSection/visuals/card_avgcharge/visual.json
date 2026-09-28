@@ -1,0 +1,59 @@
+{
+  "name": "card_avgcharge",
+  "position": {
+    "x": 510,
+    "y": 85,
+    "z": 350,
+    "width": 150,
+    "height": 90,
+    "tabOrder": 350
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Telco_Customer"
+                    }
+                  },
+                  "Property": "Average Monthly Charges"
+                }
+              },
+              "queryRef": "Telco_Customer.Average Monthly Charges",
+              "nativeQueryRef": "Average Monthly Charges"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Avg Monthly Charges'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}
