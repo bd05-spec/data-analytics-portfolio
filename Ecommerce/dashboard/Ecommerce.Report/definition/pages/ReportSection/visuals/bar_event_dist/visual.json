@@ -1,0 +1,77 @@
+{
+  "name": "bar_event_dist",
+  "position": {
+    "x": 30,
+    "y": 190,
+    "z": 800,
+    "width": 600,
+    "height": 500,
+    "tabOrder": 800
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "event_type"
+                }
+              },
+              "queryRef": "FactEvents.event_type",
+              "nativeQueryRef": "event_type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "Total Events"
+                }
+              },
+              "queryRef": "FactEvents.Total Events",
+              "nativeQueryRef": "Total Events"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Event Volume by Event Type'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

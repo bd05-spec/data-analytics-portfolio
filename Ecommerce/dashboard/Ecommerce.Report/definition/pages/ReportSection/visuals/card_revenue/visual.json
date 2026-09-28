@@ -1,0 +1,59 @@
+{
+  "name": "card_revenue",
+  "position": {
+    "x": 670,
+    "y": 85,
+    "z": 600,
+    "width": 180,
+    "height": 90,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "Total Purchase Price"
+                }
+              },
+              "queryRef": "FactEvents.Total Purchase Price",
+              "nativeQueryRef": "Total Purchase Price"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Purchase Value ($)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

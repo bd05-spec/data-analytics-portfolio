@@ -1,0 +1,77 @@
+{
+  "name": "bar_price_band",
+  "position": {
+    "x": 645,
+    "y": 190,
+    "z": 900,
+    "width": 605,
+    "height": 500,
+    "tabOrder": 900
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimPriceBand"
+                    }
+                  },
+                  "Property": "PriceBand"
+                }
+              },
+              "queryRef": "DimPriceBand.PriceBand",
+              "nativeQueryRef": "PriceBand"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "Total Purchase Price"
+                }
+              },
+              "queryRef": "FactEvents.Total Purchase Price",
+              "nativeQueryRef": "Total Purchase Price"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Purchase Value ($) by Price Band'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

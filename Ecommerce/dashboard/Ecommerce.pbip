@@ -2,12 +2,13 @@
   "version": "1.0",
   "artifacts": [
     {
-      "semanticModel": {
-        "path": "Ecommerce.SemanticModel"
+      "report": {
+        "path": "Ecommerce.Report"
       }
     }
   ],
   "settings": {
     "enableAutoRecovery": true
-  }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/pbip/pbipProperties/1.0.0/schema.json"
 }
