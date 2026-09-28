@@ -1,0 +1,87 @@
+{
+  "name": "table_responses",
+  "position": {
+    "x": 695,
+    "y": 190,
+    "z": 700,
+    "width": 555,
+    "height": 500,
+    "tabOrder": 700
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "question_group"
+                }
+              },
+              "queryRef": "FactHCAHPS.question_group",
+              "nativeQueryRef": "Question Domain"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "hcahps_answer_description"
+                }
+              },
+              "queryRef": "FactHCAHPS.hcahps_answer_description",
+              "nativeQueryRef": "Response Category"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Published Percent"
+                }
+              },
+              "queryRef": "FactHCAHPS.Published Percent",
+              "nativeQueryRef": "Published %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Response Category Breakdown & Percentages'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

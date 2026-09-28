@@ -1,0 +1,59 @@
+{
+  "name": "card_measures",
+  "position": {
+    "x": 30,
+    "y": 85,
+    "z": 200,
+    "width": 180,
+    "height": 90,
+    "tabOrder": 200
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Measures"
+                }
+              },
+              "queryRef": "FactHCAHPS.Measures",
+              "nativeQueryRef": "Measures"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total Measures'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -2,9 +2,13 @@
   "version": "1.0",
   "artifacts": [
     {
-      "semanticModel": {
-        "path": "CMS_HCAHPS_National.SemanticModel"
+      "report": {
+        "path": "CMS_HCAHPS_National.Report"
       }
     }
-  ]
+  ],
+  "settings": {
+    "enableAutoRecovery": true
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/pbip/pbipProperties/1.0.0/schema.json"
 }

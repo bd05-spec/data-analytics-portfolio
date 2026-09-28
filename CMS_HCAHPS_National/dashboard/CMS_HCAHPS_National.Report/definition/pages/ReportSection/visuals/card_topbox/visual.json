@@ -1,0 +1,59 @@
+{
+  "name": "card_topbox",
+  "position": {
+    "x": 435,
+    "y": 85,
+    "z": 400,
+    "width": 195,
+    "height": 90,
+    "tabOrder": 400
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Top Box Percent"
+                }
+              },
+              "queryRef": "FactHCAHPS.Top Box Percent",
+              "nativeQueryRef": "Top Box Percent"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top Box %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -1,0 +1,77 @@
+{
+  "name": "bar_topbox",
+  "position": {
+    "x": 30,
+    "y": 190,
+    "z": 600,
+    "width": 650,
+    "height": 500,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "question_group"
+                }
+              },
+              "queryRef": "FactHCAHPS.question_group",
+              "nativeQueryRef": "question_group"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Top Box Percent"
+                }
+              },
+              "queryRef": "FactHCAHPS.Top Box Percent",
+              "nativeQueryRef": "Top Box Percent"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top Box (Most Positive) Percent by Question Domain'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}
