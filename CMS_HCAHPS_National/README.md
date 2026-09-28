@@ -1,21 +1,20 @@
 # CMS HCAHPS National Patient Experience Benchmark
 
-I analyzed the national summary metrics from the CMS Hospital Consumer Assessment of Healthcare Providers and Systems (HCAHPS) survey. The dataset captures patient experience evaluations across 51 standardized survey measures for the reporting period from October 1, 2024, through September 30, 2025.
+I worked with the national roll-up of the HCAHPS hospital-experience survey, covering the October 2024 to September 2025 reporting window. 51 rows, one per measure. No hospitals, no regions, no time series — just the national number for each question. So I treated it as what it is: a benchmarking snapshot, and focused on getting the comparisons right.
 
-Because this public file is already rolled up to national aggregates, it does not include hospital-level identifiers or regional splits. My analysis focuses strictly on evaluating domain-level benchmarks, validating response distributions across response tiers, and building a clean reference model.
+## What the raw file gave me — and what it didn't
 
-## Raw Data & Identified Constraints
-* **Granularity**: Exactly 51 rows and 7 raw columns. Each record represents a single national reporting value for a specific survey measure.
-* **Structural Limitations**: There are no provider IDs, geographical breakdowns, or longitudinal periods in this table. I deliberately avoided calculating hospital rankings, mock confidence intervals, or pseudo-time trends that the raw data cannot support.
-* **Footnotes**: Footnote columns contained purely null entries across all 51 rows in this reporting cycle, which I flagged during profiling and omitted from the relational model.
+The export is 51 rows by 7 columns. Every row is one national answer percentage for one survey item. Response tiers (Always / Usually / Sometimes-Never, or Yes / No) live inside the measure IDs; I had to parse them out before any grouping made sense.
 
-## Data Cleaning & Transformation Decisions
-1. **Header Normalization**: I converted all source headers to standardized lowercase snake_case (hcahps_measure_id, hcahps_question, hcahps_answer_description, hcahps_answer_percent, start_date, end_date).
-2. **Dimension Parsing**: The raw hcahps_measure_id encodes both the survey topic and the response level. I wrote parsing logic to unpack these into two distinct attributes: question_group (18 distinct question domains such as H_NURSE_RESPECT, H_DOCTOR_LISTEN, H_CLEAN_HSP) and 
-esponse_code (A for Always, U for Usually, SN for Sometimes/Never, Y for Yes, N for No).
-3. **Data Types**: I cast hcahps_answer_percent to a strict integer range (0-100) and parsed start/end dates into standardized ISO dates.
+What stopped me from doing more: there is only one reporting period, so I skipped anything that looks like a trend. There are no provider IDs, so no rankings, no "best hospital" tables. And the footnote column is 100% empty in this cycle — I checked, then left it out of the model rather than carrying a dead field around.
 
-`sql
+## How I cleaned it
+
+First pass: lowercase snake_case headers, trim whitespace, parse the two date columns, force `hcahps_answer_percent` to integer. Second pass, and the one that mattered: I split `hcahps_measure_id` into `question_group` (18 domains like H_NURSE_RESPECT, H_DOCTOR_LISTEN, H_CLEAN_HSP) and `response_code` (A / U / SN for Always / Usually / Sometimes-Never, plus Y / N on the yes-no items). Without that split the file is just 51 disconnected rows.
+
+The one query worth keeping:
+
+```sql
 SELECT
     question_group,
     SUM(answer_percent) AS category_percent_sum,
@@ -23,32 +22,29 @@ SELECT
 FROM dbo.HCAHPS_National
 GROUP BY question_group
 ORDER BY question_group;
-`
+```
 
-## Data Validation Results
-Before designing the dashboard, I ran cross-checks in Python and SQL:
-* **Row Count & Uniqueness**: Both environments verified exactly 51 rows, with measure_id serving as a distinct primary key.
-* **100% Categorical Reconciliation**: For every single one of the 18 question groups, summing the answer percentages across tiers ('Always', 'Usually', 'Sometimes/Never') yields exactly 100%. None were dropped or distorted.
-* **Range Checks**: Validated that all percentage values lie strictly between 0% and 100% (minimum 4%, maximum 88%).
+Every group should sum to exactly 100. If one doesn't, either my parsing is wrong or the source has a rounding problem. All 18 hit 100.
 
-## Key Findings & Visuals
+## Checks I ran before building anything
 
-### 1. Domain-Level Top-Box Scores
-Top-box responses (patients choosing the most favorable category, typically 'Always') reveal substantial variation across domains. Interpersonal respect from clinicians consistently tops the survey, whereas care discharge assistance and medication side effect communication score noticeably lower.
+51 rows in Python, 51 distinct measure IDs in SQL. Min answer percent 4, max 88, nothing outside 0–100. The category sums above — 18 for 18 at exactly 100%.
 
-![National HCAHPS top-box responses](visuals/CMS_HCAHPS_National_topbox.png)
+## What stood out
 
-### 2. Category Sum Integrity Check
-Every question group reconciles cleanly to 100%, confirming that the survey tiers capture full respondent coverage without rounding leakage.
+Top-box means the most favorable answer — usually "Always". Doctor respect and nurse respect both sit at 86%, the top of the file. Communication composites (listen carefully, explain clearly) cluster in the mid-70s to 80. Then a visible drop: quietness at night at 60%, and staff describing medication side effects at 49%, the lowest top-box score in the set. That last one is the finding I'd flag to anyone running a unit — half of patients nationally say side effects weren't explained in a way they rate top-box.
 
-![HCAHPS Response Category Sum Reconciliation](visuals/CMS_HCAHPS_reconciliation_check.png)
+![Top-box scores by question domain](visuals/CMS_HCAHPS_National_topbox.png)
 
-## Folder Contents
-* [
-aw_unedited/HCAHPS-National.csv](raw_unedited/HCAHPS-National.csv) - Original CMS national export.
-* [data/cleaned/](data/cleaned/) - Cleaned analytical files (.csv, .xlsx) and category reconciliation tables.
-* [
-otebooks/CMS_HCAHPS_National_analysis.ipynb](notebooks/CMS_HCAHPS_National_analysis.ipynb) - Jupyter notebook with end-to-end cleaning, assertions, and plots.
-* [sql/CMS_HCAHPS_National.sql](sql/CMS_HCAHPS_National.sql) - Schema DDL, range validation, and top-box queries.
-* [dashboard/](dashboard/) - Power BI project (CMS_HCAHPS_National.pbip) featuring card KPIs, question group slicer, top-box bar chart, and category table.
-* [isuals/](visuals/) - Exported summary visuals.\n
+And the reconciliation plot, because I don't trust a summary I can't reconcile — all 18 domains land exactly on the 100% line:
+
+![Category sums hit 100% in every domain](visuals/CMS_HCAHPS_reconciliation_check.png)
+
+## What's in the folder
+
+* [`raw_unedited/HCAHPS-National.csv`](raw_unedited/HCAHPS-National.csv) — the CMS export, untouched.
+* [`data/cleaned/`](data/cleaned/) — cleaned CSV/XLSX plus the reconciliation table.
+* [`notebooks/CMS_HCAHPS_National_analysis.ipynb`](notebooks/CMS_HCAHPS_National_analysis.ipynb) — the actual cleaning and checks.
+* [`sql/CMS_HCAHPS_National.sql`](sql/CMS_HCAHPS_National.sql) — DDL plus the validation queries.
+* [`dashboard/`](dashboard/) — `CMS_HCAHPS_National.pbip` with cards, a question-group slicer, the top-box bar chart, and the response table.
+* [`visuals/`](visuals/) — the two charts above.
