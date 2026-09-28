@@ -1,19 +1,18 @@
-# DataCo Global Supply Chain & Logistics Analysis
+# DataCo Global — where the money is, and where the delays are
 
-I conducted an end-to-end logistics and profitability analysis on DataCo Global's supply chain dataset, covering 180,519 order items across international delivery routes. The goal was to identify where fulfillment risk concentrates, evaluate profit contributions by region and category, and build an operational data model without exposing sensitive customer information.
+180,519 order-line rows. Each one is an item inside an order. My job: figure out which regions and categories actually drive revenue, and why more than half of everything shipped was at risk of arriving late. I also had to keep customer PII out of the analytic files entirely.
 
-## Raw Data & Identified Constraints
-* **Volume & Encoding**: Exactly 180,519 rows across 53 raw columns, encoded in latin1.
-* **Missing Attributes**: Product Description was 100% null in the source extract. Order Zipcode had missing records for roughly 17% of orders. I retained both columns in the raw audit but excluded them from downstream dimensional models.
-* **PII Governance**: The raw source contained cleartext customer PII (Customer Email, Customer Password, Customer Fname, Customer Lname, Customer Street, Customer Zipcode). I immediately segregated these fields: they remain untouched in 
-aw_unedited/ for audit reproducibility, but I completely excluded them from the curated data pipeline and reporting semantic layer.
+## The raw file, honestly
 
-## Data Cleaning & Transformation Decisions
-1. **Grain Definition**: I verified that Order Item Id is unique across all 180,519 records, establishing it as the atomic fact grain. A single Order Id links multiple items.
-2. **Timestamp Normalization**: I converted order date (DateOrders) and shipping date (DateOrders) into standardized ISO 8601 datetimes.
-3. **Delivery Risk Modeling**: The binary flag Late_delivery_risk (1 = late risk, 0 = on schedule) was validated against Days for shipping (real) and Days for shipment (scheduled) to ensure logic consistency.
+53 columns, latin1-encoded, one big Kaggle export. Two columns were dead on arrival: Product Description is empty in every single row, and Order Zipcode is missing for about 17% of orders. I left both in `raw_unedited/` for the audit trail and excluded them downstream — no point modeling a column with no values.
 
-`sql
+The PII situation needed care. The raw file has customer names, emails, passwords, street addresses. Those stay in `raw_unedited/` and nowhere else. The cleaned fact table carries only IDs and order attributes.
+
+## What I did to it
+
+`Order Item Id` is unique across all 180,519 rows, so that's the fact grain; `Order Id` ties items to orders (65,752 of them). I normalized the two DateOrders timestamps to ISO datetimes, and kept `Late_delivery_risk` as the binary flag it is — 1 means the item was at risk of missing its committed date, validated against the real-vs-scheduled shipping day counts.
+
+```sql
 SELECT
     [Order Region],
     COUNT(*) AS items,
@@ -23,34 +22,29 @@ SELECT
 FROM dbo.DataCo_OrderItem
 GROUP BY [Order Region]
 ORDER BY sales DESC;
-`
+```
 
-## Data Validation Results
-Running identical aggregations across Python and SQL Server confirmed absolute parity:
-* **Order Item Count**: Exactly 180,519 order items.
-* **Distinct Orders**: 65,752 unique orders.
-* **Total Gross Sales**: ,783,702.66.
-* **Total Order Profit**: ,972,779.43.
-* **Late Delivery Risk Rate**: 54.83% of all shipped items carry a late risk flag (98,977 items).
+That region rollup is the query I kept coming back to. It answers both questions at once — revenue and risk.
 
-## Key Findings & Visuals
+## The numbers matched, so I moved on
 
-### 1. Regional Sales Dominance
-Western Europe (.89M) and Central America (.70M) represent the two largest sales markets, together accounting for over 31% of total top-line revenue.
+Python and SQL agree: 180,519 items, 65,752 orders. Sales total $36,783,702.66, profit $3,972,779.43. Late-risk flag on 98,977 items — 54.83%.
 
-![Top 10 Order Regions by Total Sales](visuals/dataco_sales_by_region.png)
+## What the data actually says
 
-### 2. Fulfillment Risk Exposure
-Fulfillment status breakdowns reveal that late delivery risk is heavily concentrated in orders routed through first-class and second-class priority modes when origin fulfillment centers experience throughput bottlenecks. Over 54% of all orders faced delivery delays against promised dates.
+Western Europe ($5.89M) and Central America ($5.67M) are the two biggest regions — together just over 31% of all revenue. South America sits at exactly half of Western Europe. The dashboard's bar chart makes the drop-off obvious.
 
-![Late Delivery Risk by Delivery Status](visuals/dataco_delivery_risk_by_status.png)
+![Top regions by total sales](visuals/dataco_sales_by_region.png)
 
-## Folder Contents
-* [
-aw_unedited/DataCoSupplyChainDataset.csv](raw_unedited/DataCoSupplyChainDataset.csv) - Raw, untouched Kaggle supply chain extract.
-* [data/cleaned/](data/cleaned/) - Cleaned analytics datasets with stripped PII (.csv, .xlsx).
-* [
-otebooks/DataCo_Supply_Chain_analysis.ipynb](notebooks/DataCo_Supply_Chain_analysis.ipynb) - Jupyter notebook covering ingestion, profiling, cleaning, and visualizations.
-* [sql/DataCo_Supply_Chain.sql](sql/DataCo_Supply_Chain.sql) - Production DDL, aggregate checks, category profitability, and 7-day rolling window sales.
-* [dashboard/](dashboard/) - Power BI project (DataCo_Supply_Chain.pbip) featuring core KPI cards, region slicer, sales bars, and fulfillment risk breakdown.
-* [isuals/](visuals/) - Exported summary charts.\n
+On risk: the "Late delivery" status maps 1:1 to the risk flag (100% by definition), while advance shipping, canceled, and on-time shipments carry zero flagged risk. That sounds trivial, but it confirms the flag is derived cleanly from status rather than being a noisy separate signal — and with 54.83% of all items flagged, the operational problem is real regardless of how you slice it.
+
+![Late-delivery risk by shipment status](visuals/dataco_delivery_risk_by_status.png)
+
+## What's in the folder
+
+* [`raw_unedited/DataCoSupplyChainDataset.csv`](raw_unedited/DataCoSupplyChainDataset.csv) — original Kaggle extract, PII intact, untouched.
+* [`data/cleaned/`](data/cleaned/) — de-identified analytic tables (CSV, XLSX).
+* [`notebooks/DataCo_Supply_Chain_analysis.ipynb`](notebooks/DataCo_Supply_Chain_analysis.ipynb) — profiling, cleaning, charts.
+* [`sql/DataCo_Supply_Chain.sql`](sql/DataCo_Supply_Chain.sql) — DDL, aggregates, category profit, 7-day rolling sales.
+* [`dashboard/`](dashboard/) — `DataCo_Supply_Chain.pbip` with sales/profit/order/risk cards, a region slicer, and the two bar charts above.
+* [`visuals/`](visuals/) — the two charts above.
