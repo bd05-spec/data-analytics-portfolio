@@ -1,12 +1,12 @@
 {
   "name": "slicer_region",
   "position": {
-    "x": 770,
-    "y": 85,
-    "z": 600,
-    "width": 480,
-    "height": 90,
-    "tabOrder": 600
+    "x": 30,
+    "y": 200,
+    "z": 700,
+    "width": 600,
+    "height": 70,
+    "tabOrder": 700
   },
   "visual": {
     "visualType": "slicer",
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Filter Order Region'"
+                  "Value": "'Filter: Region'"
                 }
               }
             }

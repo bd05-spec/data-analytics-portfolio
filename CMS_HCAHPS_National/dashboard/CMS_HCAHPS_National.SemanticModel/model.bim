@@ -13,7 +13,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"..\\..\\data\\cleaned\\CMS_HCAHPS_National_cleaned_data.csv\"),[Delimiter=\",\", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(\"..\\\\..\\\\data\\\\cleaned\\\\CMS_HCAHPS_National_cleaned_data.csv\"),[Delimiter=\",\", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -25,7 +25,8 @@
           {
             "name": "hcahps_measure_id",
             "dataType": "string",
-            "sourceColumn": "hcahps_measure_id"
+            "sourceColumn": "hcahps_measure_id",
+            "isHidden": true
           },
           {
             "name": "hcahps_question",
@@ -40,17 +41,25 @@
           {
             "name": "hcahps_answer_percent",
             "dataType": "int64",
-            "sourceColumn": "hcahps_answer_percent"
+            "sourceColumn": "hcahps_answer_percent",
+            "formatString": "0"
+          },
+          {
+            "name": "footnote",
+            "dataType": "double",
+            "sourceColumn": "footnote"
           },
           {
             "name": "start_date",
             "dataType": "dateTime",
-            "sourceColumn": "start_date"
+            "sourceColumn": "start_date",
+            "formatString": "Short Date"
           },
           {
             "name": "end_date",
             "dataType": "dateTime",
-            "sourceColumn": "end_date"
+            "sourceColumn": "end_date",
+            "formatString": "Short Date"
           },
           {
             "name": "question_group",
@@ -61,24 +70,40 @@
             "name": "response_code",
             "dataType": "string",
             "sourceColumn": "response_code"
+          },
+          {
+            "name": "Is Top Box",
+            "dataType": "int64",
+            "type": "calculated",
+            "expression": "IF(FactHCAHPS[response_code] = \"A\", 1, 0)"
+          },
+          {
+            "name": "Response Tier",
+            "dataType": "string",
+            "type": "calculated",
+            "expression": "SWITCH(FactHCAHPS[response_code], \"A\", \"Always (top box)\", \"U\", \"Usually\", \"SN\", \"Sometimes/Never\", \"Y\", \"Yes\", \"N\", \"No\", \"Other\")"
           }
         ],
         "measures": [
           {
             "name": "Measures",
-            "expression": "COUNTROWS(FactHCAHPS)"
+            "expression": "COUNTROWS(FactHCAHPS)",
+            "formatString": "#,0"
           },
           {
-            "name": "Average Published Response Percent",
-            "expression": "AVERAGE(FactHCAHPS[hcahps_answer_percent])"
-          },
-          {
-            "name": "Published Percent",
-            "expression": "MAX(FactHCAHPS[hcahps_answer_percent])"
+            "name": "Question Groups",
+            "expression": "DISTINCTCOUNT(FactHCAHPS[question_group])",
+            "formatString": "#,0"
           },
           {
             "name": "Top Box Percent",
-            "expression": "CALCULATE(MAX(FactHCAHPS[hcahps_answer_percent]), FactHCAHPS[response_code] = \"A\")"
+            "expression": "CALCULATE(MAX(FactHCAHPS[hcahps_answer_percent]), FactHCAHPS[response_code] = \"A\")",
+            "formatString": "0"
+          },
+          {
+            "name": "Average Published Response Percent",
+            "expression": "AVERAGE(FactHCAHPS[hcahps_answer_percent])",
+            "formatString": "0.0"
           }
         ]
       },

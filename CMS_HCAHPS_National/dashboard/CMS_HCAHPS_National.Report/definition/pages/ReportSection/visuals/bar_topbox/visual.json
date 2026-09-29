@@ -2,11 +2,11 @@
   "name": "bar_topbox",
   "position": {
     "x": 30,
-    "y": 190,
-    "z": 600,
-    "width": 650,
-    "height": 500,
-    "tabOrder": 600
+    "y": 290,
+    "z": 800,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 800
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Top Box (Most Positive) Percent by Question Domain'"
+                  "Value": "'Top-Box Score by Question Group'"
                 }
               }
             }

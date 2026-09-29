@@ -1,0 +1,77 @@
+{
+  "name": "bar_cat_profit",
+  "position": {
+    "x": 30,
+    "y": 200,
+    "z": 820,
+    "width": 1220,
+    "height": 0,
+    "tabOrder": 820
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderItem"
+                    }
+                  },
+                  "Property": "Category Name"
+                }
+              },
+              "queryRef": "FactOrderItem.Category Name",
+              "nativeQueryRef": "Category Name"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderItem"
+                    }
+                  },
+                  "Property": "Order Profit"
+                }
+              },
+              "queryRef": "FactOrderItem.Order Profit",
+              "nativeQueryRef": "Order Profit"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Profit by Category'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -2,11 +2,11 @@
   "name": "bar_dept_rate",
   "position": {
     "x": 30,
-    "y": 190,
-    "z": 700,
-    "width": 600,
-    "height": 500,
-    "tabOrder": 700
+    "y": 200,
+    "z": 820,
+    "width": 1220,
+    "height": 0,
+    "tabOrder": 820
   },
   "visual": {
     "visualType": "clusteredBarChart",

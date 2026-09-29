@@ -2,10 +2,10 @@
   "name": "card_sales",
   "position": {
     "x": 30,
-    "y": 85,
+    "y": 95,
     "z": 200,
-    "width": 175,
-    "height": 90,
+    "width": 190,
+    "height": 95,
     "tabOrder": 200
   },
   "visual": {
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Total Sales'"
+                  "Value": "'Sales'"
                 }
               }
             }

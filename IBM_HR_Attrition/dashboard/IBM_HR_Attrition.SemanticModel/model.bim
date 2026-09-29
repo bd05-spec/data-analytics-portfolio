@@ -13,7 +13,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"..\\..\\data\\cleaned\\IBM_HR_Attrition_cleaned_data.csv\"),[Delimiter=\",\", Columns=35, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(\"..\\\\..\\\\data\\\\cleaned\\\\IBM_HR_Attrition_cleaned_data.csv\"),[Delimiter=\",\", Columns=35, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
@@ -39,9 +39,54 @@
             "sourceColumn": "Attrition"
           },
           {
+            "name": "BusinessTravel",
+            "dataType": "string",
+            "sourceColumn": "BusinessTravel"
+          },
+          {
+            "name": "DailyRate",
+            "dataType": "int64",
+            "sourceColumn": "DailyRate"
+          },
+          {
             "name": "Department",
             "dataType": "string",
             "sourceColumn": "Department"
+          },
+          {
+            "name": "DistanceFromHome",
+            "dataType": "int64",
+            "sourceColumn": "DistanceFromHome"
+          },
+          {
+            "name": "Education",
+            "dataType": "int64",
+            "sourceColumn": "Education"
+          },
+          {
+            "name": "EducationField",
+            "dataType": "string",
+            "sourceColumn": "EducationField"
+          },
+          {
+            "name": "Gender",
+            "dataType": "string",
+            "sourceColumn": "Gender"
+          },
+          {
+            "name": "HourlyRate",
+            "dataType": "int64",
+            "sourceColumn": "HourlyRate"
+          },
+          {
+            "name": "JobInvolvement",
+            "dataType": "int64",
+            "sourceColumn": "JobInvolvement"
+          },
+          {
+            "name": "JobLevel",
+            "dataType": "int64",
+            "sourceColumn": "JobLevel"
           },
           {
             "name": "JobRole",
@@ -49,9 +94,70 @@
             "sourceColumn": "JobRole"
           },
           {
+            "name": "JobSatisfaction",
+            "dataType": "int64",
+            "sourceColumn": "JobSatisfaction"
+          },
+          {
+            "name": "MaritalStatus",
+            "dataType": "string",
+            "sourceColumn": "MaritalStatus"
+          },
+          {
             "name": "MonthlyIncome",
             "dataType": "int64",
-            "sourceColumn": "MonthlyIncome"
+            "sourceColumn": "MonthlyIncome",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "MonthlyRate",
+            "dataType": "int64",
+            "sourceColumn": "MonthlyRate"
+          },
+          {
+            "name": "NumCompaniesWorked",
+            "dataType": "int64",
+            "sourceColumn": "NumCompaniesWorked"
+          },
+          {
+            "name": "OverTime",
+            "dataType": "string",
+            "sourceColumn": "OverTime"
+          },
+          {
+            "name": "PercentSalaryHike",
+            "dataType": "int64",
+            "sourceColumn": "PercentSalaryHike"
+          },
+          {
+            "name": "PerformanceRating",
+            "dataType": "int64",
+            "sourceColumn": "PerformanceRating"
+          },
+          {
+            "name": "RelationshipSatisfaction",
+            "dataType": "int64",
+            "sourceColumn": "RelationshipSatisfaction"
+          },
+          {
+            "name": "StockOptionLevel",
+            "dataType": "int64",
+            "sourceColumn": "StockOptionLevel"
+          },
+          {
+            "name": "TotalWorkingYears",
+            "dataType": "int64",
+            "sourceColumn": "TotalWorkingYears"
+          },
+          {
+            "name": "TrainingTimesLastYear",
+            "dataType": "int64",
+            "sourceColumn": "TrainingTimesLastYear"
+          },
+          {
+            "name": "WorkLifeBalance",
+            "dataType": "int64",
+            "sourceColumn": "WorkLifeBalance"
           },
           {
             "name": "YearsAtCompany",
@@ -59,27 +165,68 @@
             "sourceColumn": "YearsAtCompany"
           },
           {
-            "name": "TotalWorkingYears",
+            "name": "YearsInCurrentRole",
             "dataType": "int64",
-            "sourceColumn": "TotalWorkingYears"
+            "sourceColumn": "YearsInCurrentRole"
+          },
+          {
+            "name": "YearsSinceLastPromotion",
+            "dataType": "int64",
+            "sourceColumn": "YearsSinceLastPromotion"
+          },
+          {
+            "name": "YearsWithCurrManager",
+            "dataType": "int64",
+            "sourceColumn": "YearsWithCurrManager"
+          },
+          {
+            "name": "Age Band",
+            "dataType": "string",
+            "type": "calculated",
+            "expression": "SWITCH(TRUE(), HR_Employee[Age] < 25, \"18-24\", HR_Employee[Age] < 35, \"25-34\", HR_Employee[Age] < 45, \"35-44\", HR_Employee[Age] < 55, \"45-54\", \"55+\")"
+          },
+          {
+            "name": "Is Attrition",
+            "dataType": "int64",
+            "type": "calculated",
+            "expression": "IF(HR_Employee[Attrition] = \"Yes\", 1, 0)"
           }
         ],
         "measures": [
           {
             "name": "Employees",
-            "expression": "COUNTROWS(HR_Employee)"
+            "expression": "COUNTROWS(HR_Employee)",
+            "formatString": "#,0"
           },
           {
             "name": "Attritions",
-            "expression": "CALCULATE(COUNTROWS(HR_Employee), HR_Employee[Attrition] = \"Yes\")"
+            "expression": "CALCULATE(COUNTROWS(HR_Employee), HR_Employee[Attrition] = \"Yes\")",
+            "formatString": "#,0"
           },
           {
             "name": "Attrition Rate",
-            "expression": "DIVIDE([Attritions], [Employees])"
+            "expression": "DIVIDE([Attritions], [Employees])",
+            "formatString": "0.00%"
           },
           {
             "name": "Avg Monthly Income",
-            "expression": "AVERAGE(HR_Employee[MonthlyIncome])"
+            "expression": "AVERAGE(HR_Employee[MonthlyIncome])",
+            "formatString": "$#,0.00"
+          },
+          {
+            "name": "Avg Age",
+            "expression": "AVERAGE(HR_Employee[Age])",
+            "formatString": "0.0"
+          },
+          {
+            "name": "Avg Years at Company",
+            "expression": "AVERAGE(HR_Employee[YearsAtCompany])",
+            "formatString": "0.0"
+          },
+          {
+            "name": "Overtime Attrition Rate",
+            "expression": "CALCULATE(DIVIDE([Attritions],[Employees]), HR_Employee[OverTime] = \"Yes\")",
+            "formatString": "0.00%"
           }
         ]
       }

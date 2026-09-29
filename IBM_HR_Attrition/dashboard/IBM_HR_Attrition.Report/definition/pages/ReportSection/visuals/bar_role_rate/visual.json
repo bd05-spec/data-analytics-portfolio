@@ -1,15 +1,15 @@
 {
   "name": "bar_role_rate",
   "position": {
-    "x": 645,
-    "y": 190,
+    "x": 30,
+    "y": 290,
     "z": 800,
-    "width": 605,
-    "height": 500,
+    "width": 600,
+    "height": 410,
     "tabOrder": 800
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {

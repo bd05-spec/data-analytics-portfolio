@@ -2,41 +2,33 @@
   "name": "title",
   "position": {
     "x": 30,
-    "y": 20,
+    "y": 10,
     "z": 100,
     "width": 1220,
-    "height": 55,
+    "height": 60,
     "tabOrder": 100
   },
   "visual": {
     "visualType": "textbox",
-    "objects": {
-      "general": [
+    "query": {},
+    "visualContainerObjects": {
+      "title": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "DataCo Global Supply Chain Performance\n",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "17pt",
-                      "fontWeight": "bold",
-                      "color": "#111827"
-                    }
-                  },
-                  {
-                    "value": "End-to-end logistics, order profitability, and late delivery risk monitoring across global fulfillment channels",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "9.5pt",
-                      "color": "#6B7280"
-                    }
-                  }
-                ]
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
-            ]
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'x'"
+                }
+              }
+            }
           }
         }
       ]

@@ -1,15 +1,15 @@
 {
   "name": "bar_price_band",
   "position": {
-    "x": 645,
-    "y": 190,
-    "z": 900,
-    "width": 605,
-    "height": 500,
-    "tabOrder": 900
+    "x": 650,
+    "y": 290,
+    "z": 810,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 810
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -19,13 +19,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "DimPriceBand"
+                      "Entity": "FactEvents"
                     }
                   },
                   "Property": "PriceBand"
                 }
               },
-              "queryRef": "DimPriceBand.PriceBand",
+              "queryRef": "FactEvents.PriceBand",
               "nativeQueryRef": "PriceBand"
             }
           ]
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Purchase Value ($) by Price Band'"
+                  "Value": "'Revenue by Price Band'"
                 }
               }
             }

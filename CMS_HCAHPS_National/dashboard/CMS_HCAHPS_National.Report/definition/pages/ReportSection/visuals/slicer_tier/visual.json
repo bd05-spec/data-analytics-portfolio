@@ -1,0 +1,59 @@
+{
+  "name": "slicer_tier",
+  "position": {
+    "x": 650,
+    "y": 200,
+    "z": 710,
+    "width": 600,
+    "height": 70,
+    "tabOrder": 710
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Response Tier"
+                }
+              },
+              "queryRef": "FactHCAHPS.Response Tier",
+              "nativeQueryRef": "Response Tier"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Filter: Response Tier'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -2,11 +2,11 @@
   "name": "bar_sales_region",
   "position": {
     "x": 30,
-    "y": 190,
-    "z": 700,
-    "width": 650,
-    "height": 500,
-    "tabOrder": 700
+    "y": 290,
+    "z": 800,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 800
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Total Sales by Order Region'"
+                  "Value": "'Sales by Order Region'"
                 }
               }
             }

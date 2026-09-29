@@ -1,0 +1,59 @@
+{
+  "name": "card_otrate",
+  "position": {
+    "x": 1030,
+    "y": 95,
+    "z": 650,
+    "width": 220,
+    "height": 95,
+    "tabOrder": 650
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HR_Employee"
+                    }
+                  },
+                  "Property": "Overtime Attrition Rate"
+                }
+              },
+              "queryRef": "HR_Employee.Overtime Attrition Rate",
+              "nativeQueryRef": "Overtime Attrition Rate"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Overtime Attr Rate'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

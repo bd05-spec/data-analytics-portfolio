@@ -2,41 +2,33 @@
   "name": "title",
   "position": {
     "x": 30,
-    "y": 20,
+    "y": 10,
     "z": 100,
     "width": 1220,
-    "height": 55,
+    "height": 60,
     "tabOrder": 100
   },
   "visual": {
     "visualType": "textbox",
-    "objects": {
-      "general": [
+    "query": {},
+    "visualContainerObjects": {
+      "title": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "Multi-Category Store Customer Funnel & Revenue Analysis\\n",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "17pt",
-                      "fontWeight": "bold",
-                      "color": "#111827"
-                    }
-                  },
-                  {
-                    "value": "High-volume eCommerce event telemetry (109.95M events, Oct\u2013Nov 2019) across views, carts, and purchases",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "9.5pt",
-                      "color": "#6B7280"
-                    }
-                  }
-                ]
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
-            ]
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'x'"
+                }
+              }
+            }
           }
         }
       ]

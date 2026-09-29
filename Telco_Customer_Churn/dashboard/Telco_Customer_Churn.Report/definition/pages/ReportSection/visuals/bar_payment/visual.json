@@ -1,12 +1,12 @@
 {
   "name": "bar_payment",
   "position": {
-    "x": 645,
-    "y": 190,
-    "z": 800,
-    "width": 605,
-    "height": 500,
-    "tabOrder": 800
+    "x": 650,
+    "y": 290,
+    "z": 810,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 810
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -26,7 +26,7 @@
                 }
               },
               "queryRef": "Telco_Customer.PaymentMethod",
-              "nativeQueryRef": "Payment Method"
+              "nativeQueryRef": "PaymentMethod"
             }
           ]
         },

@@ -1,0 +1,59 @@
+{
+  "name": "card_conv",
+  "position": {
+    "x": 1030,
+    "y": 95,
+    "z": 650,
+    "width": 220,
+    "height": 95,
+    "tabOrder": 650
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "View to Purchase %"
+                }
+              },
+              "queryRef": "FactEvents.View to Purchase %",
+              "nativeQueryRef": "View to Purchase %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'View-Purchase %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -1,11 +1,11 @@
 {
   "name": "card_income",
   "position": {
-    "x": 585,
-    "y": 85,
+    "x": 630,
+    "y": 95,
     "z": 500,
-    "width": 175,
-    "height": 90,
+    "width": 190,
+    "height": 95,
     "tabOrder": 500
   },
   "visual": {
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Avg Monthly Income'"
+                  "Value": "'Avg Income'"
                 }
               }
             }

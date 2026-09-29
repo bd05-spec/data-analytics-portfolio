@@ -1,11 +1,11 @@
 {
   "name": "slicer_event_type",
   "position": {
-    "x": 860,
-    "y": 85,
+    "x": 30,
+    "y": 200,
     "z": 700,
-    "width": 390,
-    "height": 90,
+    "width": 600,
+    "height": 70,
     "tabOrder": 700
   },
   "visual": {
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Filter Event Type'"
+                  "Value": "'Filter: Event Type'"
                 }
               }
             }

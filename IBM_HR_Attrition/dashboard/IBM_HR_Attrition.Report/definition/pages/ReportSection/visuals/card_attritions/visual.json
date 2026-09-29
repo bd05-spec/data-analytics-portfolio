@@ -1,11 +1,11 @@
 {
   "name": "card_attritions",
   "position": {
-    "x": 215,
-    "y": 85,
+    "x": 230,
+    "y": 95,
     "z": 300,
-    "width": 175,
-    "height": 90,
+    "width": 190,
+    "height": 95,
     "tabOrder": 300
   },
   "visual": {

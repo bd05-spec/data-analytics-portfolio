@@ -1,0 +1,77 @@
+{
+  "name": "bar_cat_rev",
+  "position": {
+    "x": 30,
+    "y": 200,
+    "z": 820,
+    "width": 1220,
+    "height": 0,
+    "tabOrder": 820
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "category_main"
+                }
+              },
+              "queryRef": "FactEvents.category_main",
+              "nativeQueryRef": "category_main"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactEvents"
+                    }
+                  },
+                  "Property": "Total Purchase Price"
+                }
+              },
+              "queryRef": "FactEvents.Total Purchase Price",
+              "nativeQueryRef": "Total Purchase Price"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue by Category'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

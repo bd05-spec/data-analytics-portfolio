@@ -1,0 +1,59 @@
+{
+  "name": "card_years",
+  "position": {
+    "x": 830,
+    "y": 95,
+    "z": 600,
+    "width": 190,
+    "height": 95,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HR_Employee"
+                    }
+                  },
+                  "Property": "Avg Years at Company"
+                }
+              },
+              "queryRef": "HR_Employee.Avg Years at Company",
+              "nativeQueryRef": "Avg Years at Company"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Avg Years'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

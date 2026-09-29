@@ -1,0 +1,59 @@
+{
+  "name": "card_items",
+  "position": {
+    "x": 630,
+    "y": 95,
+    "z": 500,
+    "width": 190,
+    "height": 95,
+    "tabOrder": 500
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderItem"
+                    }
+                  },
+                  "Property": "Order Items"
+                }
+              },
+              "queryRef": "FactOrderItem.Order Items",
+              "nativeQueryRef": "Order Items"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Items'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

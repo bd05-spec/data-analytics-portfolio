@@ -2,41 +2,33 @@
   "name": "title",
   "position": {
     "x": 30,
-    "y": 20,
+    "y": 10,
     "z": 100,
     "width": 1220,
-    "height": 55,
+    "height": 60,
     "tabOrder": 100
   },
   "visual": {
     "visualType": "textbox",
-    "objects": {
-      "general": [
+    "query": {},
+    "visualContainerObjects": {
+      "title": [
         {
           "properties": {
-            "paragraphs": [
-              {
-                "textRuns": [
-                  {
-                    "value": "CMS HCAHPS National Patient Experience Benchmark\\n",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "17pt",
-                      "fontWeight": "bold",
-                      "color": "#111827"
-                    }
-                  },
-                  {
-                    "value": "National reporting window Oct 1, 2024 - Sep 30, 2025 | 51 summary measures across 18 question domains",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI",
-                      "fontSize": "9.5pt",
-                      "color": "#6B7280"
-                    }
-                  }
-                ]
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
-            ]
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'x'"
+                }
+              }
+            }
           }
         }
       ]

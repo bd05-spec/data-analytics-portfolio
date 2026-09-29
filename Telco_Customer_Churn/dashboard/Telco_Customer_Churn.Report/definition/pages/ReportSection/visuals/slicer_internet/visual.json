@@ -1,0 +1,59 @@
+{
+  "name": "slicer_internet",
+  "position": {
+    "x": 650,
+    "y": 200,
+    "z": 710,
+    "width": 600,
+    "height": 70,
+    "tabOrder": 710
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Telco_Customer"
+                    }
+                  },
+                  "Property": "InternetService"
+                }
+              },
+              "queryRef": "Telco_Customer.InternetService",
+              "nativeQueryRef": "InternetService"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Filter: Internet'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

@@ -2,10 +2,10 @@
   "name": "bar_event_dist",
   "position": {
     "x": 30,
-    "y": 190,
+    "y": 290,
     "z": 800,
     "width": 600,
-    "height": 500,
+    "height": 410,
     "tabOrder": 800
   },
   "visual": {
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Event Volume by Event Type'"
+                  "Value": "'Events by Event Type'"
                 }
               }
             }

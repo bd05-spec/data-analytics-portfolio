@@ -1,12 +1,12 @@
 {
   "name": "card_churned",
   "position": {
-    "x": 190,
-    "y": 85,
-    "z": 250,
-    "width": 150,
-    "height": 90,
-    "tabOrder": 250
+    "x": 230,
+    "y": 95,
+    "z": 300,
+    "width": 190,
+    "height": 95,
+    "tabOrder": 300
   },
   "visual": {
     "visualType": "card",
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Churned Customers'"
+                  "Value": "'Churned'"
                 }
               }
             }

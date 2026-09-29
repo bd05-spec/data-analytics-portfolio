@@ -1,33 +1,19 @@
 {
-  "name": "table_responses",
+  "name": "bar_answer",
   "position": {
-    "x": 695,
-    "y": 190,
-    "z": 700,
-    "width": 555,
-    "height": 500,
-    "tabOrder": 700
+    "x": 650,
+    "y": 290,
+    "z": 810,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 810
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
           "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactHCAHPS"
-                    }
-                  },
-                  "Property": "question_group"
-                }
-              },
-              "queryRef": "FactHCAHPS.question_group",
-              "nativeQueryRef": "Question Domain"
-            },
             {
               "field": {
                 "Column": {
@@ -40,8 +26,12 @@
                 }
               },
               "queryRef": "FactHCAHPS.hcahps_answer_description",
-              "nativeQueryRef": "Response Category"
-            },
+              "nativeQueryRef": "hcahps_answer_description"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
             {
               "field": {
                 "Measure": {
@@ -54,7 +44,7 @@
                 }
               },
               "queryRef": "FactHCAHPS.Published Percent",
-              "nativeQueryRef": "Published %"
+              "nativeQueryRef": "Published Percent"
             }
           ]
         }
@@ -74,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Response Category Breakdown & Percentages'"
+                  "Value": "'Published Percent by Answer'"
                 }
               }
             }

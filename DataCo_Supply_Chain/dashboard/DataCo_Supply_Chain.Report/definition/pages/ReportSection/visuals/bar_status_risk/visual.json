@@ -1,15 +1,15 @@
 {
   "name": "bar_status_risk",
   "position": {
-    "x": 695,
-    "y": 190,
-    "z": 800,
-    "width": 555,
-    "height": 500,
-    "tabOrder": 800
+    "x": 650,
+    "y": 290,
+    "z": 810,
+    "width": 600,
+    "height": 410,
+    "tabOrder": 810
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Late Delivery Risk by Delivery Status'"
+                  "Value": "'Late Risk Rate by Delivery Status'"
                 }
               }
             }
