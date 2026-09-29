@@ -104,6 +104,12 @@
             "name": "Average Published Response Percent",
             "expression": "AVERAGE(FactHCAHPS[hcahps_answer_percent])",
             "formatString": "0.0"
+          },
+          {
+            "name": "Groups Reconciling to 100",
+            "expression": "COUNTROWS(FILTER(SUMMARIZE(FactHCAHPS, FactHCAHPS[question_group], \"s\", SUM(FactHCAHPS[hcahps_answer_percent])), [s] = 100))",
+            "formatString": "#,0",
+            "description": "Notebook check: every question group's response percentages must sum to exactly 100. Expected 18 of 18."
           }
         ]
       },

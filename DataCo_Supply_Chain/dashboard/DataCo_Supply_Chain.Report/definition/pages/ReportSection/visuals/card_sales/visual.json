@@ -2,11 +2,11 @@
   "name": "card_sales",
   "position": {
     "x": 23,
-    "y": 71,
-    "z": 1700,
-    "width": 223,
-    "height": 102,
-    "tabOrder": 1700
+    "y": 88,
+    "width": 229,
+    "height": 110,
+    "z": 300,
+    "tabOrder": 300
   },
   "visual": {
     "visualType": "card",
@@ -32,6 +32,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -46,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sales'"
+                  "Value": "'Total Sales'"
                 }
               }
             }

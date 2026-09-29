@@ -1,50 +1,50 @@
 {
-  "name": "bar_answer",
+  "name": "tree_churn",
   "position": {
-    "x": 23,
+    "x": 959,
     "y": 492,
-    "width": 512,
+    "width": 298,
     "height": 214,
-    "z": 1000,
-    "tabOrder": 1000
+    "z": 1200,
+    "tabOrder": 1200
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "treemap",
     "query": {
       "queryState": {
-        "Category": {
+        "Group": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactHCAHPS"
+                      "Entity": "Telco_Customer"
                     }
                   },
-                  "Property": "hcahps_answer_description"
+                  "Property": "Churn"
                 }
               },
-              "queryRef": "FactHCAHPS.hcahps_answer_description",
-              "nativeQueryRef": "hcahps_answer_description"
+              "queryRef": "Telco_Customer.Churn",
+              "nativeQueryRef": "Churn"
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactHCAHPS"
+                      "Entity": "Telco_Customer"
                     }
                   },
-                  "Property": "Published Percent"
+                  "Property": "Customers"
                 }
               },
-              "queryRef": "FactHCAHPS.Published Percent",
-              "nativeQueryRef": "Published Percent"
+              "queryRef": "Telco_Customer.Customers",
+              "nativeQueryRef": "Customers"
             }
           ]
         }
@@ -65,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Published Percent by Answer'"
+                  "Value": "'Customer Mix: Churned vs Retained'"
                 }
               }
             }

@@ -1,55 +1,56 @@
 {
-  "name": "donut_churn",
+  "name": "tree_category",
   "position": {
-    "x": 948,
-    "y": 482,
-    "z": 1400,
-    "width": 308,
-    "height": 228,
-    "tabOrder": 1400
+    "x": 552,
+    "y": 492,
+    "width": 390,
+    "height": 214,
+    "z": 1100,
+    "tabOrder": 1100
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "treemap",
     "query": {
       "queryState": {
-        "Category": {
+        "Group": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Telco_Customer"
+                      "Entity": "FactOrderItem"
                     }
                   },
-                  "Property": "Churn"
+                  "Property": "Category Name"
                 }
               },
-              "queryRef": "Telco_Customer.Churn",
-              "nativeQueryRef": "Churn"
+              "queryRef": "FactOrderItem.Category Name",
+              "nativeQueryRef": "Category Name"
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Telco_Customer"
+                      "Entity": "FactOrderItem"
                     }
                   },
-                  "Property": "Customers"
+                  "Property": "Order Profit"
                 }
               },
-              "queryRef": "Telco_Customer.Customers",
-              "nativeQueryRef": "Customers"
+              "queryRef": "FactOrderItem.Order Profit",
+              "nativeQueryRef": "Order Profit"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Customer Mix: Churned vs Retained'"
+                  "Value": "'Profit Share by Category'"
                 }
               }
             }

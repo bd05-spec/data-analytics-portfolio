@@ -1,15 +1,15 @@
 {
-  "name": "bar_answer",
+  "name": "area_daily",
   "position": {
-    "x": 23,
-    "y": 492,
-    "width": 512,
-    "height": 214,
-    "z": 1000,
-    "tabOrder": 1000
+    "x": 643,
+    "y": 214,
+    "width": 614,
+    "height": 262,
+    "z": 900,
+    "tabOrder": 900
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "areaChart",
     "query": {
       "queryState": {
         "Category": {
@@ -19,14 +19,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactHCAHPS"
+                      "Entity": "DimDate"
                     }
                   },
-                  "Property": "hcahps_answer_description"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "FactHCAHPS.hcahps_answer_description",
-              "nativeQueryRef": "hcahps_answer_description"
+              "queryRef": "DimDate.Date",
+              "nativeQueryRef": "Date"
             }
           ]
         },
@@ -37,14 +37,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactHCAHPS"
+                      "Entity": "DimDate"
                     }
                   },
-                  "Property": "Published Percent"
+                  "Property": "Total Purchase Price"
                 }
               },
-              "queryRef": "FactHCAHPS.Published Percent",
-              "nativeQueryRef": "Published Percent"
+              "queryRef": "DimDate.Total Purchase Price",
+              "nativeQueryRef": "Total Purchase Price"
             }
           ]
         }
@@ -65,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Published Percent by Answer'"
+                  "Value": "'Purchase Revenue by Day'"
                 }
               }
             }

@@ -1,55 +1,56 @@
 {
-  "name": "donut_brand",
+  "name": "tree_category",
   "position": {
-    "x": 948,
-    "y": 482,
-    "z": 1400,
-    "width": 308,
-    "height": 228,
-    "tabOrder": 1400
+    "x": 552,
+    "y": 492,
+    "width": 390,
+    "height": 214,
+    "z": 1100,
+    "tabOrder": 1100
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "treemap",
     "query": {
       "queryState": {
-        "Category": {
+        "Group": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactEvents"
+                      "Entity": "DimCategory"
                     }
                   },
-                  "Property": "brand"
+                  "Property": "category_main"
                 }
               },
-              "queryRef": "FactEvents.brand",
-              "nativeQueryRef": "brand"
+              "queryRef": "DimCategory.category_main",
+              "nativeQueryRef": "category_main"
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactEvents"
+                      "Entity": "DimCategory"
                     }
                   },
                   "Property": "Total Purchase Price"
                 }
               },
-              "queryRef": "FactEvents.Total Purchase Price",
+              "queryRef": "DimCategory.Total Purchase Price",
               "nativeQueryRef": "Total Purchase Price"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue Mix by Brand'"
+                  "Value": "'Revenue Share by Category'"
                 }
               }
             }

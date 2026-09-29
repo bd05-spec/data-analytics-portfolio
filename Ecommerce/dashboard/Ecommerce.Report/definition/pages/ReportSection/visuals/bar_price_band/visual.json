@@ -1,12 +1,12 @@
 {
   "name": "bar_price_band",
   "position": {
-    "x": 24,
-    "y": 482,
-    "z": 1200,
+    "x": 23,
+    "y": 492,
     "width": 512,
-    "height": 228,
-    "tabOrder": 1200
+    "height": 214,
+    "z": 1000,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "barChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

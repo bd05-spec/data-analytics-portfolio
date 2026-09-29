@@ -1,12 +1,12 @@
 {
   "name": "donut_event",
   "position": {
-    "x": 640,
-    "y": 185,
-    "z": 1100,
-    "width": 616,
-    "height": 284,
-    "tabOrder": 1100
+    "x": 959,
+    "y": 492,
+    "width": 298,
+    "height": 214,
+    "z": 1200,
+    "tabOrder": 1200
   },
   "visual": {
     "visualType": "donutChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

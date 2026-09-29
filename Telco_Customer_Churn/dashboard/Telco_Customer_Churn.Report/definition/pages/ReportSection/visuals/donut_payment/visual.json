@@ -1,12 +1,12 @@
 {
   "name": "donut_payment",
   "position": {
-    "x": 640,
-    "y": 185,
-    "z": 1100,
-    "width": 616,
-    "height": 284,
-    "tabOrder": 1100
+    "x": 643,
+    "y": 214,
+    "width": 614,
+    "height": 262,
+    "z": 900,
+    "tabOrder": 900
   },
   "visual": {
     "visualType": "donutChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Churned Mix by Payment'"
+                  "Value": "'Churned Mix by Payment Method'"
                 }
               }
             }

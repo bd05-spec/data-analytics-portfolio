@@ -1,12 +1,12 @@
 {
   "name": "bar_sales_region",
   "position": {
-    "x": 24,
-    "y": 185,
-    "z": 2200,
-    "width": 602,
-    "height": 284,
-    "tabOrder": 2200
+    "x": 23,
+    "y": 214,
+    "width": 600,
+    "height": 262,
+    "z": 800,
+    "tabOrder": 800
   },
   "visual": {
     "visualType": "barChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

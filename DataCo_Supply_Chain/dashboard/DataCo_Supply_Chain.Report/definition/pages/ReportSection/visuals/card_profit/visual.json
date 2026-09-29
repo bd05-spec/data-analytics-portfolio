@@ -1,12 +1,12 @@
 {
   "name": "card_profit",
   "position": {
-    "x": 275,
-    "y": 71,
-    "z": 1800,
-    "width": 225,
-    "height": 102,
-    "tabOrder": 1800
+    "x": 274,
+    "y": 88,
+    "width": 229,
+    "height": 110,
+    "z": 400,
+    "tabOrder": 400
   },
   "visual": {
     "visualType": "card",
@@ -32,6 +32,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -46,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Order Profit'"
+                  "Value": "'Total Profit'"
                 }
               }
             }

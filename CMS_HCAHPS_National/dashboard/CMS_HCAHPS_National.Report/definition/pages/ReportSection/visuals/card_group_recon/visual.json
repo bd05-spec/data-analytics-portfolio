@@ -1,36 +1,18 @@
 {
-  "name": "bar_group_avg",
+  "name": "card_group_recon",
   "position": {
-    "x": 549,
-    "y": 482,
-    "z": 1200,
-    "width": 387,
-    "height": 228,
-    "tabOrder": 1200
+    "x": 1028,
+    "y": 88,
+    "width": 229,
+    "height": 110,
+    "z": 700,
+    "tabOrder": 700
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "card",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactHCAHPS"
-                    }
-                  },
-                  "Property": "question_group"
-                }
-              },
-              "queryRef": "FactHCAHPS.question_group",
-              "nativeQueryRef": "question_group"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -40,16 +22,17 @@
                       "Entity": "FactHCAHPS"
                     }
                   },
-                  "Property": "Average Published Response Percent"
+                  "Property": "Groups Reconciling to 100"
                 }
               },
-              "queryRef": "FactHCAHPS.Average Published Response Percent",
-              "nativeQueryRef": "Average Published Response Percent"
+              "queryRef": "FactHCAHPS.Groups Reconciling to 100",
+              "nativeQueryRef": "Groups Reconciling to 100"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Average Response by Group'"
+                  "Value": "'Groups at 100%'"
                 }
               }
             }

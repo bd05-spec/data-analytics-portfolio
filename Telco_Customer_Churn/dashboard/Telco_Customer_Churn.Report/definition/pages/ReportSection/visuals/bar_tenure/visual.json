@@ -1,15 +1,15 @@
 {
   "name": "bar_tenure",
   "position": {
-    "x": 24,
-    "y": 482,
-    "z": 1200,
+    "x": 23,
+    "y": 492,
     "width": 512,
-    "height": 228,
-    "tabOrder": 1200
+    "height": 214,
+    "z": 1000,
+    "tabOrder": 1000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "areaChart",
     "query": {
       "queryState": {
         "Category": {
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

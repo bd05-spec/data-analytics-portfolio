@@ -1,12 +1,12 @@
 {
   "name": "bar_status_risk",
   "position": {
-    "x": 24,
-    "y": 482,
-    "z": 2400,
+    "x": 23,
+    "y": 492,
     "width": 512,
-    "height": 228,
-    "tabOrder": 2400
+    "height": 214,
+    "z": 1000,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "barChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

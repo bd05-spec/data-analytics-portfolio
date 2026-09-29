@@ -1,12 +1,12 @@
 {
   "name": "donut_dept",
   "position": {
-    "x": 640,
-    "y": 185,
-    "z": 2400,
-    "width": 616,
-    "height": 284,
-    "tabOrder": 2400
+    "x": 643,
+    "y": 214,
+    "width": 614,
+    "height": 262,
+    "z": 900,
+    "tabOrder": 900
   },
   "visual": {
     "visualType": "donutChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

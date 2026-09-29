@@ -1,12 +1,12 @@
 {
   "name": "slicer_internet",
   "position": {
-    "x": 957,
-    "y": 3,
-    "z": 400,
-    "width": 299,
-    "height": 56,
-    "tabOrder": 400
+    "x": 956,
+    "y": 14,
+    "width": 301,
+    "height": 62,
+    "z": 200,
+    "tabOrder": 200
   },
   "visual": {
     "visualType": "slicer",
@@ -32,6 +32,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

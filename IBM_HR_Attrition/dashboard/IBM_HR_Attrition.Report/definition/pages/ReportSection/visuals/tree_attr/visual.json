@@ -1,55 +1,56 @@
 {
-  "name": "bar_cat_rev",
+  "name": "tree_attr",
   "position": {
-    "x": 549,
-    "y": 482,
-    "z": 1300,
-    "width": 387,
-    "height": 228,
-    "tabOrder": 1300
+    "x": 959,
+    "y": 492,
+    "width": 298,
+    "height": 214,
+    "z": 1200,
+    "tabOrder": 1200
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "treemap",
     "query": {
       "queryState": {
-        "Category": {
+        "Group": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactEvents"
+                      "Entity": "HR_Employee"
                     }
                   },
-                  "Property": "category_main"
+                  "Property": "Attrition"
                 }
               },
-              "queryRef": "FactEvents.category_main",
-              "nativeQueryRef": "category_main"
+              "queryRef": "HR_Employee.Attrition",
+              "nativeQueryRef": "Attrition"
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactEvents"
+                      "Entity": "HR_Employee"
                     }
                   },
-                  "Property": "Total Purchase Price"
+                  "Property": "Employees"
                 }
               },
-              "queryRef": "FactEvents.Total Purchase Price",
-              "nativeQueryRef": "Total Purchase Price"
+              "queryRef": "HR_Employee.Employees",
+              "nativeQueryRef": "Employees"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue by Category'"
+                  "Value": "'Employees: Left vs Stayed'"
                 }
               }
             }

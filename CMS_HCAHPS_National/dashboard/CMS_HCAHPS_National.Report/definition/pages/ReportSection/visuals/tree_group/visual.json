@@ -1,55 +1,56 @@
 {
-  "name": "bar_cat_profit",
+  "name": "tree_group",
   "position": {
-    "x": 549,
-    "y": 482,
-    "z": 2500,
-    "width": 387,
-    "height": 228,
-    "tabOrder": 2500
+    "x": 552,
+    "y": 492,
+    "width": 390,
+    "height": 214,
+    "z": 1100,
+    "tabOrder": 1100
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "treemap",
     "query": {
       "queryState": {
-        "Category": {
+        "Group": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactOrderItem"
+                      "Entity": "FactHCAHPS"
                     }
                   },
-                  "Property": "Category Name"
+                  "Property": "question_group"
                 }
               },
-              "queryRef": "FactOrderItem.Category Name",
-              "nativeQueryRef": "Category Name"
+              "queryRef": "FactHCAHPS.question_group",
+              "nativeQueryRef": "question_group"
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactOrderItem"
+                      "Entity": "FactHCAHPS"
                     }
                   },
-                  "Property": "Order Profit"
+                  "Property": "Average Published Response Percent"
                 }
               },
-              "queryRef": "FactOrderItem.Order Profit",
-              "nativeQueryRef": "Order Profit"
+              "queryRef": "FactHCAHPS.Average Published Response Percent",
+              "nativeQueryRef": "Average Published Response Percent"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Profit by Category'"
+                  "Value": "'Response Share by Group'"
                 }
               }
             }

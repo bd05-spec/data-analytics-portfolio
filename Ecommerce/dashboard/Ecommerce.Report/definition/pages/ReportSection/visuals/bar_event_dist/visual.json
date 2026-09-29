@@ -1,12 +1,12 @@
 {
   "name": "bar_event_dist",
   "position": {
-    "x": 24,
-    "y": 185,
-    "z": 1000,
-    "width": 602,
-    "height": 284,
-    "tabOrder": 1000
+    "x": 23,
+    "y": 214,
+    "width": 600,
+    "height": 262,
+    "z": 800,
+    "tabOrder": 800
   },
   "visual": {
     "visualType": "barChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

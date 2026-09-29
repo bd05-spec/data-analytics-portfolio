@@ -1,12 +1,12 @@
 {
   "name": "donut_topbox_flag",
   "position": {
-    "x": 948,
-    "y": 482,
-    "z": 1300,
-    "width": 308,
-    "height": 228,
-    "tabOrder": 1300
+    "x": 959,
+    "y": 492,
+    "width": 298,
+    "height": 214,
+    "z": 1200,
+    "tabOrder": 1200
   },
   "visual": {
     "visualType": "donutChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +65,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Top-Box vs Other Responses'"
+                  "Value": "'Top-Box vs Other Answers'"
                 }
               }
             }

@@ -1,55 +1,38 @@
 {
-  "name": "donut_attr",
+  "name": "slicer_category",
   "position": {
-    "x": 948,
-    "y": 482,
-    "z": 2700,
-    "width": 308,
-    "height": 228,
-    "tabOrder": 2700
+    "x": 956,
+    "y": 14,
+    "width": 301,
+    "height": 62,
+    "z": 200,
+    "tabOrder": 200
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "slicer",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "HR_Employee"
+                      "Entity": "DimCategory"
                     }
                   },
-                  "Property": "Attrition"
+                  "Property": "category_main"
                 }
               },
-              "queryRef": "HR_Employee.Attrition",
-              "nativeQueryRef": "Attrition"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "HR_Employee"
-                    }
-                  },
-                  "Property": "Employees"
-                }
-              },
-              "queryRef": "HR_Employee.Employees",
-              "nativeQueryRef": "Employees"
+              "queryRef": "DimCategory.category_main",
+              "nativeQueryRef": "category_main"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -64,7 +47,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Employees: Left vs Stayed'"
+                  "Value": "'Category'"
                 }
               }
             }

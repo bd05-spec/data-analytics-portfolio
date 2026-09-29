@@ -1,12 +1,12 @@
 {
   "name": "bar_dept_rate",
   "position": {
-    "x": 549,
-    "y": 482,
-    "z": 2600,
-    "width": 387,
-    "height": 228,
-    "tabOrder": 2600
+    "x": 552,
+    "y": 492,
+    "width": 390,
+    "height": 214,
+    "z": 1100,
+    "tabOrder": 1100
   },
   "visual": {
     "visualType": "barChart",
@@ -50,6 +50,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {

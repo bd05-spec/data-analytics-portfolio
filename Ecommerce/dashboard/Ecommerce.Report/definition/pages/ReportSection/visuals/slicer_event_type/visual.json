@@ -2,11 +2,11 @@
   "name": "slicer_event_type",
   "position": {
     "x": 723,
-    "y": 3,
-    "z": 300,
+    "y": 14,
     "width": 225,
-    "height": 56,
-    "tabOrder": 300
+    "height": 62,
+    "z": 100,
+    "tabOrder": 100
   },
   "visual": {
     "visualType": "slicer",
@@ -32,6 +32,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
