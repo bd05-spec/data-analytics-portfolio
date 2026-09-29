@@ -33,7 +33,7 @@ I want to be careful about over-reading this. A role of 83 people (Sales Reps) a
 * [`data/cleaned/`](data/cleaned/) - cleaned CSV and XLSX, plus `IBM_HR_Attrition_role_summary.csv`, the aggregated role table that feeds the dashboard.
 * [`notebooks/IBM_HR_Attrition_analysis.ipynb`](notebooks/IBM_HR_Attrition_analysis.ipynb) - the pandas pipeline and chart exports.
 * [`sql/IBM_HR_Attrition.sql`](sql/IBM_HR_Attrition.sql) - SQL Server DDL and the four aggregation queries, written independently of the notebook.
-* [`dashboard/`](dashboard/) - the `.pbip` and its semantic model. One page, five KPI cards along the top, a Department slicer on the left, then the two bar charts.
+* [`dashboard/IBM_HR_Attrition.pbix`](dashboard/IBM_HR_Attrition.pbix) - standalone report with the processed 1,470-row dataset embedded; it opens without SQL Server or the raw Kaggle file. Refreshing the report may require updating its processed-file location in Power Query. The report has one page, five KPI cards along the top, a Department slicer on the left, and two bar charts.
 * [`visuals/`](visuals/) - the two charts embedded above.
 
 ## Data validation

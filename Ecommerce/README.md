@@ -50,5 +50,5 @@ Traffic surged dramatically in November (+59% over October volume), peaking shar
 * [`data/cleaned/`](data/cleaned/) - Curated sample (`Ecommerce_cleaned_sample_100k.csv`) and comprehensive quality audit logs.
 * [`notebooks/Ecommerce_analysis.ipynb`](notebooks/Ecommerce_analysis.ipynb) - Full analysis notebook including streaming ETL and data profiling.
 * [`sql/Ecommerce.sql`](sql/Ecommerce.sql) - Production DDL, staging tables, and aggregation queries.
-* [`dashboard/`](dashboard/) - Power BI project (`Ecommerce.pbip`) featuring core transaction metrics, event slicers, volume bars, and price band distribution.
+* [`dashboard/Ecommerce.pbix`](dashboard/Ecommerce.pbix) - standalone report with the included 100,000-row processed sample embedded; it opens without SQL Server or the raw 109.95-million-row files. Its dashboard metrics describe the sample, not the full dataset. Refreshing the report may require updating its processed-sample location in Power Query. The report features core transaction metrics, event slicers, volume bars, and price band distribution.
 * [`visuals/`](visuals/) - Exported publication charts (`01_` through `09_`).

@@ -1,8 +1,0 @@
-{
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.0.0/schema.json",
-  "name": "ReportSection",
-  "displayName": "CMS HCAHPS National - Patient Experience",
-  "displayOption": "FitToPage",
-  "width": 1280,
-  "height": 720
-}

@@ -46,5 +46,5 @@ On risk: the "Late delivery" status maps 1:1 to the risk flag (100% by definitio
 * [`data/cleaned/`](data/cleaned/) — de-identified analytic tables (CSV, XLSX).
 * [`notebooks/DataCo_Supply_Chain_analysis.ipynb`](notebooks/DataCo_Supply_Chain_analysis.ipynb) — profiling, cleaning, charts.
 * [`sql/DataCo_Supply_Chain.sql`](sql/DataCo_Supply_Chain.sql) — DDL, aggregates, category profit, 7-day rolling sales.
-* [`dashboard/`](dashboard/) — `DataCo_Supply_Chain.pbip` with sales/profit/order/risk cards, a region slicer, and the two bar charts above.
+* [`dashboard/DataCo_Supply_Chain.pbix`](dashboard/DataCo_Supply_Chain.pbix) — standalone report with the processed 180,519-row dataset embedded; it opens without SQL Server or the raw PII-bearing extract. Refreshing the report may require updating its processed-file location in Power Query. The report has sales/profit/order/risk cards, a region slicer, and two bar charts.
 * [`visuals/`](visuals/) — the two charts above.

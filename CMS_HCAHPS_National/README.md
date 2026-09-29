@@ -46,5 +46,5 @@ And the reconciliation plot, because I don't trust a summary I can't reconcile �
 * [`data/cleaned/`](data/cleaned/) — cleaned CSV/XLSX plus the reconciliation table.
 * [`notebooks/CMS_HCAHPS_National_analysis.ipynb`](notebooks/CMS_HCAHPS_National_analysis.ipynb) — the actual cleaning and checks.
 * [`sql/CMS_HCAHPS_National.sql`](sql/CMS_HCAHPS_National.sql) — DDL plus the validation queries.
-* [`dashboard/`](dashboard/) — `CMS_HCAHPS_National.pbip` with cards, a question-group slicer, the top-box bar chart, and the response table.
+* [`dashboard/CMS_HCAHPS_National.pbix`](dashboard/CMS_HCAHPS_National.pbix) — standalone report with the processed 51-row dataset embedded; it opens without SQL Server or the raw export. Refreshing the report may require updating its processed-file location in Power Query.
 * [`visuals/`](visuals/) — the two charts above.
