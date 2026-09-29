@@ -34,7 +34,7 @@ Tenure tells the same story from a third angle. Customers inside their first yea
 * [`data/cleaned/`](data/cleaned/) - cleaned CSV and XLSX, with `TotalCharges` as a true numeric and the 11 new accounts preserved as nulls.
 * [`notebooks/Telco_Customer_Churn_analysis.ipynb`](notebooks/Telco_Customer_Churn_analysis.ipynb) - the pandas pipeline: dedup check, the null investigation, baseline churn, and the contract chart.
 * [`sql/Telco_Customer_Churn.sql`](sql/Telco_Customer_Churn.sql) - SQL Server DDL plus queries for contract, tenure, and payment-method churn.
-* [`dashboard/`](dashboard/) - the `.pbip` and its semantic model. One page, five KPI cards along the top, a Contract slicer on the right, then the two bar charts above.
+* [`dashboard/Telco_Customer_Churn.pbix`](dashboard/Telco_Customer_Churn.pbix) - standalone report with the processed 7,043-row dataset embedded; it opens without SQL Server or the raw Kaggle file. Refreshing the report may require updating its processed-file location in Power Query. The report has one page, five KPI cards along the top, a Contract slicer on the right, and two bar charts.
 * [`visuals/`](visuals/) - the two charts embedded above.
 
 ## Data validation
