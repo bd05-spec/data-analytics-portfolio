@@ -1,12 +1,12 @@
 {
   "name": "slicer_contract",
   "position": {
-    "x": 30,
-    "y": 200,
-    "z": 700,
-    "width": 600,
-    "height": 70,
-    "tabOrder": 700
+    "x": 723,
+    "y": 3,
+    "z": 300,
+    "width": 225,
+    "height": 56,
+    "tabOrder": 300
   },
   "visual": {
     "visualType": "slicer",
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Filter: Contract'"
+                  "Value": "'Contract'"
                 }
               }
             }

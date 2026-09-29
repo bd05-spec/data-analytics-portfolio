@@ -1,12 +1,12 @@
 {
   "name": "title",
   "position": {
-    "x": 30,
-    "y": 10,
-    "z": 100,
-    "width": 1220,
-    "height": 60,
-    "tabOrder": 100
+    "x": 23,
+    "y": 3,
+    "z": 200,
+    "width": 684,
+    "height": 56,
+    "tabOrder": 200
   },
   "visual": {
     "visualType": "textbox",

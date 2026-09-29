@@ -1,15 +1,15 @@
 {
-  "name": "bar_payment",
+  "name": "donut_brand",
   "position": {
-    "x": 650,
-    "y": 290,
-    "z": 810,
-    "width": 600,
-    "height": 410,
-    "tabOrder": 810
+    "x": 948,
+    "y": 482,
+    "z": 1400,
+    "width": 308,
+    "height": 228,
+    "tabOrder": 1400
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
         "Category": {
@@ -19,14 +19,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Telco_Customer"
+                      "Entity": "FactEvents"
                     }
                   },
-                  "Property": "PaymentMethod"
+                  "Property": "brand"
                 }
               },
-              "queryRef": "Telco_Customer.PaymentMethod",
-              "nativeQueryRef": "PaymentMethod"
+              "queryRef": "FactEvents.brand",
+              "nativeQueryRef": "brand"
             }
           ]
         },
@@ -37,14 +37,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Telco_Customer"
+                      "Entity": "FactEvents"
                     }
                   },
-                  "Property": "Churn Rate"
+                  "Property": "Total Purchase Price"
                 }
               },
-              "queryRef": "Telco_Customer.Churn Rate",
-              "nativeQueryRef": "Churn Rate"
+              "queryRef": "FactEvents.Total Purchase Price",
+              "nativeQueryRef": "Total Purchase Price"
             }
           ]
         }
@@ -64,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Churn Rate by Payment Method'"
+                  "Value": "'Revenue Mix by Brand'"
                 }
               }
             }

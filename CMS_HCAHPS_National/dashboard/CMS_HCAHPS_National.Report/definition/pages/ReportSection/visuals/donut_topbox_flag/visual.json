@@ -1,0 +1,77 @@
+{
+  "name": "donut_topbox_flag",
+  "position": {
+    "x": 948,
+    "y": 482,
+    "z": 1300,
+    "width": 308,
+    "height": 228,
+    "tabOrder": 1300
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Is Top Box"
+                }
+              },
+              "queryRef": "FactHCAHPS.Is Top Box",
+              "nativeQueryRef": "Is Top Box"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Measures"
+                }
+              },
+              "queryRef": "FactHCAHPS.Measures",
+              "nativeQueryRef": "Measures"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top-Box vs Other Responses'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

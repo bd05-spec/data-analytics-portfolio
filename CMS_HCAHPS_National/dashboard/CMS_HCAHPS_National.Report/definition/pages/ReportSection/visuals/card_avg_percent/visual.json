@@ -1,12 +1,12 @@
 {
   "name": "card_avg_percent",
   "position": {
-    "x": 630,
-    "y": 95,
-    "z": 500,
-    "width": 190,
-    "height": 95,
-    "tabOrder": 500
+    "x": 779,
+    "y": 71,
+    "z": 800,
+    "width": 225,
+    "height": 102,
+    "tabOrder": 800
   },
   "visual": {
     "visualType": "card",
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Avg Response %'"
+                  "Value": "'Avg Response Percent'"
                 }
               }
             }

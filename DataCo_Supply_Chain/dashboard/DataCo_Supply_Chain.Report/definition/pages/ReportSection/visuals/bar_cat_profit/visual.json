@@ -1,15 +1,15 @@
 {
   "name": "bar_cat_profit",
   "position": {
-    "x": 30,
-    "y": 200,
-    "z": 820,
-    "width": 1220,
-    "height": 0,
-    "tabOrder": 820
+    "x": 549,
+    "y": 482,
+    "z": 2500,
+    "width": 387,
+    "height": 228,
+    "tabOrder": 2500
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {

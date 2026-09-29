@@ -1,18 +1,36 @@
 {
-  "name": "card_otrate",
+  "name": "donut_dept",
   "position": {
-    "x": 1030,
-    "y": 95,
-    "z": 650,
-    "width": 220,
-    "height": 95,
-    "tabOrder": 650
+    "x": 640,
+    "y": 185,
+    "z": 2400,
+    "width": 616,
+    "height": 284,
+    "tabOrder": 2400
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HR_Employee"
+                    }
+                  },
+                  "Property": "Department"
+                }
+              },
+              "queryRef": "HR_Employee.Department",
+              "nativeQueryRef": "Department"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -22,11 +40,11 @@
                       "Entity": "HR_Employee"
                     }
                   },
-                  "Property": "Overtime Attrition Rate"
+                  "Property": "Attritions"
                 }
               },
-              "queryRef": "HR_Employee.Overtime Attrition Rate",
-              "nativeQueryRef": "Overtime Attrition Rate"
+              "queryRef": "HR_Employee.Attritions",
+              "nativeQueryRef": "Attritions"
             }
           ]
         }
@@ -46,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Overtime Attr Rate'"
+                  "Value": "'Attritions Mix by Department'"
                 }
               }
             }

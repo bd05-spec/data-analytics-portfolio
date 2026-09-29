@@ -1,32 +1,50 @@
 {
-  "name": "card_newacct",
+  "name": "donut_market",
   "position": {
-    "x": 1030,
-    "y": 95,
-    "z": 650,
-    "width": 220,
-    "height": 95,
-    "tabOrder": 650
+    "x": 640,
+    "y": 185,
+    "z": 2300,
+    "width": 616,
+    "height": 284,
+    "tabOrder": 2300
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderItem"
+                    }
+                  },
+                  "Property": "Market"
+                }
+              },
+              "queryRef": "FactOrderItem.Market",
+              "nativeQueryRef": "Market"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Telco_Customer"
+                      "Entity": "FactOrderItem"
                     }
                   },
-                  "Property": "New Accounts (tenure=0)"
+                  "Property": "Sales"
                 }
               },
-              "queryRef": "Telco_Customer.New Accounts (tenure=0)",
-              "nativeQueryRef": "New Accounts (tenure=0)"
+              "queryRef": "FactOrderItem.Sales",
+              "nativeQueryRef": "Sales"
             }
           ]
         }
@@ -46,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'New Accounts'"
+                  "Value": "'Sales Mix by Market'"
                 }
               }
             }

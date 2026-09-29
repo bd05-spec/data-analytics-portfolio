@@ -1,15 +1,15 @@
 {
   "name": "bar_ageband",
   "position": {
-    "x": 650,
-    "y": 290,
-    "z": 810,
-    "width": 600,
-    "height": 410,
-    "tabOrder": 810
+    "x": 24,
+    "y": 482,
+    "z": 2500,
+    "width": 512,
+    "height": 228,
+    "tabOrder": 2500
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {

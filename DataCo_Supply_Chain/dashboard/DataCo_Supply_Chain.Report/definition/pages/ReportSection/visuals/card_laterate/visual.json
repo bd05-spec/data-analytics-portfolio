@@ -1,12 +1,12 @@
 {
   "name": "card_laterate",
   "position": {
-    "x": 830,
-    "y": 95,
-    "z": 600,
-    "width": 190,
-    "height": 95,
-    "tabOrder": 600
+    "x": 1031,
+    "y": 71,
+    "z": 2100,
+    "width": 225,
+    "height": 102,
+    "tabOrder": 2100
   },
   "visual": {
     "visualType": "card",

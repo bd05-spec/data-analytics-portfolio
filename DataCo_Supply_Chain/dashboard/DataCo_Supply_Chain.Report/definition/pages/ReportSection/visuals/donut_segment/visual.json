@@ -1,18 +1,36 @@
 {
-  "name": "card_margin",
+  "name": "donut_segment",
   "position": {
-    "x": 1030,
-    "y": 95,
-    "z": 650,
-    "width": 220,
-    "height": 95,
-    "tabOrder": 650
+    "x": 948,
+    "y": 482,
+    "z": 2600,
+    "width": 308,
+    "height": 228,
+    "tabOrder": 2600
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderItem"
+                    }
+                  },
+                  "Property": "Customer Segment"
+                }
+              },
+              "queryRef": "FactOrderItem.Customer Segment",
+              "nativeQueryRef": "Customer Segment"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -22,11 +40,11 @@
                       "Entity": "FactOrderItem"
                     }
                   },
-                  "Property": "Profit Margin"
+                  "Property": "Sales"
                 }
               },
-              "queryRef": "FactOrderItem.Profit Margin",
-              "nativeQueryRef": "Profit Margin"
+              "queryRef": "FactOrderItem.Sales",
+              "nativeQueryRef": "Sales"
             }
           ]
         }
@@ -46,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Margin'"
+                  "Value": "'Sales Mix by Segment'"
                 }
               }
             }

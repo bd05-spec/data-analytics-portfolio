@@ -1,12 +1,12 @@
 {
   "name": "slicer_status",
   "position": {
-    "x": 650,
-    "y": 200,
-    "z": 710,
-    "width": 600,
-    "height": 70,
-    "tabOrder": 710
+    "x": 957,
+    "y": 3,
+    "z": 1600,
+    "width": 299,
+    "height": 56,
+    "tabOrder": 1600
   },
   "visual": {
     "visualType": "slicer",
@@ -46,7 +46,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Filter: Delivery Status'"
+                  "Value": "'Delivery Status'"
                 }
               }
             }

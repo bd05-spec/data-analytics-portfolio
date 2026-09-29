@@ -1,32 +1,50 @@
 {
-  "name": "card_conv",
+  "name": "donut_attr",
   "position": {
-    "x": 1030,
-    "y": 95,
-    "z": 650,
-    "width": 220,
-    "height": 95,
-    "tabOrder": 650
+    "x": 948,
+    "y": 482,
+    "z": 2700,
+    "width": 308,
+    "height": 228,
+    "tabOrder": 2700
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HR_Employee"
+                    }
+                  },
+                  "Property": "Attrition"
+                }
+              },
+              "queryRef": "HR_Employee.Attrition",
+              "nativeQueryRef": "Attrition"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactEvents"
+                      "Entity": "HR_Employee"
                     }
                   },
-                  "Property": "View to Purchase %"
+                  "Property": "Employees"
                 }
               },
-              "queryRef": "FactEvents.View to Purchase %",
-              "nativeQueryRef": "View to Purchase %"
+              "queryRef": "HR_Employee.Employees",
+              "nativeQueryRef": "Employees"
             }
           ]
         }
@@ -46,7 +64,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'View-Purchase %'"
+                  "Value": "'Employees: Left vs Stayed'"
                 }
               }
             }

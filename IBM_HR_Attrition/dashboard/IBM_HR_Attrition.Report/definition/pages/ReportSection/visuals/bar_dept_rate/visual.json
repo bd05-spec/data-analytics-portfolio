@@ -1,15 +1,15 @@
 {
   "name": "bar_dept_rate",
   "position": {
-    "x": 30,
-    "y": 200,
-    "z": 820,
-    "width": 1220,
-    "height": 0,
-    "tabOrder": 820
+    "x": 549,
+    "y": 482,
+    "z": 2600,
+    "width": 387,
+    "height": 228,
+    "tabOrder": 2600
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {

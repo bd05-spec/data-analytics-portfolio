@@ -290,10 +290,7 @@
           {
             "name": "Date",
             "dataType": "dateTime",
-            "type": "calculatedTableColumn",
             "sourceColumn": "Date",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
             "formatString": "Short Date"
           },
           {
@@ -357,24 +354,12 @@
           {
             "name": "PriceBand",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "PriceBand",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "PriceBand"
           },
           {
             "name": "SortOrder",
             "dataType": "int64",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "SortOrder",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
-          }
-        ],
-        "columnProperties": [
-          {
-            "name": "PriceBand",
-            "sortByColumn": "SortOrder"
+            "sourceColumn": "SortOrder"
           }
         ],
         "partitions": [
@@ -395,34 +380,22 @@
           {
             "name": "category_code",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "category_code",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "category_code"
           },
           {
             "name": "category_main",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "category_main",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "category_main"
           },
           {
             "name": "category_sub",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "category_sub",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "category_sub"
           },
           {
             "name": "category_detail",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "category_detail",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "category_detail"
           }
         ],
         "partitions": [
@@ -443,10 +416,7 @@
           {
             "name": "brand",
             "dataType": "string",
-            "type": "calculatedTableColumn",
-            "sourceColumn": "brand",
-            "isNameInferred": true,
-            "isDataTypeInferred": true
+            "sourceColumn": "brand"
           }
         ],
         "partitions": [

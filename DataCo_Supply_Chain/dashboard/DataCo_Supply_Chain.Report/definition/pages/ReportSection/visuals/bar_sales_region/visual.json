@@ -1,15 +1,15 @@
 {
   "name": "bar_sales_region",
   "position": {
-    "x": 30,
-    "y": 290,
-    "z": 800,
-    "width": 600,
-    "height": 410,
-    "tabOrder": 800
+    "x": 24,
+    "y": 185,
+    "z": 2200,
+    "width": 602,
+    "height": 284,
+    "tabOrder": 2200
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {

@@ -1,12 +1,12 @@
 {
   "name": "card_measures",
   "position": {
-    "x": 30,
-    "y": 95,
-    "z": 200,
-    "width": 190,
-    "height": 95,
-    "tabOrder": 200
+    "x": 23,
+    "y": 71,
+    "z": 500,
+    "width": 223,
+    "height": 102,
+    "tabOrder": 500
   },
   "visual": {
     "visualType": "card",

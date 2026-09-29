@@ -1,0 +1,77 @@
+{
+  "name": "bar_group_avg",
+  "position": {
+    "x": 549,
+    "y": 482,
+    "z": 1200,
+    "width": 387,
+    "height": 228,
+    "tabOrder": 1200
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "question_group"
+                }
+              },
+              "queryRef": "FactHCAHPS.question_group",
+              "nativeQueryRef": "question_group"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactHCAHPS"
+                    }
+                  },
+                  "Property": "Average Published Response Percent"
+                }
+              },
+              "queryRef": "FactHCAHPS.Average Published Response Percent",
+              "nativeQueryRef": "Average Published Response Percent"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Response by Group'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json"
+}

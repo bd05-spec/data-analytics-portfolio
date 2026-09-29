@@ -1,12 +1,12 @@
 {
   "name": "bar_answer",
   "position": {
-    "x": 650,
-    "y": 290,
-    "z": 810,
-    "width": 600,
-    "height": 410,
-    "tabOrder": 810
+    "x": 24,
+    "y": 482,
+    "z": 1100,
+    "width": 512,
+    "height": 228,
+    "tabOrder": 1100
   },
   "visual": {
     "visualType": "clusteredColumnChart",
