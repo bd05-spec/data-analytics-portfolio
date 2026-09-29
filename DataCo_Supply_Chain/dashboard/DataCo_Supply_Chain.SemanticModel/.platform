@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "DataCo_Supply_Chain",
+    "description": "Power BI Desktop project item. Built from the project notebook and T-SQL pipeline."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "165ba811-d52f-5191-bf5c-9aa3d0a98678"
+  }
+}

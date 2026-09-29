@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Ecommerce Funnel - Events, Conversion and Value",
+    "description": "Power BI Desktop project item. Built from the project notebook and T-SQL pipeline."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3158f817-fe07-578e-ab01-7e7ff9371500"
+  }
+}

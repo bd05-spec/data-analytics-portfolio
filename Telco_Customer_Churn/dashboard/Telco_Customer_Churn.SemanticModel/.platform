@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Telco_Customer_Churn",
+    "description": "Power BI Desktop project item. Built from the project notebook and T-SQL pipeline."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "140634c4-f19c-596a-b323-09312d73b9b4"
+  }
+}

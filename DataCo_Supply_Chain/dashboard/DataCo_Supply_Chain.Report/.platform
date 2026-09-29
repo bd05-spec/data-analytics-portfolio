@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "DataCo Supply Chain - Revenue and Delivery Risk",
+    "description": "Power BI Desktop project item. Built from the project notebook and T-SQL pipeline."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "56d0a35e-ca79-5ad2-9a4b-9ad3693e349a"
+  }
+}

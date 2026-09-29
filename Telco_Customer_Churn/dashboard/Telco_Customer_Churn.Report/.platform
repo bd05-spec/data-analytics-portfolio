@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Telco Customer Churn - Retention Overview",
+    "description": "Power BI Desktop project item. Built from the project notebook and T-SQL pipeline."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d5192108-5ad5-5535-afa7-9f49dfcf17ce"
+  }
+}

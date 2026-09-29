@@ -1,4 +1,4 @@
-﻿# Python / Jupyter
+# Python / Jupyter
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
@@ -16,3 +16,10 @@ Thumbs.db
 *.parquet
 *.parquet.*
 *.log
+
+# Power BI Desktop project - user-local state (per Microsoft PBIP docs these are
+# machine-specific and must NOT be committed)
+**/.pbi/
+**/cache.abf
+**/localSettings.json
+**/unappliedChanges.json
