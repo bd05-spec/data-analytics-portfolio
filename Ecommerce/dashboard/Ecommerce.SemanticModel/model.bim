@@ -272,7 +272,13 @@
             "mode": "import",
             "source": {
               "type": "m",
-              "expression": "let\n    Source = Parquet.Document(File.Contents(\"C:\\Users\\pmipm\\Downloads\\analytics_project\\Ecommerce\\data\\cleaned\\Ecommerce_cleaned_combined.parquet\")),\n    Typed = Table.TransformColumnTypes(\n        Source,\n        {\n            {\"event_time_parsed\", type datetime},\n            {\"product_id\", Int64.Type},\n            {\"user_id\", Int64.Type},\n            {\"price\", type number},\n            {\"PurchasePrice\", type number},\n            {\"brand_is_unknown\", Int64.Type},\n            {\"category_code_is_unknown\", Int64.Type}\n        }\n    )\nin\n    Typed"
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"..\\\\..\\\\data\\\\cleaned\\\\Ecommerce_cleaned_sample_100k.csv\"),[Delimiter=\",\", Columns=17, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+                "in",
+                "    PromotedHeaders"
+              ]
             }
           }
         ]

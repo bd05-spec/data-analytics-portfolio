@@ -13,7 +13,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"..\\data\\cleaned\\IBM_HR_Attrition_cleaned_data.csv\"),[Delimiter=\",\", Columns=35, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(\"..\\..\\data\\cleaned\\IBM_HR_Attrition_cleaned_data.csv\"),[Delimiter=\",\", Columns=35, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
                 "in",
                 "    PromotedHeaders"
