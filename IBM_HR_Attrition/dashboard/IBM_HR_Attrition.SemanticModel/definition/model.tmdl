@@ -10,4 +10,6 @@ model IBM_HR_Attrition
 annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table Employees
+ref table 'Gap Closed'
+ref table 'Retention Actions'
 

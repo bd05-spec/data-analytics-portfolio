@@ -1,0 +1,20 @@
+/// What-if scenario: share of the attrition gap to the benchmark group that an action closes.
+table 'Gap Closed'
+	lineageTag: 1e87530b-0988-4a60-bd21-d65a67b13954
+
+	/// Scenario input; defaults to 50%.
+	measure 'Selected Gap Closed' = SELECTEDVALUE ( 'Gap Closed'[Gap Closed], 0.5 )
+		formatString: 0%
+		lineageTag: 699963c3-b302-4e2d-a323-26611ae1aa3a
+
+	column 'Gap Closed'
+		dataType: decimal
+		formatString: 0%
+		lineageTag: 28474a02-3b0d-4f90-bb4a-bbebe33f0b10
+		summarizeBy: none
+		sourceColumn: Gap Closed
+
+	partition 'Gap Closed' = m
+		mode: import
+		source = Table.TransformColumnTypes(Table.FromList(List.Transform({1..10}, each _ / 10), Splitter.SplitByNothing(), {"Gap Closed"}), {{"Gap Closed", Currency.Type}})
+

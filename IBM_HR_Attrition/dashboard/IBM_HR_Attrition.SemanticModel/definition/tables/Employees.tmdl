@@ -27,6 +27,11 @@ table Employees
 		formatString: $#,##0
 		lineageTag: 202f294d-645f-4f9b-b0db-f6e902ee8c2c
 
+	/// Darker bar when attrition is 25% or more.
+	measure 'Attrition Bar Color' = IF ( [Attrition Rate] >= 0.25, "#9A3412", "#B4532A" )
+		displayFolder: Formatting
+		lineageTag: 6f4ae60a-176c-486c-98f8-4cd5d8aa8404
+
 	column 'Employee Number'
 		dataType: int64
 		isHidden
@@ -135,6 +140,49 @@ table Employees
 		summarizeBy: none
 		sourceColumn: Attrition Flag
 
+	column 'Age Band Order'
+		dataType: int64
+		isHidden
+		lineageTag: 53c26f9b-db63-458b-b00b-2bc61baa11d6
+		summarizeBy: none
+		sourceColumn: Age Band Order
+
+	column 'Age Band'
+		dataType: string
+		lineageTag: cc44995a-8b51-4211-aac0-0e926ee9b1e9
+		sourceColumn: Age Band
+		sortByColumn: 'Age Band Order'
+
+	/// Survey score 1 (low) to 4 (very high).
+	column 'Job Satisfaction'
+		dataType: string
+		lineageTag: dba3750c-d546-46c8-aee3-7c698768b0c5
+		sourceColumn: Job Satisfaction
+
+	/// Survey score 1 (bad) to 4 (best).
+	column 'Work-Life Balance'
+		dataType: string
+		lineageTag: 377c1850-d875-431c-9450-4a50ca5800f6
+		sourceColumn: Work-Life Balance
+
+	/// Survey score 1 (low) to 4 (very high).
+	column 'Job Involvement'
+		dataType: string
+		lineageTag: 40e2419d-b2b4-40e9-ba7e-45fc63e00bd6
+		sourceColumn: Job Involvement
+
+	/// Stock option grant level 0-3.
+	column 'Stock Option Level'
+		dataType: string
+		lineageTag: 5755d9ea-fee3-481a-9cc9-b83983765cd9
+		sourceColumn: Stock Option Level
+
+	/// Distance from home, in the source's units.
+	column 'Distance Band'
+		dataType: string
+		lineageTag: 9d3516b0-6095-4ba7-9e9d-606783b1ffa4
+		sourceColumn: Distance Band
+
 	partition Employees = m
 		mode: import
 		source =
@@ -143,7 +191,7 @@ table Employees
 				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
 				    Source = Csv.Document(Bin, [Delimiter = ",", Columns = 35, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-				    Typed = Table.TransformColumnTypes(Promoted, {{"EmployeeNumber", Int64.Type}, {"JobLevel", Int64.Type}, {"MonthlyIncome", Int64.Type}, {"YearsAtCompany", Int64.Type}, {"Age", Int64.Type}}, "en-US"),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"EmployeeNumber", Int64.Type}, {"JobLevel", Int64.Type}, {"MonthlyIncome", Int64.Type}, {"YearsAtCompany", Int64.Type}, {"Age", Int64.Type}, {"JobSatisfaction", Int64.Type}, {"WorkLifeBalance", Int64.Type}, {"JobInvolvement", Int64.Type}, {"StockOptionLevel", Int64.Type}, {"DistanceFromHome", Int64.Type}}, "en-US"),
 				    Level = Table.AddColumn(Typed, "Job Level", each "Level " & Text.From([JobLevel]), type text),
 				    OT = Table.AddColumn(Level, "Overtime", each if [OverTime] = "Yes" then "Works overtime" else "No overtime", type text),
 				    Tenure = Table.AddColumn(OT, "Tenure Band", each let y = [YearsAtCompany] in if y <= 1 then "1 year or less" else if y <= 3 then "2-3 years" else if y <= 5 then "4-5 years" else if y <= 10 then "6-10 years" else "11+ years", type text),
@@ -151,9 +199,17 @@ table Employees
 				    Income = Table.AddColumn(TenureOrder, "Income Band", each let m = [MonthlyIncome] in if m < 3000 then "Under $3K" else if m < 5000 then "$3K-5K" else if m < 10000 then "$5K-10K" else "$10K+", type text),
 				    IncomeOrder = Table.AddColumn(Income, "Income Band Order", each let m = [MonthlyIncome] in if m < 3000 then 1 else if m < 5000 then 2 else if m < 10000 then 3 else 4, Int64.Type),
 				    Travel = Table.AddColumn(IncomeOrder, "Business Travel", each if [BusinessTravel] = "Travel_Frequently" then "Travels frequently" else if [BusinessTravel] = "Travel_Rarely" then "Travels rarely" else "No travel", type text),
-				    Status = Table.AddColumn(Travel, "Status", each if [Attrition] = "Yes" then "Left" else "Stayed", type text),
+				    AgeB = Table.AddColumn(Travel, "Age Band", each let a = [Age] in if a <= 25 then "18-25" else if a <= 35 then "26-35" else if a <= 45 then "36-45" else "46-60", type text),
+				    AgeO = Table.AddColumn(AgeB, "Age Band Order", each let a = [Age] in if a <= 25 then 1 else if a <= 35 then 2 else if a <= 45 then 3 else 4, Int64.Type),
+				    Scale = (n as number, labels as list) => labels{n - 1},
+				    JS = Table.AddColumn(AgeO, "Job Satisfaction", each Scale([JobSatisfaction], {"1 Low", "2 Medium", "3 High", "4 Very high"}), type text),
+				    WLB = Table.AddColumn(JS, "Work-Life Balance", each Scale([WorkLifeBalance], {"1 Bad", "2 Good", "3 Better", "4 Best"}), type text),
+				    JI = Table.AddColumn(WLB, "Job Involvement", each Scale([JobInvolvement], {"1 Low", "2 Medium", "3 High", "4 Very high"}), type text),
+				    SO = Table.AddColumn(JI, "Stock Option Level", each "Level " & Text.From([StockOptionLevel]), type text),
+				    Dist = Table.AddColumn(SO, "Distance Band", each let d = [DistanceFromHome] in if d <= 5 then "1-5" else if d <= 10 then "6-10" else "11-29", type text),
+				    Status = Table.AddColumn(Dist, "Status", each if [Attrition] = "Yes" then "Left" else "Stayed", type text),
 				    Flag = Table.AddColumn(Status, "Attrition Flag", each if [Attrition] = "Yes" then 1 else 0, Int64.Type),
-				    Result = Table.SelectColumns(Flag, {"EmployeeNumber", "Department", "JobRole", "Job Level", "JobLevel", "Overtime", "Tenure Band", "Tenure Band Order", "YearsAtCompany", "Income Band", "Income Band Order", "MonthlyIncome", "Business Travel", "MaritalStatus", "Gender", "Status", "Attrition Flag"})
+				    Result = Table.SelectColumns(Flag, {"EmployeeNumber", "Department", "JobRole", "Job Level", "JobLevel", "Overtime", "Tenure Band", "Tenure Band Order", "YearsAtCompany", "Income Band", "Income Band Order", "MonthlyIncome", "Business Travel", "MaritalStatus", "Gender", "Age Band", "Age Band Order", "Job Satisfaction", "Work-Life Balance", "Job Involvement", "Stock Option Level", "Distance Band", "Status", "Attrition Flag"})
 				in
 				    Result
 
