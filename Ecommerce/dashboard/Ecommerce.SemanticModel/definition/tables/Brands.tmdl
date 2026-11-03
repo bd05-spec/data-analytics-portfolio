@@ -1,0 +1,66 @@
+/// Top 30 brands by purchase value, whole period.
+table Brands
+	lineageTag: d1015d0c-a116-45b9-b64d-8e7413c71f0d
+
+	/// Purchase value (sum of prices) for the brand.
+	measure 'Brand Purchase Value' = SUM ( Brands[Brand Value] )
+		formatString: $#,##0
+		lineageTag: a63abaab-3291-4c3d-a9e4-ccd28d67a707
+
+	/// Product views for the brand.
+	measure 'Brand Product Views' = SUM ( Brands[Brand Views] )
+		formatString: #,##0
+		lineageTag: 1dbf7820-bf20-4ac6-ac99-d07625e4f212
+
+	/// Purchase events / view events for the brand.
+	measure 'Brand View to Purchase Rate' = DIVIDE ( SUM ( Brands[Brand Purchases] ), SUM ( Brands[Brand Views] ) )
+		formatString: 0.00%
+		lineageTag: 1053cf40-7bff-4e3b-939c-78bd0dbb04ba
+
+	/// Brand purchase value as a share of all purchase value ($505.15M).
+	measure 'Brand Share of Value' = DIVIDE ( [Brand Purchase Value], [Purchase Value] )
+		formatString: 0.0%
+		lineageTag: 46e2ac02-7390-4723-b921-7015083f5077
+
+	column Brand
+		dataType: string
+		lineageTag: 4e934485-d8d5-4003-96d9-bd91282f1347
+		sourceColumn: brand
+
+	column 'Brand Views'
+		dataType: int64
+		isHidden
+		lineageTag: 1c89b501-3c32-4498-a4a9-214c5f69b55f
+		sourceColumn: views
+
+	column 'Brand Carts'
+		dataType: int64
+		isHidden
+		lineageTag: e43874c8-2bd4-4fbd-95d3-c23667d5fbdc
+		sourceColumn: carts
+
+	column 'Brand Purchases'
+		dataType: int64
+		isHidden
+		lineageTag: eccc5b1a-414d-4bc5-844e-a9c99fa3604e
+		sourceColumn: purchases
+
+	column 'Brand Value'
+		dataType: decimal
+		isHidden
+		lineageTag: 090aaa3d-5958-4349-badf-45ddcf43cba0
+		sourceColumn: purchase_value
+
+	partition Brands = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/top_brands.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Proper = Table.TransformColumns(Promoted, {{"brand", Text.Proper, type text}}),
+				    Typed = Table.TransformColumnTypes(Proper, {{"views", Int64.Type}, {"carts", Int64.Type}, {"purchases", Int64.Type}, {"purchase_value", Currency.Type}}, "en-US")
+				in
+				    Typed
+

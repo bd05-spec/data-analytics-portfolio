@@ -1,0 +1,50 @@
+/// Top 30 full category codes by purchase value, whole period.
+table Subcategories
+	lineageTag: c1f89717-c551-4cad-a585-41a83800211e
+
+	/// Purchase value for the sub-category.
+	measure 'Subcategory Purchase Value' = SUM ( Subcategories[Subcategory Value] )
+		formatString: $#,##0
+		lineageTag: 99edf0dd-dcb1-475b-ac0d-f4980af54de2
+
+	/// Purchase events / view events for the sub-category.
+	measure 'Subcategory View to Purchase Rate' = DIVIDE ( SUM ( Subcategories[Subcategory Purchases] ), SUM ( Subcategories[Subcategory Views] ) )
+		formatString: 0.00%
+		lineageTag: c2f17162-11a0-496e-9957-55b80d1c8199
+
+	column Subcategory
+		dataType: string
+		lineageTag: 7f74adeb-c0fd-43d1-b0b3-1f3968655adb
+		sourceColumn: category_code
+
+	column 'Subcategory Views'
+		dataType: int64
+		isHidden
+		lineageTag: 5835b535-0510-4db4-aff9-adb946eb74fb
+		sourceColumn: views
+
+	column 'Subcategory Purchases'
+		dataType: int64
+		isHidden
+		lineageTag: 8995f65c-08fc-4cdc-b8ad-7579fae454c8
+		sourceColumn: purchases
+
+	column 'Subcategory Value'
+		dataType: decimal
+		isHidden
+		lineageTag: 04cd949f-ae19-46e1-89dd-4d5f2560e42b
+		sourceColumn: purchase_value
+
+	partition Subcategories = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/top_categories.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Label = Table.TransformColumns(Promoted, {{"category_code", each Text.Proper(Text.Replace(Text.Replace(_, ".", " > "), "_", " ")), type text}}),
+				    Typed = Table.TransformColumnTypes(Label, {{"views", Int64.Type}, {"purchases", Int64.Type}, {"purchase_value", Currency.Type}}, "en-US")
+				in
+				    Typed
+

@@ -16,6 +16,11 @@ ref table 'Monthly Totals'
 ref table 'Hourly Activity'
 ref table 'Price Bands'
 ref table 'Funnel Stage'
+ref table Brands
+ref table Subcategories
+ref table 'Daily Users'
+ref table 'Gap Closed'
+ref table Opportunities
 
 ref cultureInfo en-US
 
