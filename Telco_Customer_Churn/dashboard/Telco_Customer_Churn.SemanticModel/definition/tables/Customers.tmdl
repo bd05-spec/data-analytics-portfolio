@@ -29,6 +29,7 @@ table Customers
 
 	/// Highlight colour: orange when churn is 40% or more, teal otherwise.
 	measure 'Churn Bar Color' = IF ( [Churn Rate] >= 0.4, "#C2410C", "#0F766E" )
+		isHidden
 		displayFolder: Formatting
 		lineageTag: 9ca345c1-02b6-4a56-967a-58d5a4641dc2
 

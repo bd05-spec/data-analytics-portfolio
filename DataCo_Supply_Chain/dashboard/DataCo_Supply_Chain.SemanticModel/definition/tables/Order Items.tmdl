@@ -64,6 +64,7 @@ table 'Order Items'
 
 	/// Amber when half or more of items are late.
 	measure 'Late Bar Color' = IF ( [Late Rate] >= 0.5, "#F59E0B", "#64748B" )
+		isHidden
 		displayFolder: Formatting
 		lineageTag: 6150a6d3-cfca-4cb2-9953-1fae50070c7e
 

@@ -29,6 +29,7 @@ table Employees
 
 	/// Darker bar when attrition is 25% or more.
 	measure 'Attrition Bar Color' = IF ( [Attrition Rate] >= 0.25, "#9A3412", "#B4532A" )
+		isHidden
 		displayFolder: Formatting
 		lineageTag: 6f4ae60a-176c-486c-98f8-4cd5d8aa8404
 

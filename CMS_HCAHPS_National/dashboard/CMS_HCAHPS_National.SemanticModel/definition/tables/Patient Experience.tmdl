@@ -51,6 +51,7 @@ table 'Patient Experience'
 
 	/// Terracotta when 10% or more give the worst answer.
 	measure 'Bottom Box Bar Color' = IF ( [Bottom-Box Score] >= 0.10, "#B5523B", "#9AA5B1" )
+		isHidden
 		displayFolder: Formatting
 		lineageTag: f3851ab4-6e38-47bd-a968-c623dfbde75e
 
