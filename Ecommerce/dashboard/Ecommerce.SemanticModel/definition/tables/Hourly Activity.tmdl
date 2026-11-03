@@ -1,0 +1,53 @@
+/// Events by weekday and hour of day (UTC), whole period.
+table 'Hourly Activity'
+	lineageTag: 8c0f49b5-c264-4d90-8ac2-5553f3ce75e8
+
+	/// Purchase events / view events for the weekday and UTC hour in context.
+	measure 'Hourly View to Purchase Rate' = DIVIDE ( SUM ( 'Hourly Activity'[Hour Purchases] ), SUM ( 'Hourly Activity'[Hour Views] ) )
+		formatString: 0.0%
+		lineageTag: 043cebe6-6b51-4122-8d21-bf2336c7de29
+
+	column 'Weekday Number'
+		dataType: int64
+		isHidden
+		lineageTag: d90b5670-c298-4444-bac7-9eded97e7922
+		summarizeBy: none
+		sourceColumn: weekday_num
+
+	column Weekday
+		dataType: string
+		lineageTag: 2346b45a-1a85-4229-a7ff-b4809abebe3f
+		sourceColumn: weekday
+		sortByColumn: 'Weekday Number'
+
+	column 'Hour (UTC)'
+		dataType: int64
+		lineageTag: 6d97e3c9-969d-48eb-a59c-0f6b2b65f2ec
+		summarizeBy: none
+		sourceColumn: hour_utc
+
+	column 'Hour Views'
+		dataType: int64
+		isHidden
+		lineageTag: 794c9947-6280-4a0f-8e23-6ef2295da621
+		sourceColumn: views
+
+	column 'Hour Purchases'
+		dataType: int64
+		isHidden
+		lineageTag: 165246d7-8c4a-426c-bd84-c52ec9dbf5b7
+		sourceColumn: purchases
+
+	partition 'Hourly Activity' = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/hour_weekday.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"weekday_num", Int64.Type}, {"hour_utc", Int64.Type}, {"views", Int64.Type}, {"purchases", Int64.Type}}, "en-US"),
+				    Result = Table.SelectColumns(Typed, {"weekday_num", "weekday", "hour_utc", "views", "purchases"})
+				in
+				    Result
+

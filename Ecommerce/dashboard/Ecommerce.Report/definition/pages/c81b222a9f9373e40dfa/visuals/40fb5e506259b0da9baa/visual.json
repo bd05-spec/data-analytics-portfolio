@@ -1,0 +1,157 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "40fb5e506259b0da9baa",
+  "position": {
+    "x": 24,
+    "y": 420,
+    "z": 6000,
+    "height": 260,
+    "width": 1232,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "lineClusteredColumnComboChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Price Bands"
+                    }
+                  },
+                  "Property": "Price Band"
+                }
+              },
+              "queryRef": "Price Bands.Price Band",
+              "nativeQueryRef": "Price Band"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Price Bands"
+                    }
+                  },
+                  "Property": "Band Purchase Value"
+                }
+              },
+              "queryRef": "Price Bands.Band Purchase Value",
+              "nativeQueryRef": "Band Purchase Value",
+              "displayName": "Purchase value"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Price Bands"
+                    }
+                  },
+                  "Property": "Band View to Purchase Rate"
+                }
+              },
+              "queryRef": "Price Bands.Band View to Purchase Rate",
+              "nativeQueryRef": "Band View to Purchase Rate",
+              "displayName": "View to purchase"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Price Bands"
+                  }
+                },
+                "Property": "Price Band"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Items over $500 make up 55% of purchase value; conversion is highest at $100-250 (1.86%)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Purchase value (columns) and view-to-purchase rate (line) by item price'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

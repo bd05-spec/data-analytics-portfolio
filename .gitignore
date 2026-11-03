@@ -23,3 +23,9 @@ Thumbs.db
 **/cache.abf
 **/localSettings.json
 **/unappliedChanges.json
+
+# Ecommerce raw event logs (~14.7 GB) - never commit; build_summaries.py reads them
+Ecommerce/raw_unedited/*.csv
+**/2019-Oct.csv
+**/2019-Nov.csv
+Ecommerce/data/_work/

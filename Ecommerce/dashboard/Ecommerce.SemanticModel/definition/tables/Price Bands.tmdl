@@ -1,0 +1,68 @@
+/// Events by item price band, whole period.
+table 'Price Bands'
+	lineageTag: 70365d30-22d4-41da-b8f7-cbbdc9208a5d
+
+	/// Purchase value (sum of item prices) in the price band.
+	measure 'Band Purchase Value' = SUM ( 'Price Bands'[Band Value] )
+		formatString: $#,##0
+		lineageTag: d0e4fc01-7217-4ca7-a867-25867a6a67f9
+
+	/// Purchase events / view events in the price band.
+	measure 'Band View to Purchase Rate' = DIVIDE ( SUM ( 'Price Bands'[Band Purchases] ), SUM ( 'Price Bands'[Band Views] ) )
+		formatString: 0.00%
+		lineageTag: 79ffab71-e334-4bb9-97fb-42ff89f80097
+
+	/// Price band's share of total purchase value.
+	measure 'Band Share of Value' = DIVIDE ( [Band Purchase Value], CALCULATE ( [Band Purchase Value], ALL ( 'Price Bands' ) ) )
+		formatString: 0.0%
+		lineageTag: 7dc4fa2e-6c66-4721-93a4-9589f7d4d267
+
+	column 'Band Order'
+		dataType: int64
+		isHidden
+		lineageTag: 1772df01-1a41-4bbc-8365-df14f1a50ca7
+		summarizeBy: none
+		sourceColumn: band_order
+
+	column 'Price Band'
+		dataType: string
+		lineageTag: 85653237-3e68-4aa3-9fad-c3e2c54d87f1
+		sourceColumn: price_band
+		sortByColumn: 'Band Order'
+
+	column 'Band Views'
+		dataType: int64
+		isHidden
+		lineageTag: e7af8401-bec2-46cd-80d2-bb9321da5dcb
+		sourceColumn: views
+
+	column 'Band Carts'
+		dataType: int64
+		isHidden
+		lineageTag: 8feb5c62-516d-4f2d-9f5d-aea39772afe9
+		sourceColumn: carts
+
+	column 'Band Purchases'
+		dataType: int64
+		isHidden
+		lineageTag: 027a0d3f-9e14-4a5b-b5bc-67eadced5b1a
+		sourceColumn: purchases
+
+	column 'Band Value'
+		dataType: decimal
+		isHidden
+		lineageTag: 56dd73bb-0e4b-4665-8b38-bca4df516297
+		sourceColumn: purchase_value
+
+	partition 'Price Bands' = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/price_bands.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"band_order", Int64.Type}, {"views", Int64.Type}, {"carts", Int64.Type}, {"purchases", Int64.Type}, {"purchase_value", Currency.Type}}, "en-US")
+				in
+				    Typed
+

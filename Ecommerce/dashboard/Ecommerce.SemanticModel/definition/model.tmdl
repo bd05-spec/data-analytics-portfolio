@@ -1,0 +1,21 @@
+model Ecommerce
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_ProTooling = ["MCP-PBIModeling"]
+
+ref table Date
+ref table Category
+ref table 'Daily Activity'
+ref table 'Monthly Totals'
+ref table 'Hourly Activity'
+ref table 'Price Bands'
+ref table 'Funnel Stage'
+
+ref cultureInfo en-US
+

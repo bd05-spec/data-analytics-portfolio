@@ -1,0 +1,21 @@
+/// The three funnel steps, used to draw the funnel.
+table 'Funnel Stage'
+	lineageTag: 785dfbed-1873-4157-99fe-3c2a4831df0d
+
+	column Stage
+		dataType: string
+		lineageTag: bf00c280-e548-49e4-8d38-7238b34912e3
+		sourceColumn: Stage
+		sortByColumn: 'Stage Order'
+
+	column 'Stage Order'
+		dataType: int64
+		isHidden
+		lineageTag: 1a012795-6ded-44f2-bade-5d36bf75877f
+		summarizeBy: none
+		sourceColumn: Stage Order
+
+	partition 'Funnel Stage' = m
+		mode: import
+		source = #table(type table [Stage = text, Stage Order = Int64.Type], {{"Viewed a product", 1}, {"Added to cart", 2}, {"Purchased", 3}})
+
