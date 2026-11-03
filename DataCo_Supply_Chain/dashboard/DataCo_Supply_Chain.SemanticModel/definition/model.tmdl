@@ -13,4 +13,5 @@ ref table 'Order Items'
 ref table Date
 ref table 'Shipping Mode'
 ref table Category
+ref table 'Promise Buffer'
 

@@ -62,6 +62,43 @@ table 'Order Items'
 		formatString: 0.0%
 		lineageTag: 05aa24c0-bdbf-4ea6-8b66-4b59e4c429f0
 
+	/// Amber when half or more of items are late.
+	measure 'Late Bar Color' = IF ( [Late Rate] >= 0.5, "#F59E0B", "#64748B" )
+		displayFolder: Formatting
+		lineageTag: 6150a6d3-cfca-4cb2-9953-1fae50070c7e
+
+	/// Items whose shipment was not canceled.
+	measure 'Shipped Items' = CALCULATE ( [Items], 'Order Items'[Delivery Status] <> "Shipping canceled" )
+		formatString: #,##0
+		lineageTag: ab7a7bf6-4b9c-4416-a119-9b97128bd55f
+
+	/// Shipped items that would still be late if every promise had the selected extra days.
+	measure 'Late Items With Extra Days' =
+			VAR b = [Selected Extra Days]
+			RETURN CALCULATE ( COUNTROWS ( 'Order Items' ), 'Order Items'[Delivery Status] <> "Shipping canceled", FILTER ( 'Order Items', 'Order Items'[Days vs Promise] > b ) )
+		formatString: #,##0
+		lineageTag: ef41dc2c-a63d-4ad6-9caa-6bc407bf32c7
+
+	/// Late rate among shipped items if promises had the selected extra days. Compare with Late Rate Excluding Canceled.
+	measure 'Late Rate With Extra Days' = DIVIDE ( COALESCE ( [Late Items With Extra Days], 0 ), [Shipped Items] )
+		formatString: 0.0%
+		lineageTag: 50fa240d-57f8-47ab-8798-2467e14f1d47
+
+	/// Late items that would arrive on time under the longer promise.
+	measure 'Late Items Avoided' = [Late Items] - COALESCE ( [Late Items With Extra Days], 0 )
+		formatString: #,##0
+		lineageTag: b429557b-9a69-440a-a6ba-1b6543538d0c
+
+	/// Shortest real shipping time.
+	measure 'Fastest Actual Days' = MIN ( 'Order Items'[Days Actual] )
+		formatString: 0
+		lineageTag: 6d3b71ef-2d31-492d-9216-ad5bfc2b6923
+
+	/// Longest real shipping time.
+	measure 'Slowest Actual Days' = MAX ( 'Order Items'[Days Actual] )
+		formatString: 0
+		lineageTag: aeb5ab22-c7d6-4f6e-8fce-74cdf1f7e819
+
 	column 'Order Item Id'
 		dataType: int64
 		isHidden
@@ -155,6 +192,26 @@ table 'Order Items'
 		lineageTag: 0686e95a-74b6-4343-8c36-95c232a9ffc3
 		sourceColumn: Order Profit Per Order
 
+	/// Actual minus scheduled shipping days.
+	column 'Days vs Promise'
+		dataType: int64
+		isHidden
+		lineageTag: 6677a85d-c4e8-4536-b451-696052ad2bf2
+		summarizeBy: none
+		sourceColumn: Days vs Promise
+
+	/// Days early or late against the scheduled shipping days.
+	column 'Arrival vs Promise'
+		dataType: string
+		lineageTag: bdbce0d5-4df9-4124-a7de-c56a783983cc
+		sourceColumn: Arrival vs Promise
+		sortByColumn: 'Days vs Promise'
+
+	column Department
+		dataType: string
+		lineageTag: 7a31ed33-2077-4a16-9e8e-32ad5632cd5d
+		sourceColumn: Department Name
+
 	partition 'Order Items' = m
 		mode: import
 		source =
@@ -163,11 +220,13 @@ table 'Order Items'
 				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
 				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 1252, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-				    Kept = Table.SelectColumns(Promoted, {"Order Item Id", "Order Id", "order date (DateOrders)", "Shipping Mode", "Category Name", "Market", "Order Region", "Customer Segment", "Order Status", "Delivery Status", "Late_delivery_risk", "Days for shipping (real)", "Days for shipment (scheduled)", "Sales", "Order Profit Per Order"}),
+				    Kept = Table.SelectColumns(Promoted, {"Order Item Id", "Order Id", "order date (DateOrders)", "Shipping Mode", "Category Name", "Department Name", "Market", "Order Region", "Customer Segment", "Order Status", "Delivery Status", "Late_delivery_risk", "Days for shipping (real)", "Days for shipment (scheduled)", "Sales", "Order Profit Per Order"}),
 				    Typed = Table.TransformColumnTypes(Kept, {{"Order Item Id", Int64.Type}, {"Order Id", Int64.Type}, {"order date (DateOrders)", type datetime}, {"Late_delivery_risk", Int64.Type}, {"Days for shipping (real)", Int64.Type}, {"Days for shipment (scheduled)", Int64.Type}, {"Sales", Currency.Type}, {"Order Profit Per Order", Currency.Type}}, "en-US"),
 				    OrderDate = Table.AddColumn(Typed, "Order Date", each Date.From([#"order date (DateOrders)"]), type date),
 				    Status = Table.TransformColumns(OrderDate, {{"Order Status", each Text.Proper(Text.Replace(_, "_", " ")), type text}}),
-				    Result = Table.RemoveColumns(Status, {"order date (DateOrders)"})
+				    Diff = Table.AddColumn(Status, "Days vs Promise", each [#"Days for shipping (real)"] - [#"Days for shipment (scheduled)"], Int64.Type),
+				    DiffLabel = Table.AddColumn(Diff, "Arrival vs Promise", each let d = [Days vs Promise] in if d < 0 then Text.From(-d) & " day" & (if d < -1 then "s" else "") & " early" else if d = 0 then "On the promised day" else Text.From(d) & " day" & (if d > 1 then "s" else "") & " late", type text),
+				    Result = Table.RemoveColumns(DiffLabel, {"order date (DateOrders)"})
 				in
 				    Result
 
