@@ -1,0 +1,173 @@
+/// One row per order item (180,519), Jan 2015 - Jan 2018. Customer PII is excluded.
+table 'Order Items'
+	lineageTag: 12baaa3f-f696-4f4e-aa60-38c25bcddfbf
+
+	/// Order items (fact rows).
+	measure Items = COUNTROWS ( 'Order Items' )
+		formatString: #,##0
+		lineageTag: b0eef34a-61e6-4f19-8bfe-74a948cbb520
+
+	/// Distinct orders.
+	measure Orders = DISTINCTCOUNT ( 'Order Items'[Order Id] )
+		formatString: #,##0
+		lineageTag: ca5cd311-f22b-4708-b1e9-f97537293175
+
+	/// Average items per order.
+	measure 'Items per Order' = DIVIDE ( [Items], [Orders] )
+		formatString: 0.00
+		lineageTag: c001d07c-92c7-4eed-b911-82ecbf167044
+
+	/// Items delivered late.
+	measure 'Late Items' = SUM ( 'Order Items'[Late Flag] )
+		formatString: #,##0
+		lineageTag: 973b3a1e-7429-498b-a989-9274cc375568
+
+	/// Late items / all items, including canceled shipments.
+	measure 'Late Rate' = DIVIDE ( [Late Items], [Items] )
+		formatString: 0.0%
+		lineageTag: a699576f-e79a-4568-a53c-10ff551ff8a5
+
+	/// Late items / items whose shipment was not canceled.
+	measure 'Late Rate Excluding Canceled' = DIVIDE ( [Late Items], CALCULATE ( [Items], 'Order Items'[Delivery Status] <> "Shipping canceled" ) )
+		formatString: 0.0%
+		lineageTag: be967ce9-bb62-4980-900b-7102da98f1fb
+
+	/// Average promised shipping days.
+	measure 'Average Scheduled Days' = AVERAGE ( 'Order Items'[Days Scheduled] )
+		formatString: 0.0
+		lineageTag: b9cbf61c-53b2-414d-9293-77f2924c4709
+
+	/// Average real shipping days.
+	measure 'Average Actual Days' = AVERAGE ( 'Order Items'[Days Actual] )
+		formatString: 0.0
+		lineageTag: dc95ae20-8498-493a-affc-e830d112e30c
+
+	/// Average actual minus scheduled shipping days.
+	measure 'Average Days Over Schedule' = [Average Actual Days] - [Average Scheduled Days]
+		formatString: +0.00;-0.00;0.00
+		lineageTag: 69f774d3-2c23-4a23-a7b2-ad3cf48b595b
+
+	/// Sum of the Sales column (item price x quantity).
+	measure Sales = SUM ( 'Order Items'[Sales Amount] )
+		formatString: $#,##0
+		lineageTag: 9f143d32-cc75-4cc6-a7d4-d322f30a8be1
+
+	/// Sum of Order Profit Per Order across items.
+	measure Profit = SUM ( 'Order Items'[Profit Amount] )
+		formatString: $#,##0
+		lineageTag: f875e44b-e7d4-48eb-86c1-6f4de02d42b2
+
+	/// Profit / sales.
+	measure 'Profit Margin' = DIVIDE ( [Profit], [Sales] )
+		formatString: 0.0%
+		lineageTag: 05aa24c0-bdbf-4ea6-8b66-4b59e4c429f0
+
+	column 'Order Item Id'
+		dataType: int64
+		isHidden
+		lineageTag: 1a105c01-0abe-4934-8271-e4a49d17c41c
+		summarizeBy: none
+		sourceColumn: Order Item Id
+
+	column 'Order Id'
+		dataType: int64
+		isHidden
+		lineageTag: c7357edf-c735-47cd-a4fa-e239d9fc6391
+		summarizeBy: none
+		sourceColumn: Order Id
+
+	column 'Order Date'
+		dataType: dateTime
+		isHidden
+		lineageTag: f3e87fe1-9d77-43f0-adac-83cbaeb2b600
+		sourceColumn: Order Date
+
+	column 'Shipping Mode'
+		dataType: string
+		isHidden
+		lineageTag: 4ecbceb8-a0e1-4dfb-9f4e-2738c5db8607
+		sourceColumn: Shipping Mode
+
+	column 'Category Name'
+		dataType: string
+		isHidden
+		lineageTag: 58ccb808-5e5b-4a2f-8d2c-f4b883f03cad
+		sourceColumn: Category Name
+
+	/// Sales market: Africa, Europe, LATAM, Pacific Asia, USCA.
+	column Market
+		dataType: string
+		lineageTag: 56aa6658-1f0b-4687-b40f-fcbff3341af9
+		sourceColumn: Market
+
+	column 'Order Region'
+		dataType: string
+		lineageTag: 553040ba-da35-4f94-a630-3320ff7cf620
+		sourceColumn: Order Region
+
+	column 'Customer Segment'
+		dataType: string
+		lineageTag: c004c152-66c3-48e4-b463-5dd6fe537eed
+		sourceColumn: Customer Segment
+
+	column 'Order Status'
+		dataType: string
+		lineageTag: 615fc97f-8e2b-4b57-a177-25b3d0e024cc
+		sourceColumn: Order Status
+
+	/// Advance shipping, Shipping on time, Late delivery, or Shipping canceled.
+	column 'Delivery Status'
+		dataType: string
+		lineageTag: aea897e9-350c-4665-a215-c150c43e4c5d
+		sourceColumn: Delivery Status
+
+	/// 1 when the item was delivered late (Late_delivery_risk).
+	column 'Late Flag'
+		dataType: int64
+		isHidden
+		lineageTag: a9a13253-9507-46d9-8cf9-80e430a5b304
+		summarizeBy: none
+		sourceColumn: Late_delivery_risk
+
+	column 'Days Actual'
+		dataType: int64
+		isHidden
+		lineageTag: db4742b9-d6c9-4e40-b814-d9a0b3321cc8
+		summarizeBy: none
+		sourceColumn: Days for shipping (real)
+
+	column 'Days Scheduled'
+		dataType: int64
+		isHidden
+		lineageTag: 4eeffabb-641b-450b-b2e8-5366b6646fe3
+		summarizeBy: none
+		sourceColumn: Days for shipment (scheduled)
+
+	column 'Sales Amount'
+		dataType: decimal
+		isHidden
+		lineageTag: b9f43396-5597-4488-b07c-61d0782fed68
+		sourceColumn: Sales
+
+	column 'Profit Amount'
+		dataType: decimal
+		isHidden
+		lineageTag: 0686e95a-74b6-4343-8c36-95c232a9ffc3
+		sourceColumn: Order Profit Per Order
+
+	partition 'Order Items' = m
+		mode: import
+		source =
+				let
+				    Path = "DataCo_Supply_Chain/data/cleaned/DataCo_Supply_Chain_cleaned_data.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 1252, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Promoted, {"Order Item Id", "Order Id", "order date (DateOrders)", "Shipping Mode", "Category Name", "Market", "Order Region", "Customer Segment", "Order Status", "Delivery Status", "Late_delivery_risk", "Days for shipping (real)", "Days for shipment (scheduled)", "Sales", "Order Profit Per Order"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"Order Item Id", Int64.Type}, {"Order Id", Int64.Type}, {"order date (DateOrders)", type datetime}, {"Late_delivery_risk", Int64.Type}, {"Days for shipping (real)", Int64.Type}, {"Days for shipment (scheduled)", Int64.Type}, {"Sales", Currency.Type}, {"Order Profit Per Order", Currency.Type}}, "en-US"),
+				    OrderDate = Table.AddColumn(Typed, "Order Date", each Date.From([#"order date (DateOrders)"]), type date),
+				    Status = Table.TransformColumns(OrderDate, {{"Order Status", each Text.Proper(Text.Replace(_, "_", " ")), type text}}),
+				    Result = Table.RemoveColumns(Status, {"order date (DateOrders)"})
+				in
+				    Result
+

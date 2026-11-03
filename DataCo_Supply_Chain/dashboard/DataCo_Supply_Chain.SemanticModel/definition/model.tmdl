@@ -1,0 +1,16 @@
+model DataCo_Supply_Chain
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_ProTooling = ["MCP-PBIModeling"]
+
+ref table 'Order Items'
+ref table Date
+ref table 'Shipping Mode'
+ref table Category
+

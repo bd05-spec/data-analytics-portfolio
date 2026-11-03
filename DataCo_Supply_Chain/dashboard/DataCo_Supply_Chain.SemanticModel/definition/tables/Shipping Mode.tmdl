@@ -1,0 +1,22 @@
+/// Shipping class, ordered from fastest to slowest promise.
+table 'Shipping Mode'
+	lineageTag: 17a30e13-8363-4a82-9f9f-7feb361f9d7e
+
+	column 'Shipping Mode'
+		dataType: string
+		isKey
+		lineageTag: 19c3a6fd-b821-4029-b693-aa95e5c1709c
+		sourceColumn: Shipping Mode
+		sortByColumn: 'Speed Order'
+
+	column 'Speed Order'
+		dataType: int64
+		isHidden
+		lineageTag: ee971758-1af6-4afc-9bd8-91780c0a5cad
+		summarizeBy: none
+		sourceColumn: Speed Order
+
+	partition 'Shipping Mode' = m
+		mode: import
+		source = #table(type table [Shipping Mode = text, Speed Order = Int64.Type], {{"Same Day", 1}, {"First Class", 2}, {"Second Class", 3}, {"Standard Class", 4}})
+

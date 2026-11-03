@@ -1,0 +1,12 @@
+relationship 'Order Items_Order Date_Date_Date'
+	fromColumn: 'Order Items'.'Order Date'
+	toColumn: Date.Date
+
+relationship 'Order Items_Shipping Mode_Shipping Mode_Shipping Mode'
+	fromColumn: 'Order Items'.'Shipping Mode'
+	toColumn: 'Shipping Mode'.'Shipping Mode'
+
+relationship 'Order Items_Category Name_Category_Category'
+	fromColumn: 'Order Items'.'Category Name'
+	toColumn: Category.Category
+

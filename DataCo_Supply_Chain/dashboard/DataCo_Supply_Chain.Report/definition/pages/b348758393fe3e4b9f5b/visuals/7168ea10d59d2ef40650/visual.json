@@ -1,0 +1,179 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "7168ea10d59d2ef40650",
+  "position": {
+    "x": 438,
+    "y": 200,
+    "z": 6000,
+    "height": 244,
+    "width": 402,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shipping Mode"
+                    }
+                  },
+                  "Property": "Shipping Mode"
+                }
+              },
+              "queryRef": "Shipping Mode.Shipping Mode",
+              "nativeQueryRef": "Shipping Mode"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order Items"
+                    }
+                  },
+                  "Property": "Average Scheduled Days"
+                }
+              },
+              "queryRef": "Order Items.Average Scheduled Days",
+              "nativeQueryRef": "Average Scheduled Days",
+              "displayName": "Scheduled days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Order Items"
+                    }
+                  },
+                  "Property": "Average Actual Days"
+                }
+              },
+              "queryRef": "Order Items.Average Actual Days",
+              "nativeQueryRef": "Average Actual Days",
+              "displayName": "Actual days"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Shipping Mode"
+                  }
+                },
+                "Property": "Shipping Mode"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'First and Second Class take twice their promised days (1 to 2, 2 to 4)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average scheduled vs actual shipping days'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

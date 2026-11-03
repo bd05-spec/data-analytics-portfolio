@@ -1,0 +1,22 @@
+/// Product category.
+table Category
+	lineageTag: a4ddff54-e3d6-44f7-b828-6773f5fb9520
+
+	column Category
+		dataType: string
+		isKey
+		lineageTag: 17284296-16b2-40aa-a60c-5cb948cc2970
+		sourceColumn: Category Name
+
+	partition Category = m
+		mode: import
+		source =
+				let
+				    Path = "DataCo_Supply_Chain/data/cleaned/DataCo_Supply_Chain_cleaned_data.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 1252, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Cats = Table.Distinct(Table.SelectColumns(Promoted, {"Category Name"}))
+				in
+				    Cats
+
