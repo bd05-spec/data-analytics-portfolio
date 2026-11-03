@@ -1,0 +1,20 @@
+/// What-if: share of the gap to the best question on the same answer scale that a question closes.
+table 'Gap Closed'
+	lineageTag: 8486f18f-6efa-4183-8c86-b7123a23bf6b
+
+	/// Scenario input; defaults to 50%.
+	measure 'Selected Gap Closed' = SELECTEDVALUE ( 'Gap Closed'[Gap Closed], 0.5 )
+		formatString: 0%
+		lineageTag: 43f3925f-21c5-4c8d-8f5d-2eeb4d32e0a1
+
+	column 'Gap Closed'
+		dataType: decimal
+		formatString: 0%
+		lineageTag: 8abe9bbc-4754-425d-ad44-34e3960e9c1b
+		summarizeBy: none
+		sourceColumn: Gap Closed
+
+	partition 'Gap Closed' = m
+		mode: import
+		source = Table.TransformColumnTypes(Table.FromList(List.Transform({1..10}, each _ / 10), Splitter.SplitByNothing(), {"Gap Closed"}), {{"Gap Closed", Currency.Type}})
+

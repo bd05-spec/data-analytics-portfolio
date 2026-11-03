@@ -75,6 +75,13 @@
                   "Value": "22D"
                 }
               }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           },
           "selector": {

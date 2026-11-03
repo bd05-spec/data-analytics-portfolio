@@ -10,6 +10,7 @@ model CMS_HCAHPS_National
 annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table 'Patient Experience'
+ref table 'Gap Closed'
 
 ref cultureInfo en-US
 

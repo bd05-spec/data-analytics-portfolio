@@ -27,6 +27,33 @@ table 'Patient Experience'
 		formatString: 0%
 		lineageTag: ca314749-758b-4ca1-bd9c-93916cd4e5ac
 
+	/// Share of patients giving the worst answer (Sometimes or never, No, 0-6, or would not recommend).
+	measure 'Bottom-Box Score' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ), 'Patient Experience'[Response Level] = "Bottom box" ) )
+		formatString: 0%
+		lineageTag: 93a30b9a-01dd-438f-b104-1046d03a5e6d
+
+	/// Highest top-box score among single questions that share this question's answer scale.
+	measure 'Best Top-Box on Same Scale' =
+			VAR s = SELECTEDVALUE ( 'Patient Experience'[Answer Scale] )
+			RETURN CALCULATE ( MAXX ( VALUES ( 'Patient Experience'[Question] ), [Top-Box Score] ), REMOVEFILTERS ( 'Patient Experience' ), 'Patient Experience'[Answer Scale] = s, 'Patient Experience'[Measure Type] = "Single question" )
+		formatString: 0%
+		lineageTag: 0c166511-b34c-405c-aaf1-26633ee5c349
+
+	/// Top-box points between this question and the best single question on the same scale.
+	measure 'Gap to Best on Scale' = IF ( HASONEVALUE ( 'Patient Experience'[Question] ), [Best Top-Box on Same Scale] - [Top-Box Score] )
+		formatString: 0%
+		lineageTag: b0418306-3592-4770-8c23-827cafa8b9fa
+
+	/// Scenario: patients out of every 100 who would give the best answer if the question closed the selected share of its gap to the best question on its scale.
+	measure 'Patients Moved to Top Box per 100' = [Gap to Best on Scale] * [Selected Gap Closed] * 100
+		formatString: 0.0
+		lineageTag: c7de1359-1e1d-4fa2-b625-f292a9b6964b
+
+	/// Terracotta when 10% or more give the worst answer.
+	measure 'Bottom Box Bar Color' = IF ( [Bottom-Box Score] >= 0.10, "#B5523B", "#9AA5B1" )
+		displayFolder: Formatting
+		lineageTag: f3851ab4-6e38-47bd-a968-c623dfbde75e
+
 	/// CMS question group code, e.g. H_COMP_1.
 	column 'Question Code'
 		dataType: string
