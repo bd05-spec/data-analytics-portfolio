@@ -1,10 +1,10 @@
 DATASET: Kaggle - mkechinov/ecommerce-behavior-data-from-multi-category-store (version 8)
-STATUS : NOT PROCESSED - raw files only.
+STATUS : PROCESSED - Ecommerce/scripts/build_summaries.py aggregates both raw files into data/summary/.
+         The raw CSVs (about 14.7 GB) are not stored in Git.
 
-WHY NOT PROCESSED
-The download completed successfully, but the analysis was deliberately not started
-because the instruction was to finish only the already-completed projects and not to
-begin new ones.
+HOW IT IS PROCESSED
+Run Ecommerce/scripts/build_summaries.py --raw-dir <this folder>. It streams both files
+through DuckDB and writes the small summary CSVs the Power BI project reads.
 
 FILES (raw, unedited, in raw_unedited\)
   2019-Oct.csv  ~5.67 GB

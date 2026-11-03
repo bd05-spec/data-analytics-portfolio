@@ -2,6 +2,16 @@
 
 I worked with the national roll-up of the HCAHPS hospital-experience survey, covering the October 2024 to September 2025 reporting window. 51 rows, one per measure. No hospitals, no regions, no time series — just the national number for each question. So I treated it as what it is: a benchmarking snapshot, and focused on getting the comparisons right.
 
+## The dashboard
+
+Two pages answering "where is patient experience weakest?":
+
+* **Scorecard** - all 18 question groups ranked by top-box share in a 100% stacked bar, plus a scale check: Yes/No questions score highest (86% on average), so I compare within a scale first. The reconciliation check moved to a footnote.
+* **Priorities** - each single question's gap to the best question on the same answer scale (side effects trails courtesy by 37 points, quiet at night by 26), the worst-answer ranking (29% say side effects were sometimes or never explained), and a slider showing how many patients per 100 would move to the best answer.
+
+![Scorecard](visuals/dashboard_scorecard.png)
+![Priorities](visuals/dashboard_priorities.png)
+
 ## What the raw file gave me — and what it didn't
 
 The export is 51 rows by 7 columns. Every row is one national answer percentage for one survey item. Response tiers (Always / Usually / Sometimes-Never, or Yes / No) live inside the measure IDs; I had to parse them out before any grouping made sense.
@@ -46,5 +56,6 @@ And the reconciliation plot, because I don't trust a summary I can't reconcile �
 * [`data/cleaned/`](data/cleaned/) — cleaned CSV/XLSX plus the reconciliation table.
 * [`notebooks/CMS_HCAHPS_National_analysis.ipynb`](notebooks/CMS_HCAHPS_National_analysis.ipynb) — the actual cleaning and checks.
 * [`sql/CMS_HCAHPS_National.sql`](sql/CMS_HCAHPS_National.sql) — DDL plus the validation queries.
-* [`dashboard/CMS_HCAHPS_National.pbix`](dashboard/CMS_HCAHPS_National.pbix) — standalone report with the processed 51-row dataset embedded; it opens without SQL Server or the raw export. Refreshing the report may require updating its processed-file location in Power Query.
+* [`dashboard/CMS_HCAHPS_National.pbip`](dashboard/CMS_HCAHPS_National.pbip) — Power BI project (PBIR report + TMDL model) reading the cleaned CSV through a `DataRoot` parameter. Two pages: Scorecard and Priorities.
+* [`dashboard/CMS_HCAHPS_National.pbix`](dashboard/CMS_HCAHPS_National.pbix) — standalone copy for download.
 * [`visuals/`](visuals/) — the two charts above.
