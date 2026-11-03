@@ -1,0 +1,159 @@
+/// One row per employee (1,470) in IBM's fictional HR attrition dataset. A snapshot: no hire or exit dates.
+table Employees
+	lineageTag: 8558e39e-bc68-4c79-858a-b2afcbcd36e4
+
+	/// Employees in context.
+	measure Headcount = COUNTROWS ( Employees )
+		formatString: #,##0
+		lineageTag: 8342aa1b-0b9a-4aae-bf5e-8d5675fd5496
+
+	/// Employees who left.
+	measure Leavers = SUM ( Employees[Attrition Flag] )
+		formatString: #,##0
+		lineageTag: 79f355a4-d4bd-40b8-b7cf-390773abff52
+
+	/// Leavers / headcount. An association, not a cause.
+	measure 'Attrition Rate' = DIVIDE ( [Leavers], [Headcount] )
+		formatString: 0.0%
+		lineageTag: c8101bb9-2f2b-493e-adb2-87824de58259
+
+	/// Median monthly income of employees who left.
+	measure 'Median Income of Leavers' = CALCULATE ( MEDIAN ( Employees[Monthly Income] ), Employees[Attrition Flag] = 1 )
+		formatString: $#,##0
+		lineageTag: c04e7f2a-29b9-4af8-9327-f3d7180f0b13
+
+	/// Median monthly income of employees who stayed.
+	measure 'Median Income of Stayers' = CALCULATE ( MEDIAN ( Employees[Monthly Income] ), Employees[Attrition Flag] = 0 )
+		formatString: $#,##0
+		lineageTag: 202f294d-645f-4f9b-b0db-f6e902ee8c2c
+
+	column 'Employee Number'
+		dataType: int64
+		isHidden
+		lineageTag: 20c9d330-727c-4876-a584-275ad3ec7d6f
+		summarizeBy: none
+		sourceColumn: EmployeeNumber
+
+	column Department
+		dataType: string
+		lineageTag: e42e572f-c7ea-4508-ae4b-8efa39f500aa
+		sourceColumn: Department
+
+	column 'Job Role'
+		dataType: string
+		lineageTag: 9a66c3e1-44a8-4483-8f76-ed3efa03b7e7
+		sourceColumn: JobRole
+
+	/// Level 1 (entry) to Level 5 (most senior).
+	column 'Job Level'
+		dataType: string
+		lineageTag: facfd6ac-e563-427f-9af3-f6a5b83487e7
+		sourceColumn: Job Level
+		sortByColumn: 'Job Level Number'
+
+	column 'Job Level Number'
+		dataType: int64
+		isHidden
+		lineageTag: 0719d7b3-208d-40f8-b9f4-5859fe6a3a67
+		summarizeBy: none
+		sourceColumn: JobLevel
+
+	/// Whether the employee works overtime.
+	column Overtime
+		dataType: string
+		lineageTag: c0ef202d-fbcd-40a1-8a57-112ff85db83b
+		sourceColumn: Overtime
+
+	/// Years at the company, grouped.
+	column 'Tenure Band'
+		dataType: string
+		lineageTag: 6fd294f8-338e-4d76-99e1-ff6d19c384ae
+		sourceColumn: Tenure Band
+		sortByColumn: 'Tenure Band Order'
+
+	column 'Tenure Band Order'
+		dataType: int64
+		isHidden
+		lineageTag: 8340074c-ccbd-4fdc-914f-92d526157f8d
+		summarizeBy: none
+		sourceColumn: Tenure Band Order
+
+	column 'Years at Company'
+		dataType: int64
+		isHidden
+		lineageTag: 0226ccd5-0e5f-4a2c-a93c-9bc45d784ab0
+		summarizeBy: none
+		sourceColumn: YearsAtCompany
+
+	/// Monthly income, grouped.
+	column 'Income Band'
+		dataType: string
+		lineageTag: 652ef035-e209-434e-a1f9-44e4a867a2ee
+		sourceColumn: Income Band
+		sortByColumn: 'Income Band Order'
+
+	column 'Income Band Order'
+		dataType: int64
+		isHidden
+		lineageTag: 3daa23f1-baa3-4a98-81d0-e41ec1933c0b
+		summarizeBy: none
+		sourceColumn: Income Band Order
+
+	column 'Monthly Income'
+		dataType: int64
+		isHidden
+		formatString: $#,##0
+		lineageTag: 56c190e1-442f-4d1c-859d-a124ad54bb54
+		summarizeBy: none
+		sourceColumn: MonthlyIncome
+
+	column 'Business Travel'
+		dataType: string
+		lineageTag: a1959055-2173-4a92-bc36-22d86cc6606a
+		sourceColumn: Business Travel
+
+	column 'Marital Status'
+		dataType: string
+		lineageTag: 6afe0dc3-dd20-4798-917b-04644ce5086d
+		sourceColumn: MaritalStatus
+
+	column Gender
+		dataType: string
+		lineageTag: 387b00db-3df0-4a64-8e88-a975bcdfa483
+		sourceColumn: Gender
+
+	/// Left or Stayed.
+	column Status
+		dataType: string
+		lineageTag: a7409fe6-6426-4a8c-994f-788e6328387d
+		sourceColumn: Status
+
+	column 'Attrition Flag'
+		dataType: int64
+		isHidden
+		lineageTag: 5ac23969-87e1-465f-8087-e9c64d70a1a3
+		summarizeBy: none
+		sourceColumn: Attrition Flag
+
+	partition Employees = m
+		mode: import
+		source =
+				let
+				    Path = "IBM_HR_Attrition/data/cleaned/IBM_HR_Attrition_cleaned_data.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Columns = 35, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"EmployeeNumber", Int64.Type}, {"JobLevel", Int64.Type}, {"MonthlyIncome", Int64.Type}, {"YearsAtCompany", Int64.Type}, {"Age", Int64.Type}}, "en-US"),
+				    Level = Table.AddColumn(Typed, "Job Level", each "Level " & Text.From([JobLevel]), type text),
+				    OT = Table.AddColumn(Level, "Overtime", each if [OverTime] = "Yes" then "Works overtime" else "No overtime", type text),
+				    Tenure = Table.AddColumn(OT, "Tenure Band", each let y = [YearsAtCompany] in if y <= 1 then "1 year or less" else if y <= 3 then "2-3 years" else if y <= 5 then "4-5 years" else if y <= 10 then "6-10 years" else "11+ years", type text),
+				    TenureOrder = Table.AddColumn(Tenure, "Tenure Band Order", each let y = [YearsAtCompany] in if y <= 1 then 1 else if y <= 3 then 2 else if y <= 5 then 3 else if y <= 10 then 4 else 5, Int64.Type),
+				    Income = Table.AddColumn(TenureOrder, "Income Band", each let m = [MonthlyIncome] in if m < 3000 then "Under $3K" else if m < 5000 then "$3K-5K" else if m < 10000 then "$5K-10K" else "$10K+", type text),
+				    IncomeOrder = Table.AddColumn(Income, "Income Band Order", each let m = [MonthlyIncome] in if m < 3000 then 1 else if m < 5000 then 2 else if m < 10000 then 3 else 4, Int64.Type),
+				    Travel = Table.AddColumn(IncomeOrder, "Business Travel", each if [BusinessTravel] = "Travel_Frequently" then "Travels frequently" else if [BusinessTravel] = "Travel_Rarely" then "Travels rarely" else "No travel", type text),
+				    Status = Table.AddColumn(Travel, "Status", each if [Attrition] = "Yes" then "Left" else "Stayed", type text),
+				    Flag = Table.AddColumn(Status, "Attrition Flag", each if [Attrition] = "Yes" then 1 else 0, Int64.Type),
+				    Result = Table.SelectColumns(Flag, {"EmployeeNumber", "Department", "JobRole", "Job Level", "JobLevel", "Overtime", "Tenure Band", "Tenure Band Order", "YearsAtCompany", "Income Band", "Income Band Order", "MonthlyIncome", "Business Travel", "MaritalStatus", "Gender", "Status", "Attrition Flag"})
+				in
+				    Result
+
