@@ -27,11 +27,6 @@ table Customers
 		formatString: 0.0%
 		lineageTag: 2880219d-605a-4bdc-b135-3cade97ae878
 
-	/// Average current monthly charge.
-	measure 'Average Monthly Charge' = AVERAGE ( Customers[Monthly Charges] )
-		formatString: $#,##0.00
-		lineageTag: 7c1c5b1c-c831-46ef-b38c-447688018a48
-
 	column 'Customer ID'
 		dataType: string
 		isHidden

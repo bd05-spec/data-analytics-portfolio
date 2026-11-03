@@ -7,11 +7,6 @@ table 'Patient Experience'
 		formatString: 0%
 		lineageTag: 090c885f-dbe6-497e-aa61-cafd6476f088
 
-	/// Share of patients giving the worst answer (Sometimes or never, No, 0-6, or would not recommend).
-	measure 'Bottom-Box Score' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ), 'Patient Experience'[Response Level] = "Bottom box" ) )
-		formatString: 0%
-		lineageTag: 4c973270-40e6-4552-9dbe-c9d48a848af5
-
 	/// Share of patients giving the answers in context, averaged across questions.
 	measure 'Share of Responses' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ) ) )
 		formatString: 0%
@@ -27,19 +22,10 @@ table 'Patient Experience'
 		formatString: 0%
 		lineageTag: 70cd8312-0d0f-482d-9a51-2a019a74c643
 
-	/// Strongest top-box score among the questions in context.
-	measure 'Highest Top-Box Score' = MAXX ( VALUES ( 'Patient Experience'[Question] ), [Top-Box Score] )
-		formatString: 0%
-		lineageTag: d50d8238-a7d6-47fb-8e0d-f78dea398e2c
-
 	/// Share of patients rating the hospital 9 or 10 out of 10.
 	measure 'Hospital Rated 9 or 10' = CALCULATE ( [Top-Box Score], 'Patient Experience'[Question Code] = "H_HSP_RATING" )
 		formatString: 0%
 		lineageTag: ca314749-758b-4ca1-bd9c-93916cd4e5ac
-
-	/// Name of the question with the lowest top-box score in context.
-	measure 'Weakest Question' = CONCATENATEX ( TOPN ( 1, VALUES ( 'Patient Experience'[Question] ), [Top-Box Score], ASC ), 'Patient Experience'[Question], ", " )
-		lineageTag: f2b3c483-2ddb-44ba-9283-6ce9c81ddc44
 
 	/// CMS question group code, e.g. H_COMP_1.
 	column 'Question Code'

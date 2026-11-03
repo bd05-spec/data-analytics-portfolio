@@ -12,11 +12,6 @@ table 'Price Bands'
 		formatString: 0.00%
 		lineageTag: 79ffab71-e334-4bb9-97fb-42ff89f80097
 
-	/// Price band's share of total purchase value.
-	measure 'Band Share of Value' = DIVIDE ( [Band Purchase Value], CALCULATE ( [Band Purchase Value], ALL ( 'Price Bands' ) ) )
-		formatString: 0.0%
-		lineageTag: 7dc4fa2e-6c66-4721-93a4-9589f7d4d267
-
 	column 'Band Order'
 		dataType: int64
 		isHidden

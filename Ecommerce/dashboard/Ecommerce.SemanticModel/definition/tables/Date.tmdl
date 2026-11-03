@@ -1,9 +1,11 @@
 /// One row per day, 1 Oct - 30 Nov 2019 (UTC).
 table Date
 	lineageTag: 3ff6de9c-b5c0-40fa-9116-d1be0f003a3a
+	dataCategory: Time
 
 	column Date
 		dataType: dateTime
+		isUnique
 		isKey
 		formatString: d mmm yyyy
 		lineageTag: a12ca016-f678-4e37-89f3-b161e2464e72

@@ -1,9 +1,11 @@
 /// Calendar, 1 Jan 2015 - 31 Jan 2018, with a data-completeness note per quarter.
 table Date
 	lineageTag: a51d09a9-0030-4874-bcdd-817bbc9959cd
+	dataCategory: Time
 
 	column Date
 		dataType: dateTime
+		isUnique
 		isKey
 		formatString: d mmm yyyy
 		lineageTag: 64054615-df7a-46dd-8a2c-a8b9cea1d7e8
