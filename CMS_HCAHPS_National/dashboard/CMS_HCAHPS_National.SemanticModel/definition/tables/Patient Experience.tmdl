@@ -1,0 +1,154 @@
+/// One row per published HCAHPS answer option for the U.S. national average, Oct 2024 - Sep 2025. 18 question groups, 51 rows. No hospital-level or trend data.
+table 'Patient Experience'
+	lineageTag: e0696e08-7e1d-4806-becc-f9f8dd3cdc9a
+
+	/// Share of patients giving the best answer (Always, Yes, 9-10, or Definitely recommend). Averaged across questions when more than one is in context.
+	measure 'Top-Box Score' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ), 'Patient Experience'[Response Level] = "Top box" ) )
+		formatString: 0%
+		lineageTag: 090c885f-dbe6-497e-aa61-cafd6476f088
+
+	/// Share of patients giving the worst answer (Sometimes or never, No, 0-6, or would not recommend).
+	measure 'Bottom-Box Score' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ), 'Patient Experience'[Response Level] = "Bottom box" ) )
+		formatString: 0%
+		lineageTag: 4c973270-40e6-4552-9dbe-c9d48a848af5
+
+	/// Share of patients giving the answers in context, averaged across questions.
+	measure 'Share of Responses' = AVERAGEX ( VALUES ( 'Patient Experience'[Question Code] ), CALCULATE ( SUM ( 'Patient Experience'[Share] ) ) )
+		formatString: 0%
+		lineageTag: c0aaeb55-f50a-4ba0-a278-7413ce059484
+
+	/// Number of CMS question groups (18 = 4 summaries + 14 single questions).
+	measure 'Questions Scored' = DISTINCTCOUNT ( 'Patient Experience'[Question Code] )
+		formatString: #,##0
+		lineageTag: 27d4ed81-8eef-4376-be4e-4075565f9eea
+
+	/// Weakest top-box score among the questions in context.
+	measure 'Lowest Top-Box Score' = MINX ( VALUES ( 'Patient Experience'[Question] ), [Top-Box Score] )
+		formatString: 0%
+		lineageTag: 70cd8312-0d0f-482d-9a51-2a019a74c643
+
+	/// Strongest top-box score among the questions in context.
+	measure 'Highest Top-Box Score' = MAXX ( VALUES ( 'Patient Experience'[Question] ), [Top-Box Score] )
+		formatString: 0%
+		lineageTag: d50d8238-a7d6-47fb-8e0d-f78dea398e2c
+
+	/// Share of patients rating the hospital 9 or 10 out of 10.
+	measure 'Hospital Rated 9 or 10' = CALCULATE ( [Top-Box Score], 'Patient Experience'[Question Code] = "H_HSP_RATING" )
+		formatString: 0%
+		lineageTag: ca314749-758b-4ca1-bd9c-93916cd4e5ac
+
+	/// Name of the question with the lowest top-box score in context.
+	measure 'Weakest Question' = CONCATENATEX ( TOPN ( 1, VALUES ( 'Patient Experience'[Question] ), [Top-Box Score], ASC ), 'Patient Experience'[Question], ", " )
+		lineageTag: f2b3c483-2ddb-44ba-9283-6ce9c81ddc44
+
+	/// CMS question group code, e.g. H_COMP_1.
+	column 'Question Code'
+		dataType: string
+		isHidden
+		lineageTag: cb8e7739-e53a-4aa4-b876-76862657e871
+		sourceColumn: question_group
+
+	/// Plain-English question name. '(summary)' rows are CMS composites that average the single questions under them.
+	column Question
+		dataType: string
+		lineageTag: 11990c1b-cd1e-4a89-86b2-d92a5536fab6
+		sourceColumn: Question
+
+	/// Area of care the question belongs to.
+	column Topic
+		dataType: string
+		lineageTag: 7e0af0b5-78bb-4a16-8208-3457e8fce393
+		sourceColumn: Topic
+
+	/// Summary of questions (CMS composite) or a single question.
+	column 'Measure Type'
+		dataType: string
+		lineageTag: c872a54b-90ef-4aff-86e2-e9a0f0dc9a05
+		sourceColumn: Measure Type
+
+	/// Answer options for the question. Scales differ, so top-box scores are only loosely comparable across scales.
+	column 'Answer Scale'
+		dataType: string
+		lineageTag: 1d6a2deb-08cd-43f3-9740-18c917b612ee
+		sourceColumn: Answer Scale
+
+	/// Top box (best answer), Middle, or Bottom box. Yes/No questions have no middle answer.
+	column 'Response Level'
+		dataType: string
+		lineageTag: 28a20596-4c98-4fdd-b35d-1174f8a550ee
+		sourceColumn: Response Level
+		sortByColumn: 'Response Level Order'
+
+	column 'Response Level Order'
+		dataType: int64
+		isHidden
+		lineageTag: fa2907fb-7c33-47e7-a449-94a76a85b072
+		summarizeBy: none
+		sourceColumn: Response Level Order
+
+	/// The published answer option.
+	column Answer
+		dataType: string
+		lineageTag: ee97670f-31ce-4d15-bd31-7d9141363d22
+		sourceColumn: Answer
+
+	/// Share of patients giving this answer (published percent / 100).
+	column Share
+		dataType: decimal
+		isHidden
+		formatString: 0%
+		lineageTag: bb7a5e14-e17b-4871-9a49-b22b3a6266a3
+		summarizeBy: none
+		sourceColumn: Share
+
+	partition 'Patient Experience' = m
+		mode: import
+		source =
+				let
+				    Path = "CMS_HCAHPS_National/data/cleaned/CMS_HCAHPS_National_cleaned_data.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"hcahps_answer_percent", Int64.Type}}),
+				    A = "Always / usually / never", YN = "Yes / no", R = "Rating 0-10", D = "Recommend",
+				    Lookup = #table(
+				        {"question_group", "Question", "Topic", "Measure Type", "Answer Scale"},
+				        {
+				            {"H_COMP_1", "Nurse communication (summary)", "Nurses", "Summary of questions", A},
+				            {"H_NURSE_RESPECT", "Nurses treated patients with courtesy and respect", "Nurses", "Single question", A},
+				            {"H_NURSE_LISTEN", "Nurses listened carefully", "Nurses", "Single question", A},
+				            {"H_NURSE_EXPLAIN", "Nurses explained things clearly", "Nurses", "Single question", A},
+				            {"H_COMP_2", "Doctor communication (summary)", "Doctors", "Summary of questions", A},
+				            {"H_DOCTOR_RESPECT", "Doctors treated patients with courtesy and respect", "Doctors", "Single question", A},
+				            {"H_DOCTOR_LISTEN", "Doctors listened carefully", "Doctors", "Single question", A},
+				            {"H_DOCTOR_EXPLAIN", "Doctors explained things clearly", "Doctors", "Single question", A},
+				            {"H_COMP_5", "Communication about medicines (summary)", "Medicines", "Summary of questions", A},
+				            {"H_MED_FOR", "Staff explained what a new medicine was for", "Medicines", "Single question", A},
+				            {"H_SIDE_EFFECTS", "Staff explained possible side effects", "Medicines", "Single question", A},
+				            {"H_COMP_6", "Discharge information (summary)", "Discharge", "Summary of questions", YN},
+				            {"H_DISCH_HELP", "Staff discussed help needed after discharge", "Discharge", "Single question", YN},
+				            {"H_SYMPTOMS", "Staff explained symptoms to watch for", "Discharge", "Single question", YN},
+				            {"H_CLEAN_HSP", "Room and bathroom kept clean", "Hospital environment", "Single question", A},
+				            {"H_QUIET_HSP", "Area around room quiet at night", "Hospital environment", "Single question", A},
+				            {"H_HSP_RATING", "Overall hospital rating", "Overall", "Single question", R},
+				            {"H_RECMND", "Would recommend the hospital", "Overall", "Single question", D}
+				        }),
+				    Joined = Table.NestedJoin(Typed, {"question_group"}, Lookup, {"question_group"}, "L", JoinKind.Inner),
+				    Expanded = Table.ExpandTableColumn(Joined, "L", {"Question", "Topic", "Measure Type", "Answer Scale"}),
+				    WithLevel = Table.AddColumn(Expanded, "Response Level", each
+				        let id = [hcahps_measure_id], rc = [response_code] in
+				        if rc = "A" or rc = "Y" or Text.EndsWith(id, "_9_10") or Text.EndsWith(id, "_DY") then "Top box"
+				        else if rc = "U" or Text.EndsWith(id, "_7_8") or Text.EndsWith(id, "_PY") then "Middle"
+				        else "Bottom box", type text),
+				    WithOrder = Table.AddColumn(WithLevel, "Response Level Order", each if [Response Level] = "Top box" then 1 else if [Response Level] = "Middle" then 2 else 3, Int64.Type),
+				    WithAnswer = Table.AddColumn(WithOrder, "Answer", each
+				        let id = [hcahps_measure_id], rc = [response_code] in
+				        if rc = "A" then "Always" else if rc = "U" then "Usually" else if rc = "SN" then "Sometimes or never"
+				        else if rc = "Y" then "Yes" else if rc = "N" then "No"
+				        else if Text.EndsWith(id, "_9_10") then "9 or 10" else if Text.EndsWith(id, "_7_8") then "7 or 8" else if Text.EndsWith(id, "_0_6") then "6 or lower"
+				        else if Text.EndsWith(id, "_DY") then "Definitely yes" else if Text.EndsWith(id, "_PY") then "Probably yes" else "Probably or definitely not", type text),
+				    WithShare = Table.AddColumn(WithAnswer, "Share", each [hcahps_answer_percent] / 100, Currency.Type),
+				    Result = Table.SelectColumns(WithShare, {"question_group", "Question", "Topic", "Measure Type", "Answer Scale", "Response Level", "Response Level Order", "Answer", "Share"})
+				in
+				    Result
+
