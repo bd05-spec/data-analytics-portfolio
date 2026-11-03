@@ -10,4 +10,6 @@ model Telco_Customer_Churn
 annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table Customers
+ref table 'Gap Closed'
+ref table 'Retention Actions'
 

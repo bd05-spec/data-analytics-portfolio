@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "38a63318b5e02d7a6f3f",
   "position": {
-    "x": 24,
+    "x": 600,
     "y": 192,
-    "z": 7000,
+    "z": 8000,
     "height": 488,
-    "width": 1232,
-    "tabOrder": 7000
+    "width": 656,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "tableEx",
@@ -23,39 +23,11 @@
                       "Entity": "Customers"
                     }
                   },
-                  "Property": "Contract"
+                  "Property": "Segment"
                 }
               },
-              "queryRef": "Customers.Contract",
-              "nativeQueryRef": "Contract"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Internet Service"
-                }
-              },
-              "queryRef": "Customers.Internet Service",
-              "nativeQueryRef": "Internet Service"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Payment Method"
-                }
-              },
-              "queryRef": "Customers.Payment Method",
-              "nativeQueryRef": "Payment Method"
+              "queryRef": "Customers.Segment",
+              "nativeQueryRef": "Segment"
             },
             {
               "field": {
@@ -71,21 +43,6 @@
               "queryRef": "Customers.Customer Count",
               "nativeQueryRef": "Customer Count",
               "displayName": "Customers"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Churned Customers"
-                }
-              },
-              "queryRef": "Customers.Churned Customers",
-              "nativeQueryRef": "Churned Customers",
-              "displayName": "Churned"
             },
             {
               "field": {
@@ -220,6 +177,64 @@
             "metadata": "Customers.Churn Rate"
           }
         }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#5EAAA8'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#D64554'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#999999'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Customers.Monthly Charges Lost"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -236,7 +251,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Month-to-month fiber customers paying by electronic check: 1,307 customers and $68.3K in monthly charges lost'"
+                  "Value": "'Month-to-month fiber on electronic check: 1,307 customers, $68.3K a month lost'"
                 }
               }
             }
@@ -256,7 +271,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Shaded by churn rate'"
+                  "Value": "'Ranked by monthly charges lost; churn rate shaded'"
                 }
               }
             }

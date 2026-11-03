@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Churn rate by customer attribute. These are associations in a snapshot, not proven causes.",
+                    "value": "Churn rate by attribute; orange bars are 40% or higher, the dashed line is the 26.5% average. Associations, not causes.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "11pt",

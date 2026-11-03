@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Contract, internet and payment segments ranked by monthly charges lost. Narrow the list with the filters.",
+                    "value": "Each bubble is a contract, internet and payment segment. Narrow the list with the filters.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "11pt",

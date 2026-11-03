@@ -1,0 +1,95 @@
+/// Four retention moves, each with a target group and a benchmark group taken from the same data.
+table 'Retention Actions'
+	lineageTag: a7c4d0b5-28ed-4193-b113-84fd649195db
+
+	/// Customers in the action's target group.
+	measure 'Target Customers' =
+			VAR a = SELECTEDVALUE ( 'Retention Actions'[Action Order] )
+			RETURN SWITCH ( a,
+			    1, CALCULATE ( [Customer Count], Customers[Contract] = "Month-to-month", Customers[Internet Service] = "Fiber optic" ),
+			    2, CALCULATE ( [Customer Count], Customers[Contract] = "Month-to-month", Customers[Payment Method] = "Electronic check" ),
+			    3, CALCULATE ( [Customer Count], Customers[Protective Add-ons] = "0 of 4" ),
+			    4, CALCULATE ( [Customer Count], Customers[Tenure Band] = "0-12 months" ) )
+		formatString: #,##0
+		lineageTag: 838b3f40-a757-40a4-ab53-f5c00bf443b8
+
+	/// Churn rate of the target group today.
+	measure 'Target Churn Rate' =
+			VAR a = SELECTEDVALUE ( 'Retention Actions'[Action Order] )
+			RETURN SWITCH ( a,
+			    1, CALCULATE ( [Churn Rate], Customers[Contract] = "Month-to-month", Customers[Internet Service] = "Fiber optic" ),
+			    2, CALCULATE ( [Churn Rate], Customers[Contract] = "Month-to-month", Customers[Payment Method] = "Electronic check" ),
+			    3, CALCULATE ( [Churn Rate], Customers[Protective Add-ons] = "0 of 4" ),
+			    4, CALCULATE ( [Churn Rate], Customers[Tenure Band] = "0-12 months" ) )
+		formatString: 0.0%
+		lineageTag: 5da59d8a-6348-4818-8df1-7c72517d639f
+
+	/// Churn rate of the comparison group the action aims to move customers towards.
+	measure 'Benchmark Churn Rate' =
+			VAR a = SELECTEDVALUE ( 'Retention Actions'[Action Order] )
+			RETURN SWITCH ( a,
+			    1, CALCULATE ( [Churn Rate], Customers[Contract] = "One year", Customers[Internet Service] = "Fiber optic" ),
+			    2, CALCULATE ( [Churn Rate], Customers[Contract] = "Month-to-month", Customers[Payment Method] <> "Electronic check" ),
+			    3, CALCULATE ( [Churn Rate], Customers[Protective Add-ons] = "2 of 4" ),
+			    4, CALCULATE ( [Churn Rate], Customers[Tenure Band] = "13-24 months" ) )
+		formatString: 0.0%
+		lineageTag: 9d491685-1523-41cb-981b-0299de27c0d9
+
+	/// Average monthly charge in the target group.
+	measure 'Target Average Monthly Charge' =
+			VAR a = SELECTEDVALUE ( 'Retention Actions'[Action Order] )
+			RETURN SWITCH ( a,
+			    1, CALCULATE ( AVERAGE ( Customers[Monthly Charges] ), Customers[Contract] = "Month-to-month", Customers[Internet Service] = "Fiber optic" ),
+			    2, CALCULATE ( AVERAGE ( Customers[Monthly Charges] ), Customers[Contract] = "Month-to-month", Customers[Payment Method] = "Electronic check" ),
+			    3, CALCULATE ( AVERAGE ( Customers[Monthly Charges] ), Customers[Protective Add-ons] = "0 of 4" ),
+			    4, CALCULATE ( AVERAGE ( Customers[Monthly Charges] ), Customers[Tenure Band] = "0-12 months" ) )
+		formatString: $#,##0.00
+		lineageTag: a12c3de2-41a6-46e2-9b26-f1131959c20f
+
+	/// Scenario estimate: customers kept if the action closes the selected share of the gap to the benchmark churn rate. Assumes the benchmark gap is achievable; it is not a forecast.
+	measure 'Customers Retained' = [Target Customers] * MAX ( 0, [Target Churn Rate] - [Benchmark Churn Rate] ) * [Selected Gap Closed]
+		formatString: #,##0
+		lineageTag: aad0d821-331a-493f-ae28-5ea9e280ca39
+
+	/// Scenario estimate: retained customers x the target group's average monthly charge.
+	measure 'Monthly Charges Retained' = [Customers Retained] * [Target Average Monthly Charge]
+		formatString: $#,##0
+		lineageTag: ca54fd8d-3cf8-4945-ab54-a3bdb45dd7ec
+
+	/// Monthly charges retained x 12 (simple annualisation at today's charge, not lifetime value).
+	measure 'Annual Charges Retained' = [Monthly Charges Retained] * 12
+		formatString: $#,##0
+		lineageTag: 1983f622-48bc-4495-b120-0d1e4f0c205d
+
+	column 'Action Order'
+		dataType: int64
+		isHidden
+		lineageTag: dffb2f3f-07b8-4340-b6c9-b880a1f6080d
+		summarizeBy: none
+		sourceColumn: Action Order
+
+	column Action
+		dataType: string
+		lineageTag: 745864d1-e678-4f89-b5da-3c471e687563
+		sourceColumn: Action
+		sortByColumn: 'Action Order'
+
+	column 'Target Group'
+		dataType: string
+		lineageTag: cf7c8f9b-82d2-4140-9d8f-82fe4162dfcc
+		sourceColumn: Target Group
+
+	column 'Benchmark Group'
+		dataType: string
+		lineageTag: 9b2db232-8856-4d00-ba0e-aa59e798e594
+		sourceColumn: Benchmark Group
+
+	partition 'Retention Actions' = m
+		mode: import
+		source =
+				#table(type table [Action Order = Int64.Type, Action = text, Target Group = text, Benchmark Group = text], {
+				    {1, "Move month-to-month fiber customers onto 1-year contracts", "Month-to-month, fiber optic", "One-year, fiber optic"},
+				    {2, "Move electronic-check payers to automatic payment", "Month-to-month, electronic check", "Month-to-month, other payment methods"},
+				    {3, "Bundle protective add-ons for internet customers with none", "Internet, 0 of 4 add-ons", "Internet, 2 of 4 add-ons"},
+				    {4, "First-year onboarding and check-ins", "Tenure 0-12 months", "Tenure 13-24 months"}})
+

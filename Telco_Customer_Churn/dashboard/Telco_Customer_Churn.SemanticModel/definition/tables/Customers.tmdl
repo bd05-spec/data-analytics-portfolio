@@ -27,6 +27,11 @@ table Customers
 		formatString: 0.0%
 		lineageTag: 2880219d-605a-4bdc-b135-3cade97ae878
 
+	/// Highlight colour: orange when churn is 40% or more, teal otherwise.
+	measure 'Churn Bar Color' = IF ( [Churn Rate] >= 0.4, "#C2410C", "#0F766E" )
+		displayFolder: Formatting
+		lineageTag: 9ca345c1-02b6-4a56-967a-58d5a4641dc2
+
 	column 'Customer ID'
 		dataType: string
 		isHidden
@@ -149,6 +154,26 @@ table Customers
 		summarizeBy: none
 		sourceColumn: Churn Flag
 
+	column 'Charge Band Order'
+		dataType: int64
+		isHidden
+		lineageTag: 7f007896-4f46-4796-b34b-968648fb2b31
+		summarizeBy: none
+		sourceColumn: Charge Band Order
+
+	/// Current monthly charge, grouped.
+	column 'Charge Band'
+		dataType: string
+		lineageTag: 70941e48-6edc-40e5-8272-b78d72263c8e
+		sourceColumn: Charge Band
+		sortByColumn: 'Charge Band Order'
+
+	/// Contract | internet service | payment method.
+	column Segment
+		dataType: string
+		lineageTag: 040ac5b1-a11e-40ca-9176-507bf89c4fd3
+		sourceColumn: Segment
+
 	partition Customers = m
 		mode: import
 		source =
@@ -165,8 +190,11 @@ table Customers
 				    AddOns = Table.AddColumn(ContractOrder, "Protective Add-ons", each if [InternetService] = "No" then "No internet" else Text.From(List.Count(List.Select({[OnlineSecurity], [OnlineBackup], [DeviceProtection], [TechSupport]}, (v) => v = "Yes"))) & " of 4", type text),
 				    AddOnOrder = Table.AddColumn(AddOns, "Add-ons Order", each if [InternetService] = "No" then 9 else List.Count(List.Select({[OnlineSecurity], [OnlineBackup], [DeviceProtection], [TechSupport]}, (v) => v = "Yes")), Int64.Type),
 				    Internet = Table.AddColumn(AddOnOrder, "Internet", each if [InternetService] = "No" then "No internet" else [InternetService], type text),
-				    ChurnFlag = Table.AddColumn(Internet, "Churn Flag", each if [Churn] = "Yes" then 1 else 0, Int64.Type),
-				    Result = Table.SelectColumns(ChurnFlag, {"customerID", "Senior Citizen", "Partner", "Dependents", "tenure", "Tenure Band", "Tenure Band Order", "Internet", "OnlineSecurity", "TechSupport", "Protective Add-ons", "Add-ons Order", "Contract", "Contract Order", "PaymentMethod", "PaperlessBilling", "MonthlyCharges", "Churn", "Churn Flag"})
+				    Charge = Table.AddColumn(Internet, "Charge Band", each let m = [MonthlyCharges] in if m < 35 then "Under $35" else if m < 70 then "$35-70" else if m < 90 then "$70-90" else "$90+", type text),
+				    ChargeOrder = Table.AddColumn(Charge, "Charge Band Order", each let m = [MonthlyCharges] in if m < 35 then 1 else if m < 70 then 2 else if m < 90 then 3 else 4, Int64.Type),
+				    Segment = Table.AddColumn(ChargeOrder, "Segment", each [Contract] & " | " & [Internet] & " | " & [PaymentMethod], type text),
+				    ChurnFlag = Table.AddColumn(Segment, "Churn Flag", each if [Churn] = "Yes" then 1 else 0, Int64.Type),
+				    Result = Table.SelectColumns(ChurnFlag, {"customerID", "Senior Citizen", "Partner", "Dependents", "tenure", "Tenure Band", "Tenure Band Order", "Internet", "OnlineSecurity", "TechSupport", "Protective Add-ons", "Add-ons Order", "Contract", "Contract Order", "PaymentMethod", "PaperlessBilling", "MonthlyCharges", "Charge Band", "Charge Band Order", "Segment", "Churn", "Churn Flag"})
 				in
 				    Result
 

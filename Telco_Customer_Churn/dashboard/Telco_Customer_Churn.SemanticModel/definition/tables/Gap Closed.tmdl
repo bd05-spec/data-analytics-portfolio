@@ -1,0 +1,20 @@
+/// What-if scenario: share of the churn gap to the benchmark group that an action closes.
+table 'Gap Closed'
+	lineageTag: f2a2c274-cbfe-4b71-8e19-e8914386638f
+
+	/// Scenario input. Defaults to 50% when nothing or several values are selected.
+	measure 'Selected Gap Closed' = SELECTEDVALUE ( 'Gap Closed'[Gap Closed], 0.5 )
+		formatString: 0%
+		lineageTag: 65cedb37-3734-45ac-8fd1-a4a92f6b7577
+
+	column 'Gap Closed'
+		dataType: decimal
+		formatString: 0%
+		lineageTag: c886586a-73b4-45df-a3e3-5daff3bdc850
+		summarizeBy: none
+		sourceColumn: Gap Closed
+
+	partition 'Gap Closed' = m
+		mode: import
+		source = Table.TransformColumnTypes(Table.FromList(List.Transform({1..10}, each _ / 10), Splitter.SplitByNothing(), {"Gap Closed"}), {{"Gap Closed", Currency.Type}})
+

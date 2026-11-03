@@ -3,11 +3,11 @@
   "name": "8b646bd604344cef45de",
   "position": {
     "x": 24,
-    "y": 512,
-    "z": 5000,
-    "height": 168,
+    "y": 488,
+    "z": 7000,
+    "height": 192,
     "width": 736,
-    "tabOrder": 5000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -64,6 +64,20 @@
               },
               "queryRef": "Customers.Churn Rate",
               "nativeQueryRef": "Churn Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customers"
+                    }
+                  },
+                  "Property": "Customer Count"
+                }
+              },
+              "queryRef": "Customers.Customer Count",
+              "nativeQueryRef": "Customer Count"
             }
           ]
         }
@@ -146,7 +160,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fiber optic customers make up 1,297 of the 1,869 customers who left (69%)'"
+                  "Value": "'Fiber optic is 44% of customers but 69% of those who left (1,297 of 1,869)'"
                 }
               }
             }

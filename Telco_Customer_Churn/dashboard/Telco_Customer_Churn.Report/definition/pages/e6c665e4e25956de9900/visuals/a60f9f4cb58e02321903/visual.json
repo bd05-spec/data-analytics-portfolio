@@ -4,10 +4,10 @@
   "position": {
     "x": 776,
     "y": 200,
-    "z": 6000,
-    "height": 384,
+    "z": 8000,
+    "height": 264,
     "width": 480,
-    "tabOrder": 6000
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -160,7 +160,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Month-to-month contracts hold $120.8K of the $139.1K in monthly charges lost (87%)'"
+                  "Value": "'Month-to-month contracts hold $120.8K of the $139.1K monthly charges lost (87%)'"
                 }
               }
             }
