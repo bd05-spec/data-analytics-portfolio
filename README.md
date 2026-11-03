@@ -1,8 +1,8 @@
-﻿# Data Analytics Portfolio
+# Data Analytics Portfolio
 
 Welcome to my data analytics portfolio! This repository showcases five end-to-end data analytics projects spanning healthcare, human resources, telecommunications, supply chain logistics, and e-commerce.
 
-Each project folder follows a standardized structure containing raw-source documentation, cleaned datasets, Jupyter notebooks, T-SQL scripts, Power BI project sources (`.pbip`), standalone Power BI reports (`.pbix`), and visualization assets. The PBIX reports contain an embedded snapshot of the processed data, so they open without a SQL Server connection or the raw source files.
+Each project folder follows a standardized structure containing raw-source documentation, cleaned datasets, Jupyter notebooks, T-SQL scripts, Power BI Project files (`dashboard/<Project>.pbip` with PBIR report and TMDL model folders), and page screenshots in `visuals/`. The PBIP projects read the cleaned CSVs through one `DataRoot` parameter (the GitHub raw URL of this repo by default, or a local clone folder), so they open on any PC.
 
 ---
 
@@ -11,7 +11,7 @@ Each project folder follows a standardized structure containing raw-source docum
 ### 1. [CMS HCAHPS National Data Analysis](CMS_HCAHPS_National/)
 * **Focus:** Healthcare Patient Experience & Quality Benchmarks
 * **Summary:** Analyzes national aggregate metrics from the Hospital Consumer Assessment of Healthcare Providers and Systems (HCAHPS) survey (Oct 2024 – Sep 2025). The analysis reconciles categorical response distributions to 100% and benchmarks top-box patient satisfaction scores across nurse communication, doctor respect, and hospital environment.
-* **Key Finding:** "Nurse courtesy and respect" achieved the highest national top-box rating (86%), while quietness at night and care transition planning remained areas for operational improvement.
+* **Key Finding:** The weakest area is explaining possible side effects of new medicines: only 49% of patients say staff always did, followed by quiet at night (60%). Courtesy and respect from nurses and doctors score highest on the same Always/Usually/Never scale (86%).
 * **Explore:** [`CMS_HCAHPS_National/README.md`](CMS_HCAHPS_National/README.md)
 * **Power BI:** [Download the standalone report](CMS_HCAHPS_National/dashboard/CMS_HCAHPS_National.pbix)
 
@@ -32,16 +32,16 @@ Each project folder follows a standardized structure containing raw-source docum
 ### 4. [DataCo Smart Supply Chain Analysis](DataCo_Supply_Chain/)
 * **Focus:** Logistics, Fulfillment Risk & Global Sales Performance
 * **Summary:** Evaluates 180,519 order item records spanning global e-commerce supply chains. Implements strict PII data minimization by removing sensitive customer attributes while auditing fulfillment statuses and calculating 7-day moving sales averages.
-* **Key Finding:** Total revenue reached $36.78M across 65,752 orders. However, 54.83% of all shipped order items were flagged with late delivery risk, pointing to fulfillment bottleneck challenges in key European and Latin American markets.
+* **Key Finding:** Total sales reached $36.78M across 65,752 orders. 54.83% of all order items (57.3% excluding canceled shipments) were delivered late. Late rates are nearly identical across markets (54.4-55.2%); the difference is shipping class: First Class is late 95.3% of the time and Standard Class 38.1%.
 * **Explore:** [`DataCo_Supply_Chain/README.md`](DataCo_Supply_Chain/README.md)
 * **Power BI:** [Download the standalone report](DataCo_Supply_Chain/dashboard/DataCo_Supply_Chain.pbix)
 
 ### 5. [Ecommerce Multi-Category Behavioral Analysis](Ecommerce/)
 * **Focus:** E-Commerce User Behavior, Funnel Conversion & Big Data Streaming
 * **Summary:** Processes 109.95 million user interaction events (~14.7 GB raw CSVs) from October and November 2019 using a high-performance 1M-chunk Python streaming pipeline. Analyzes view-to-cart-to-purchase conversion funnels, price band value shares, and peak shopping hours.
-* **Key Finding:** Users generated $505.15M in total purchase value. Overall conversion from product view to purchase is 1.59%, with 54.91% of total transaction revenue coming from products priced over $500.
+* **Key Finding:** Users generated $505.15M in total purchase value. Overall conversion from product view to purchase is 1.59%, with 54.9% of purchase value coming from items priced over $500. Purchase value is the sum of item prices; the data has no revenue field. Cart tracking is inconsistent across days, so cart-based rates are not reliable.
 * **Explore:** [`Ecommerce/README.md`](Ecommerce/README.md)
-* **Power BI:** [Download the standalone report](Ecommerce/dashboard/Ecommerce.pbix) — uses the included 100,000-row processed sample; the Python and SQL analysis covers the full dataset.
+* **Power BI:** [Download the standalone report](Ecommerce/dashboard/Ecommerce.pbix) — built from full-data summaries produced by `Ecommerce/scripts/build_summaries.py`, not the 100,000-row sample.
 
 ---
 
@@ -63,6 +63,8 @@ data-analytics-portfolio/
 │   ├── sql/
 │   │   └── <Project>.sql                  <- Production T-SQL schema & queries
 │   ├── dashboard/
-│   │   └── <Project>.pbix                 <- Standalone report with embedded processed data
-│   └── visuals/                           <- Exported chart graphics (PNG)
+│   │   ├── <Project>.pbip                 <- Power BI Project (open this in Power BI Desktop)
+│   │   ├── <Project>.Report/              <- PBIR report definition
+│   │   └── <Project>.SemanticModel/       <- TMDL semantic model
+│   └── visuals/                           <- Chart graphics and dashboard page screenshots (PNG)
 ```
