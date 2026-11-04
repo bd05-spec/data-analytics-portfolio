@@ -1,0 +1,50 @@
+/// Distinct users, sessions and buyers per day. Distinct counts are valid per day only.
+table 'Daily Users'
+	lineageTag: e259a064-2bd1-4717-8b02-ae6775e94be7
+
+	/// Distinct users on one day. Blank above day level because distinct users cannot be added across days.
+	measure 'Daily Distinct Users' = IF ( HASONEVALUE ( 'Date'[Date] ), SUM ( 'Daily Users'[Users] ) )
+		formatString: #,##0
+		lineageTag: b3585db5-6435-4406-a70c-14c11fe99a86
+
+	/// Distinct users with a purchase on one day.
+	measure 'Daily Buyers' = IF ( HASONEVALUE ( 'Date'[Date] ), SUM ( 'Daily Users'[Buyers] ) )
+		formatString: #,##0
+		lineageTag: 0f8aa315-a05b-4388-9da6-ea44d6170266
+
+	column Date
+		dataType: dateTime
+		isHidden
+		lineageTag: 18b13dee-f256-46fe-ac9d-ce8e073786f5
+		sourceColumn: date
+
+	column Users
+		dataType: int64
+		isHidden
+		lineageTag: 70f585b4-227f-4115-b25c-41bd950fb065
+		sourceColumn: users
+
+	column Sessions
+		dataType: int64
+		isHidden
+		lineageTag: cbe6b5b9-b424-44bc-b4b1-147231a470ee
+		sourceColumn: sessions
+
+	column Buyers
+		dataType: int64
+		isHidden
+		lineageTag: 98a25c83-5943-497c-ba1f-3eaa49eb1f20
+		sourceColumn: buyers
+
+	partition 'Daily Users' = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/daily_users.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"date", type date}, {"users", Int64.Type}, {"sessions", Int64.Type}, {"buyers", Int64.Type}}, "en-US")
+				in
+				    Typed
+

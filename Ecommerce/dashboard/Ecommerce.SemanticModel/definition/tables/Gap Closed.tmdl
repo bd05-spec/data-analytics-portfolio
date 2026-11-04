@@ -1,0 +1,20 @@
+/// What-if: share of the conversion gap to the store average that an opportunity closes.
+table 'Gap Closed'
+	lineageTag: 1d49058c-6a20-44c1-97e2-6aa26a5b3765
+
+	/// Scenario input; defaults to 50%.
+	measure 'Selected Gap Closed' = SELECTEDVALUE ( 'Gap Closed'[Gap Closed], 0.5 )
+		formatString: 0%
+		lineageTag: 72ce0ad8-add3-44b0-a454-1be4600e4f46
+
+	column 'Gap Closed'
+		dataType: decimal
+		formatString: 0%
+		lineageTag: 9224c8c0-d434-4da7-88c9-35a6f099cca7
+		summarizeBy: none
+		sourceColumn: Gap Closed
+
+	partition 'Gap Closed' = m
+		mode: import
+		source = Table.TransformColumnTypes(Table.FromList(List.Transform({1..10}, each _ / 10), Splitter.SplitByNothing(), {"Gap Closed"}), {{"Gap Closed", Currency.Type}})
+

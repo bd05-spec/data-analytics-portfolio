@@ -1,0 +1,20 @@
+/// What-if: extra days added to every shipping-class promise.
+table 'Promise Buffer'
+	lineageTag: 440bba66-bb2d-4261-996c-57b8f0d460c5
+
+	/// Scenario input; defaults to 1 extra day.
+	measure 'Selected Extra Days' = SELECTEDVALUE ( 'Promise Buffer'[Extra Days], 1 )
+		formatString: 0
+		lineageTag: 54597bed-8cb3-4cdc-8cb1-168c72eba5d9
+
+	column 'Extra Days'
+		dataType: int64
+		formatString: 0
+		lineageTag: bf78594d-e335-432a-b42f-67b6b0562249
+		summarizeBy: none
+		sourceColumn: Extra Days
+
+	partition 'Promise Buffer' = m
+		mode: import
+		source = Table.TransformColumnTypes(Table.FromList({0, 1, 2, 3, 4}, Splitter.SplitByNothing(), {"Extra Days"}), {{"Extra Days", Int64.Type}})
+

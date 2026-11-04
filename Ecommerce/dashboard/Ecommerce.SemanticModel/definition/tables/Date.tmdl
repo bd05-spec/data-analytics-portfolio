@@ -1,0 +1,53 @@
+/// One row per day, 1 Oct - 30 Nov 2019 (UTC).
+table Date
+	lineageTag: 3ff6de9c-b5c0-40fa-9116-d1be0f003a3a
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isUnique
+		isKey
+		formatString: d mmm yyyy
+		lineageTag: a12ca016-f678-4e37-89f3-b161e2464e72
+		sourceColumn: Date
+
+	column Month
+		dataType: string
+		lineageTag: 70a7e356-3533-4c9b-8671-49a011581386
+		sourceColumn: Month
+		sortByColumn: 'Month Number'
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		lineageTag: 3237853f-52f6-4364-9509-a66b2c9384fd
+		summarizeBy: none
+		sourceColumn: Month Number
+
+	column Weekday
+		dataType: string
+		lineageTag: ebdcaf7d-9924-45b6-84b6-cb7302033845
+		sourceColumn: Weekday
+		sortByColumn: 'Weekday Number'
+
+	column 'Weekday Number'
+		dataType: int64
+		isHidden
+		lineageTag: 8f0495a0-3248-4201-bab3-6c9f498f89b7
+		summarizeBy: none
+		sourceColumn: Weekday Number
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Dates = List.Dates(#date(2019, 10, 1), 61, #duration(1, 0, 0, 0)),
+				    T = Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}),
+				    Typed = Table.TransformColumnTypes(T, {{"Date", type date}}),
+				    M = Table.AddColumn(Typed, "Month", each Date.ToText([Date], "MMM yyyy", "en-US"), type text),
+				    MN = Table.AddColumn(M, "Month Number", each Date.Month([Date]), Int64.Type),
+				    WD = Table.AddColumn(MN, "Weekday", each Date.ToText([Date], "ddd", "en-US"), type text),
+				    WDN = Table.AddColumn(WD, "Weekday Number", each Date.DayOfWeek([Date], Day.Monday) + 1, Int64.Type)
+				in
+				    WDN
+

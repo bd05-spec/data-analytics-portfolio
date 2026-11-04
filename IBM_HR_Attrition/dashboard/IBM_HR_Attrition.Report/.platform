@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.1.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "IBM_HR_Attrition"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "37a59375-05da-49c8-a8ff-535e8b1ad73b"
+  }
+}

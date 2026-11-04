@@ -1,0 +1,52 @@
+/// Calendar, 1 Jan 2015 - 31 Jan 2018, with a data-completeness note per quarter.
+table Date
+	lineageTag: a51d09a9-0030-4874-bcdd-817bbc9959cd
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isUnique
+		isKey
+		formatString: d mmm yyyy
+		lineageTag: 64054615-df7a-46dd-8a2c-a8b9cea1d7e8
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		lineageTag: 78e383fc-38f3-41e3-ad6f-0ee349db5efc
+		summarizeBy: none
+		sourceColumn: Year
+
+	column Quarter
+		dataType: string
+		lineageTag: 2867d52f-0bcf-4452-ad42-ebba1fcff8c2
+		sourceColumn: Quarter
+		sortByColumn: 'Quarter Order'
+
+	column 'Quarter Order'
+		dataType: int64
+		isHidden
+		lineageTag: 9911f472-a966-45e5-9359-0e8eea918a71
+		summarizeBy: none
+		sourceColumn: Quarter Order
+
+	/// Flags 2017 Q4 (orders shrink to about 1 item each) and 2018 Q1 (January only).
+	column 'Data Completeness'
+		dataType: string
+		lineageTag: 33cd6bec-641a-48c3-91e0-a5344165165e
+		sourceColumn: Data Completeness
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Start = #date(2015, 1, 1),
+				    Dates = List.Dates(Start, Duration.Days(#date(2018, 1, 31) - Start) + 1, #duration(1, 0, 0, 0)),
+				    T = Table.TransformColumnTypes(Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}), {{"Date", type date}}),
+				    Y = Table.AddColumn(T, "Year", each Date.Year([Date]), Int64.Type),
+				    Q = Table.AddColumn(Y, "Quarter", each Text.From(Date.Year([Date])) & " Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				    QO = Table.AddColumn(Q, "Quarter Order", each Date.Year([Date]) * 10 + Date.QuarterOfYear([Date]), Int64.Type),
+				    Note = Table.AddColumn(QO, "Data Completeness", each if [Quarter Order] = 20181 then "Partial: January only" else if [Quarter Order] = 20174 then "Pattern change: about 1 item per order" else "Normal", type text)
+				in
+				    Note
+

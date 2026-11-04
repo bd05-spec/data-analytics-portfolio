@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "0f03bea49c9fcdf38174",
+  "position": {
+    "x": 860,
+    "y": 104,
+    "z": 5000,
+    "height": 96,
+    "width": 396,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Lowest Top-Box Score"
+                }
+              },
+              "queryRef": "Patient Experience.Lowest Top-Box Score",
+              "nativeQueryRef": "Lowest Top-Box Score",
+              "displayName": "Lowest"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Hospital Rated 9 or 10"
+                }
+              },
+              "queryRef": "Patient Experience.Hospital Rated 9 or 10",
+              "nativeQueryRef": "Hospital Rated 9 or 10",
+              "displayName": "Rated 9-10"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Questions Scored"
+                }
+              },
+              "queryRef": "Patient Experience.Questions Scored",
+              "nativeQueryRef": "Questions Scored",
+              "displayName": "Questions"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "label": [],
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

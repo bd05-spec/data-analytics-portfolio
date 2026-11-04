@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "e460310117d7a40acea1",
+  "displayName": "Segments",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

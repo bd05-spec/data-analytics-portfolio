@@ -1,0 +1,23 @@
+/// Top-level product category (first part of category_code). 'Unspecified' = no category code in the source.
+table Category
+	lineageTag: 2e3c3475-2790-4f5a-aeba-fdda085f168a
+
+	column Category
+		dataType: string
+		isKey
+		lineageTag: 8101b671-ec16-4b51-ba85-e4fe0e8c5216
+		sourceColumn: category
+
+	partition Category = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/daily_category.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Proper = Table.TransformColumns(Promoted, {{"category", Text.Proper, type text}}),
+				    Cats = Table.Distinct(Table.SelectColumns(Proper, {"category"}))
+				in
+				    Cats
+

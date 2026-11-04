@@ -1,0 +1,79 @@
+/// Six retention moves, each with a target group and a benchmark group from the same data.
+table 'Retention Actions'
+	lineageTag: 5e1c37f3-bc6c-49dc-925c-6ff06be3be38
+
+	/// Employees in the action's target group.
+	measure 'Target Headcount' =
+			SWITCH ( SELECTEDVALUE ( 'Retention Actions'[Action Order] ),
+			    1, CALCULATE ( [Headcount], Employees[Overtime] = "Works overtime" ),
+			    2, CALCULATE ( [Headcount], Employees[Job Level] = "Level 1", Employees[Overtime] = "Works overtime" ),
+			    3, CALCULATE ( [Headcount], Employees[Tenure Band] = "1 year or less" ),
+			    4, CALCULATE ( [Headcount], Employees[Job Role] = "Sales Representative" ),
+			    5, CALCULATE ( [Headcount], Employees[Business Travel] = "Travels frequently" ),
+			    6, CALCULATE ( [Headcount], Employees[Income Band] = "Under $3K" ) )
+		formatString: #,##0
+		lineageTag: 970426b3-ac83-4015-bc92-65109aff4079
+
+	/// Attrition rate of the target group today.
+	measure 'Target Attrition Rate' =
+			SWITCH ( SELECTEDVALUE ( 'Retention Actions'[Action Order] ),
+			    1, CALCULATE ( [Attrition Rate], Employees[Overtime] = "Works overtime" ),
+			    2, CALCULATE ( [Attrition Rate], Employees[Job Level] = "Level 1", Employees[Overtime] = "Works overtime" ),
+			    3, CALCULATE ( [Attrition Rate], Employees[Tenure Band] = "1 year or less" ),
+			    4, CALCULATE ( [Attrition Rate], Employees[Job Role] = "Sales Representative" ),
+			    5, CALCULATE ( [Attrition Rate], Employees[Business Travel] = "Travels frequently" ),
+			    6, CALCULATE ( [Attrition Rate], Employees[Income Band] = "Under $3K" ) )
+		formatString: 0.0%
+		lineageTag: 546865bd-1e08-4ca9-9c75-3dd8793d0549
+
+	/// Attrition rate of the comparison group.
+	measure 'Benchmark Attrition Rate' =
+			SWITCH ( SELECTEDVALUE ( 'Retention Actions'[Action Order] ),
+			    1, CALCULATE ( [Attrition Rate], Employees[Overtime] = "No overtime" ),
+			    2, CALCULATE ( [Attrition Rate], Employees[Job Level] = "Level 1", Employees[Overtime] = "No overtime" ),
+			    3, CALCULATE ( [Attrition Rate], Employees[Tenure Band] = "2-3 years" ),
+			    4, CALCULATE ( [Attrition Rate], Employees[Job Role] = "Sales Executive" ),
+			    5, CALCULATE ( [Attrition Rate], Employees[Business Travel] = "Travels rarely" ),
+			    6, CALCULATE ( [Attrition Rate], Employees[Income Band] = "$3K-5K" ) )
+		formatString: 0.0%
+		lineageTag: f8b0cb29-f5e9-4671-8cc4-9ff95e6b40ab
+
+	/// Scenario estimate: leavers avoided if the action closes the selected share of the gap to the benchmark rate. Not a forecast.
+	measure 'Leavers Avoided' = [Target Headcount] * MAX ( 0, [Target Attrition Rate] - [Benchmark Attrition Rate] ) * [Selected Gap Closed]
+		formatString: #,##0
+		lineageTag: 43c07da0-8778-44d1-b85f-71ecaee7c3b3
+
+	/// Company attrition rate if this single action delivered its scenario result.
+	measure 'Attrition Rate After' = DIVIDE ( [Leavers] - [Leavers Avoided], [Headcount] )
+		formatString: 0.0%
+		lineageTag: c6c19963-f1d4-49d8-aa50-9a858160f609
+
+	column 'Action Order'
+		dataType: int64
+		isHidden
+		lineageTag: 511eef91-7516-49b8-a655-74cd481dfd21
+		summarizeBy: none
+		sourceColumn: Action Order
+
+	column Action
+		dataType: string
+		lineageTag: 67928b76-6f45-4100-8cc4-e69dd37fb15a
+		sourceColumn: Action
+		sortByColumn: 'Action Order'
+
+	column 'Benchmark Group'
+		dataType: string
+		lineageTag: ec84d463-1853-4aed-aff8-0e3ad1e9cf00
+		sourceColumn: Benchmark Group
+
+	partition 'Retention Actions' = m
+		mode: import
+		source =
+				#table(type table [Action Order = Int64.Type, Action = text, Benchmark Group = text], {
+				    {1, "Cap routine overtime", "No overtime"},
+				    {2, "Overtime relief for entry-level (Level 1) staff", "Level 1, no overtime"},
+				    {3, "First-year onboarding and mentoring", "2-3 years at the company"},
+				    {4, "Career path for Sales Representatives", "Sales Executives"},
+				    {5, "Cut frequent business travel", "Travels rarely"},
+				    {6, "Pay review for staff under $3K a month", "$3K-5K a month"}})
+

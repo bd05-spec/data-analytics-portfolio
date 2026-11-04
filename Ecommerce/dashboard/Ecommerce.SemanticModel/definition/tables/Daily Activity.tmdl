@@ -1,0 +1,93 @@
+/// Events per day and top-level category, aggregated from the full Oct-Nov 2019 raw logs by Ecommerce/scripts/build_summaries.py.
+table 'Daily Activity'
+	lineageTag: 39bebd55-7977-4ab4-bd8f-f943e8a1909a
+
+	/// Product view events.
+	measure Views = SUM ( 'Daily Activity'[View Events] )
+		formatString: #,##0
+		lineageTag: d691f438-f1a2-4654-8203-19205edb8bb6
+
+	/// Add-to-cart events. Cart tracking appears inconsistent over time (see data notes).
+	measure Carts = SUM ( 'Daily Activity'[Cart Events] )
+		formatString: #,##0
+		lineageTag: ca846738-5f2c-4c09-8aea-73c6f9b0cf6d
+
+	/// Purchase events (one per item purchased).
+	measure Purchases = SUM ( 'Daily Activity'[Purchase Events] )
+		formatString: #,##0
+		lineageTag: 85be9d73-ceaa-4f48-84ab-224ec02d15ed
+
+	/// Sum of item price on purchase events. Not revenue: the data has no quantity, discount or order total.
+	measure 'Purchase Value' = SUM ( 'Daily Activity'[Price of Purchases] )
+		formatString: $#,##0
+		lineageTag: 4c298761-275d-470e-a81a-a24e293494d3
+
+	/// Cart events / view events.
+	measure 'View to Cart Rate' = DIVIDE ( [Carts], [Views] )
+		formatString: 0.00%
+		lineageTag: 01bf5bc7-4219-47e3-9bfc-475e4f2e507c
+
+	/// Purchase events / cart events. Unreliable where cart tracking is incomplete.
+	measure 'Cart to Purchase Rate' = DIVIDE ( [Purchases], [Carts] )
+		formatString: 0.00%
+		lineageTag: 2ea69154-8175-4aa5-a32d-d9e7bd955e6b
+
+	/// Purchase events / view events. The most robust funnel rate in this data.
+	measure 'View to Purchase Rate' = DIVIDE ( [Purchases], [Views] )
+		formatString: 0.00%
+		lineageTag: e56d8fb2-aaf7-472c-b535-cb7a3a6828cc
+
+	/// Event count for the funnel stage in context.
+	measure 'Funnel Events' = SWITCH ( SELECTEDVALUE ( 'Funnel Stage'[Stage Order] ), 1, [Views], 2, [Carts], 3, [Purchases] )
+		formatString: #,##0
+		lineageTag: 7ee4bc9d-322f-41b9-9800-1004ca75025a
+
+	column Date
+		dataType: dateTime
+		isHidden
+		lineageTag: ff61a05a-2391-4235-9b45-c7fe1d5879fd
+		sourceColumn: date
+
+	column Category
+		dataType: string
+		isHidden
+		lineageTag: 1d2515e0-5adf-4690-a27e-5faf710fec92
+		sourceColumn: category
+
+	column 'View Events'
+		dataType: int64
+		isHidden
+		lineageTag: a692f731-9de8-4065-8449-5443a8118251
+		sourceColumn: views
+
+	column 'Cart Events'
+		dataType: int64
+		isHidden
+		lineageTag: c1d0466a-bfdf-4dc6-a9f7-05eb8c842310
+		sourceColumn: carts
+
+	column 'Purchase Events'
+		dataType: int64
+		isHidden
+		lineageTag: c708b60f-9a2b-467c-8265-ad43be24dd2e
+		sourceColumn: purchases
+
+	column 'Price of Purchases'
+		dataType: decimal
+		isHidden
+		lineageTag: 2dc1d1b1-f8d0-4dec-b60c-d26b790fc0cd
+		sourceColumn: purchase_value
+
+	partition 'Daily Activity' = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/daily_category.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Proper = Table.TransformColumns(Promoted, {{"category", Text.Proper, type text}}),
+				    Typed = Table.TransformColumnTypes(Proper, {{"date", type date}, {"views", Int64.Type}, {"carts", Int64.Type}, {"purchases", Int64.Type}, {"purchase_value", Currency.Type}}, "en-US")
+				in
+				    Typed
+

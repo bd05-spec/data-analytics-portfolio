@@ -1,0 +1,79 @@
+/// Conversion opportunities, each benchmarked to the store-wide view-to-purchase rate.
+table Opportunities
+	lineageTag: 8da31161-fccd-4e2b-9d38-fceff63dad1f
+
+	/// Store-wide view-to-purchase rate (1.59%), ignoring filters.
+	measure 'Store View to Purchase Rate' = CALCULATE ( DIVIDE ( SUM ( 'Daily Activity'[Purchase Events] ), SUM ( 'Daily Activity'[View Events] ) ), ALL ( 'Daily Activity' ), ALL ( 'Date' ), ALL ( Category ) )
+		formatString: 0.00%
+		lineageTag: 54fce5dd-a069-4cad-a602-35b4c3625ce5
+
+	/// Product views in the opportunity's scope.
+	measure 'Opportunity Views' =
+			VAR store = [Store View to Purchase Rate]
+			RETURN SWITCH ( SELECTEDVALUE ( Opportunities[Opportunity Order] ),
+			    1, SUMX ( FILTER ( VALUES ( 'Hourly Activity'[Hour (UTC)] ), [Hourly View to Purchase Rate] < store ), CALCULATE ( SUM ( 'Hourly Activity'[Hour Views] ) ) ),
+			    2, CALCULATE ( SUM ( Brands[Brand Views] ), Brands[Brand] = "Unbranded" ),
+			    3, CALCULATE ( SUM ( 'Price Bands'[Band Views] ), 'Price Bands'[Price Band] = "$50-100" ) )
+		formatString: #,##0
+		lineageTag: 56a9e943-a0c8-40a7-99ad-b6504db4768e
+
+	/// Purchases in the opportunity's scope.
+	measure 'Opportunity Purchases' =
+			VAR store = [Store View to Purchase Rate]
+			RETURN SWITCH ( SELECTEDVALUE ( Opportunities[Opportunity Order] ),
+			    1, SUMX ( FILTER ( VALUES ( 'Hourly Activity'[Hour (UTC)] ), [Hourly View to Purchase Rate] < store ), CALCULATE ( SUM ( 'Hourly Activity'[Hour Purchases] ) ) ),
+			    2, CALCULATE ( SUM ( Brands[Brand Purchases] ), Brands[Brand] = "Unbranded" ),
+			    3, CALCULATE ( SUM ( 'Price Bands'[Band Purchases] ), 'Price Bands'[Price Band] = "$50-100" ) )
+		formatString: #,##0
+		lineageTag: 7b1b0704-ec63-453a-9c81-20da7192a88a
+
+	/// View-to-purchase rate in scope today.
+	measure 'Opportunity Conversion' = DIVIDE ( [Opportunity Purchases], [Opportunity Views] )
+		formatString: 0.00%
+		lineageTag: b02c3b78-5149-482c-a579-b13b15e48cca
+
+	/// Average item price of purchases in scope (store average for the hours opportunity).
+	measure 'Opportunity Average Price' =
+			SWITCH ( SELECTEDVALUE ( Opportunities[Opportunity Order] ),
+			    1, CALCULATE ( DIVIDE ( SUM ( 'Daily Activity'[Price of Purchases] ), SUM ( 'Daily Activity'[Purchase Events] ) ), ALL ( 'Daily Activity' ), ALL ( 'Date' ), ALL ( Category ) ),
+			    2, CALCULATE ( DIVIDE ( SUM ( Brands[Brand Value] ), SUM ( Brands[Brand Purchases] ) ), Brands[Brand] = "Unbranded" ),
+			    3, CALCULATE ( DIVIDE ( SUM ( 'Price Bands'[Band Value] ), SUM ( 'Price Bands'[Band Purchases] ) ), 'Price Bands'[Price Band] = "$50-100" ) )
+		formatString: $#,##0.00
+		lineageTag: b7f335ae-1fd0-490b-8a79-708031b16ebc
+
+	/// Scenario estimate: extra purchase events if scope conversion closed the selected share of the gap to the store average. Not a forecast.
+	measure 'Extra Purchases' = [Opportunity Views] * MAX ( 0, [Store View to Purchase Rate] - [Opportunity Conversion] ) * [Selected Gap Closed]
+		formatString: #,##0
+		lineageTag: a89445aa-41ea-4d23-8e2c-4821311a4b72
+
+	/// Scenario estimate: extra purchases x average item price in scope. Purchase value, not revenue.
+	measure 'Extra Purchase Value' = [Extra Purchases] * [Opportunity Average Price]
+		formatString: $#,##0
+		lineageTag: 3a088eb5-c36b-4f22-94df-212a9de5a49a
+
+	column 'Opportunity Order'
+		dataType: int64
+		isHidden
+		lineageTag: ed7b6d30-cc16-4ce7-b475-974e718ee023
+		summarizeBy: none
+		sourceColumn: Opportunity Order
+
+	column Opportunity
+		dataType: string
+		lineageTag: eb4ff731-ded7-46b5-ac5e-a1e11a7f0886
+		sourceColumn: Opportunity
+		sortByColumn: 'Opportunity Order'
+
+	column Scope
+		dataType: string
+		lineageTag: 1c7ccd75-3a1a-43fa-a227-2b15f0fca557
+		sourceColumn: Scope
+
+	partition Opportunities = m
+		mode: import
+		source =
+				#table(type table [Opportunity Order = Int64.Type, Opportunity = text, Scope = text], {
+				    {1, "Lift the weak hours", "14 UTC hours converting below 1.59%"},
+				    {2, "Improve unbranded product pages", "Items with no brand"},
+				    {3, "Rework the $50-100 range", "Items priced $50-100"}})
+

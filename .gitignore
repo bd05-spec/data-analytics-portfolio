@@ -17,9 +17,17 @@ Thumbs.db
 *.parquet.*
 *.log
 
-# Power BI Desktop project - user-local state (per Microsoft PBIP docs these are
-# machine-specific and must NOT be committed)
-**/.pbi/
-**/cache.abf
+# Power BI Desktop project - user-local state stays out of Git.
+# The data cache (.pbi/cache.abf) IS committed so the projects open with data
+# already loaded, without a refresh.
+**/.pbi/*
+!**/.pbi/cache.abf
 **/localSettings.json
+**/editorSettings.json
 **/unappliedChanges.json
+
+# Ecommerce raw event logs (~14.7 GB) - never commit; build_summaries.py reads them
+Ecommerce/raw_unedited/*.csv
+**/2019-Oct.csv
+**/2019-Nov.csv
+Ecommerce/data/_work/

@@ -1,0 +1,168 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "fbe80872939d91d507e0",
+  "position": {
+    "x": 860,
+    "y": 312,
+    "z": 8000,
+    "height": 368,
+    "width": 396,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Answer Scale"
+                }
+              },
+              "queryRef": "Patient Experience.Answer Scale",
+              "nativeQueryRef": "Answer Scale"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Questions Scored"
+                }
+              },
+              "queryRef": "Patient Experience.Questions Scored",
+              "nativeQueryRef": "Questions Scored",
+              "displayName": "Questions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Top-Box Score"
+                }
+              },
+              "queryRef": "Patient Experience.Top-Box Score",
+              "nativeQueryRef": "Top-Box Score",
+              "displayName": "Avg top box"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Patient Experience"
+                    }
+                  },
+                  "Property": "Lowest Top-Box Score"
+                }
+              },
+              "queryRef": "Patient Experience.Lowest Top-Box Score",
+              "nativeQueryRef": "Lowest Top-Box Score",
+              "displayName": "Lowest"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Patient Experience"
+                  }
+                },
+                "Property": "Top-Box Score"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Yes/No questions score highest, so compare within a scale'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average and lowest top-box score for each answer scale'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

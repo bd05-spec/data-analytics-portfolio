@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.1.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "CMS_HCAHPS_National"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "14dbb9c5-f039-57e7-96de-9a3bd309486f"
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b5835e232ddce98a62bf",
+  "position": {
+    "x": 24,
+    "y": 96,
+    "z": 4000,
+    "height": 280,
+    "width": 1232,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Action"
+                }
+              },
+              "queryRef": "Retention Actions.Action",
+              "nativeQueryRef": "Action"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Target Headcount"
+                }
+              },
+              "queryRef": "Retention Actions.Target Headcount",
+              "nativeQueryRef": "Target Headcount",
+              "displayName": "Employees"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Target Attrition Rate"
+                }
+              },
+              "queryRef": "Retention Actions.Target Attrition Rate",
+              "nativeQueryRef": "Target Attrition Rate",
+              "displayName": "Attrition now"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Benchmark Group"
+                }
+              },
+              "queryRef": "Retention Actions.Benchmark Group",
+              "nativeQueryRef": "Benchmark Group"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Benchmark Attrition Rate"
+                }
+              },
+              "queryRef": "Retention Actions.Benchmark Attrition Rate",
+              "nativeQueryRef": "Benchmark Attrition Rate",
+              "displayName": "Benchmark"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Leavers Avoided"
+                }
+              },
+              "queryRef": "Retention Actions.Leavers Avoided",
+              "nativeQueryRef": "Leavers Avoided",
+              "displayName": "Leavers avoided"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Attrition Rate After"
+                }
+              },
+              "queryRef": "Retention Actions.Attrition Rate After",
+              "nativeQueryRef": "Attrition Rate After",
+              "displayName": "Company rate after"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Retention Actions"
+                  }
+                },
+                "Property": "Leavers Avoided"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#D9A07B'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#D64554'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#999999'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Retention Actions.Leavers Avoided"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Capping overtime avoids the most leavers: about 42 of 237 at half the gap'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Groups overlap, so do not add the rows. Company rate after = 16.1% minus that one action''s effect'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

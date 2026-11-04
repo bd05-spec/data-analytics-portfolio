@@ -1,0 +1,4 @@
+/// Root of the data-analytics-portfolio repo: a local clone folder, or the GitHub raw URL of the main branch. Every table reads its CSV relative to this.
+expression DataRoot = "https://raw.githubusercontent.com/bd05-spec/data-analytics-portfolio/main" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: fc2dcacd-967f-4ab0-84e1-14b866339872
+

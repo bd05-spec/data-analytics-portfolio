@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "8f0fe2b654f768d539fd",
+  "position": {
+    "x": 24,
+    "y": 104,
+    "z": 5000,
+    "height": 88,
+    "width": 1232,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Activity"
+                    }
+                  },
+                  "Property": "Views"
+                }
+              },
+              "queryRef": "Daily Activity.Views",
+              "nativeQueryRef": "Views",
+              "displayName": "Product views"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Activity"
+                    }
+                  },
+                  "Property": "Purchases"
+                }
+              },
+              "queryRef": "Daily Activity.Purchases",
+              "nativeQueryRef": "Purchases",
+              "displayName": "Purchases"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Activity"
+                    }
+                  },
+                  "Property": "View to Purchase Rate"
+                }
+              },
+              "queryRef": "Daily Activity.View to Purchase Rate",
+              "nativeQueryRef": "View to Purchase Rate",
+              "displayName": "View to purchase"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Activity"
+                    }
+                  },
+                  "Property": "Purchase Value"
+                }
+              },
+              "queryRef": "Daily Activity.Purchase Value",
+              "nativeQueryRef": "Purchase Value",
+              "displayName": "Purchase value (sum of prices)"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "label": [],
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

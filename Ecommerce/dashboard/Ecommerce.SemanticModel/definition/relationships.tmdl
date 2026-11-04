@@ -1,0 +1,12 @@
+relationship 'Daily Activity_Date_Date_Date'
+	fromColumn: 'Daily Activity'.Date
+	toColumn: Date.Date
+
+relationship 'Daily Activity_Category_Category_Category'
+	fromColumn: 'Daily Activity'.Category
+	toColumn: Category.Category
+
+relationship 'Daily Users_Date_Date_Date'
+	fromColumn: 'Daily Users'.Date
+	toColumn: Date.Date
+

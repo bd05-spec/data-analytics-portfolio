@@ -1,0 +1,306 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "cbdc1249c8756f36ac9b",
+  "position": {
+    "x": 24,
+    "y": 96,
+    "z": 4000,
+    "height": 248,
+    "width": 1232,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Action"
+                }
+              },
+              "queryRef": "Retention Actions.Action",
+              "nativeQueryRef": "Action"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Target Customers"
+                }
+              },
+              "queryRef": "Retention Actions.Target Customers",
+              "nativeQueryRef": "Target Customers",
+              "displayName": "Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Target Churn Rate"
+                }
+              },
+              "queryRef": "Retention Actions.Target Churn Rate",
+              "nativeQueryRef": "Target Churn Rate",
+              "displayName": "Churn now"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Benchmark Group"
+                }
+              },
+              "queryRef": "Retention Actions.Benchmark Group",
+              "nativeQueryRef": "Benchmark Group"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Benchmark Churn Rate"
+                }
+              },
+              "queryRef": "Retention Actions.Benchmark Churn Rate",
+              "nativeQueryRef": "Benchmark Churn Rate",
+              "displayName": "Benchmark"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Customers Retained"
+                }
+              },
+              "queryRef": "Retention Actions.Customers Retained",
+              "nativeQueryRef": "Customers Retained",
+              "displayName": "Customers kept"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Monthly Charges Retained"
+                }
+              },
+              "queryRef": "Retention Actions.Monthly Charges Retained",
+              "nativeQueryRef": "Monthly Charges Retained",
+              "displayName": "Monthly charges kept"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Retention Actions"
+                    }
+                  },
+                  "Property": "Annual Charges Retained"
+                }
+              },
+              "queryRef": "Retention Actions.Annual Charges Retained",
+              "nativeQueryRef": "Annual Charges Retained",
+              "displayName": "Per year"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Retention Actions"
+                  }
+                },
+                "Property": "Monthly Charges Retained"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'growToFit'"
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#5EAAA8'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#D64554'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#999999'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Retention Actions.Monthly Charges Retained"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Moving month-to-month fiber customers to 1-year contracts has the largest pool and the widest gap'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Groups overlap (a customer can be in several), so do not add the rows together'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

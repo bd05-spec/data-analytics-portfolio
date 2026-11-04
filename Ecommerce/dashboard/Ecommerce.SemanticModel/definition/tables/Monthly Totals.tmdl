@@ -1,0 +1,71 @@
+/// Distinct users and sessions per month and for the whole period. Distinct counts cannot be summed across days or months.
+table 'Monthly Totals'
+	lineageTag: 25026edb-bbdd-4474-bfc1-325e8c8f0a13
+
+	/// Distinct users in the period row. Use per period only; never add months together.
+	measure 'Distinct Users' = IF ( HASONEVALUE ( 'Monthly Totals'[Period] ), SUM ( 'Monthly Totals'[Users] ) )
+		formatString: #,##0
+		lineageTag: d956d7fd-79b7-4fe9-a1a2-d2b35715f66d
+
+	/// Distinct sessions in the period row. Use per period only.
+	measure 'Distinct Sessions' = IF ( HASONEVALUE ( 'Monthly Totals'[Period] ), SUM ( 'Monthly Totals'[Sessions] ) )
+		formatString: #,##0
+		lineageTag: 8bab0a8f-3917-4d6b-9a55-fe689a28b590
+
+	/// Share of sessions with at least one purchase event.
+	measure 'Session Purchase Rate' = IF ( HASONEVALUE ( 'Monthly Totals'[Period] ), DIVIDE ( SUM ( 'Monthly Totals'[Sessions with Purchase] ), SUM ( 'Monthly Totals'[Sessions] ) ) )
+		formatString: 0.00%
+		lineageTag: 47e1eafc-68e0-4798-a150-f87edadc5cd2
+
+	column Period
+		dataType: string
+		lineageTag: e8d0080d-da69-459c-ab7c-cee6eff959c9
+		sourceColumn: Period
+		sortByColumn: 'Period Order'
+
+	column 'Period Order'
+		dataType: int64
+		isHidden
+		lineageTag: e590df88-dc7d-4fa0-90b5-b93364690dda
+		summarizeBy: none
+		sourceColumn: Period Order
+
+	column Users
+		dataType: int64
+		isHidden
+		lineageTag: 6da5d6ee-5c8a-4891-8ad3-a67f8fa253a9
+		sourceColumn: users
+
+	column Sessions
+		dataType: int64
+		isHidden
+		lineageTag: 091f8cd0-3294-42a8-9363-9b08a7cae288
+		sourceColumn: sessions
+
+	column 'Sessions with Cart'
+		dataType: int64
+		isHidden
+		lineageTag: 6037f237-b92b-4744-8e3f-a88768e26215
+		sourceColumn: cart_sessions
+
+	column 'Sessions with Purchase'
+		dataType: int64
+		isHidden
+		lineageTag: 9740b211-7590-4143-812e-d2e065638852
+		sourceColumn: purchase_sessions
+
+	partition 'Monthly Totals' = m
+		mode: import
+		source =
+				let
+				    Path = "Ecommerce/data/summary/monthly_funnel.csv",
+				    Bin = if Text.StartsWith(DataRoot, "http") then Web.Contents(DataRoot & "/" & Path) else File.Contents(DataRoot & "\" & Text.Replace(Path, "/", "\")),
+				    Source = Csv.Document(Bin, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"users", Int64.Type}, {"sessions", Int64.Type}, {"cart_sessions", Int64.Type}, {"purchase_sessions", Int64.Type}}, "en-US"),
+				    Label = Table.AddColumn(Typed, "Period", each if [month] = "2019-10" then "Oct 2019" else if [month] = "2019-11" then "Nov 2019" else "Oct-Nov 2019", type text),
+				    Ord = Table.AddColumn(Label, "Period Order", each if [month] = "2019-10" then 1 else if [month] = "2019-11" then 2 else 3, Int64.Type),
+				    Result = Table.SelectColumns(Ord, {"Period", "Period Order", "users", "sessions", "cart_sessions", "purchase_sessions"})
+				in
+				    Result
+

@@ -2,6 +2,18 @@
 
 7,043 customers, 1,869 of them gone. That's a 26.54% churn rate, and when I started breaking it down I expected it to be a spread-across-the-board retention problem. It isn't. One variable does most of the work: **contract type**. Month-to-month customers churn at 42.7%. Two-year customers churn at 2.8%. That is a 15x difference, and it is the finding the whole project turns on.
 
+## The dashboard
+
+Four pages, built to answer one question: which customers should we save first?
+
+* **Overview** - churn KPIs, a contract x internet heatmap (month-to-month fiber churns at 54.6%, n=2,128), where the $139,131 of lost monthly charges sits, and a short "what this means" panel.
+* **Drivers** - six charts (payment, tenure, add-ons, tech support, monthly charge, senior citizen) with 40%+ bars highlighted against the 26.5% average.
+* **Segments** - a bubble priority map and a ranked list of contract/internet/payment segments by monthly charges lost.
+* **Action plan** - four retention moves, each with a target group and a benchmark group from the same data, and a slider for how much of the churn gap each move closes. At half the gap, moving month-to-month fiber customers to 1-year contracts keeps about 376 customers and $32.7K a month. These are scenarios, not forecasts, and the groups overlap.
+
+![Overview](visuals/dashboard_overview.png)
+![Action plan](visuals/dashboard_action_plan.png)
+
 **Source:** Kaggle `blastchar/telco-customer-churn` (v1), a common telecom churn benchmark set.
 
 ## The one data problem worth naming
@@ -22,7 +34,7 @@ Contract type is the headline:
 
 ![Churn rate by contract type](visuals/telco_churn_by_contract.png)
 
-Payment method is the runner-up, and it is the one I'd treat more carefully. Electronic check churns at 45.3% against 15.2% for automatic credit card. That looks like a strong signal, but the mechanism is confounded: electronic-check customers skew heavily toward month-to-month contracts, so this may be the contract effect wearing a different hat rather than an independent finding. I left it on the dashboard because it is genuinely useful for the retention team, but I would not present it as a standalone cause.
+Payment method is the runner-up, and it is the one I'd treat more carefully. Electronic check churns at 45.3% against 15.2% for automatic credit card. My first worry was that this is the contract effect wearing a different hat, because electronic-check customers skew toward month-to-month contracts. So I held contract fixed: among month-to-month customers only, electronic check still churns at 53.7% against 31.6-34.1% for the other three methods. The gap survives that control, but it is still an association in a snapshot, not a proven cause.
 
 ![Churn rate by payment method](visuals/telco_churn_by_payment.png)
 
@@ -34,7 +46,8 @@ Tenure tells the same story from a third angle. Customers inside their first yea
 * [`data/cleaned/`](data/cleaned/) - cleaned CSV and XLSX, with `TotalCharges` as a true numeric and the 11 new accounts preserved as nulls.
 * [`notebooks/Telco_Customer_Churn_analysis.ipynb`](notebooks/Telco_Customer_Churn_analysis.ipynb) - the pandas pipeline: dedup check, the null investigation, baseline churn, and the contract chart.
 * [`sql/Telco_Customer_Churn.sql`](sql/Telco_Customer_Churn.sql) - SQL Server DDL plus queries for contract, tenure, and payment-method churn.
-* [`dashboard/Telco_Customer_Churn.pbix`](dashboard/Telco_Customer_Churn.pbix) - standalone report with the processed 7,043-row dataset embedded; it opens without SQL Server or the raw Kaggle file. Refreshing the report may require updating its processed-file location in Power Query. The report has one page, five KPI cards along the top, a Contract slicer on the right, and two bar charts.
+* [`dashboard/Telco_Customer_Churn.pbip`](dashboard/Telco_Customer_Churn.pbip) - the Power BI project (PBIR report + TMDL model). It reads the cleaned CSV through a `DataRoot` parameter. Four pages: Overview, Drivers, Segments, Action plan.
+* [`dashboard/Telco_Customer_Churn.pbix`](dashboard/Telco_Customer_Churn.pbix) - standalone copy for download.
 * [`visuals/`](visuals/) - the two charts embedded above.
 
 ## Data validation
