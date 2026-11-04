@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "baf9fbd0163c8ebb325e",
   "position": {
     "x": 24,
@@ -13,6 +13,25 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customers"
+                    }
+                  },
+                  "Property": "Internet Service"
+                }
+              },
+              "queryRef": "Customers.Internet Service",
+              "nativeQueryRef": "Internet Service",
+              "active": true
+            }
+          ]
+        },
         "Rows": {
           "projections": [
             {
@@ -27,7 +46,8 @@
                 }
               },
               "queryRef": "Customers.Contract",
-              "nativeQueryRef": "Contract"
+              "nativeQueryRef": "Contract",
+              "active": true
             }
           ]
         },
@@ -62,24 +82,6 @@
               "queryRef": "Customers.Customer Count",
               "nativeQueryRef": "Customer Count",
               "displayName": "Customers"
-            }
-          ]
-        },
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Internet Service"
-                }
-              },
-              "queryRef": "Customers.Internet Service",
-              "nativeQueryRef": "Internet Service"
             }
           ]
         }

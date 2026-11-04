@@ -7,7 +7,6 @@ model DataCo_Supply_Chain
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table 'Order Items'
 ref table Date

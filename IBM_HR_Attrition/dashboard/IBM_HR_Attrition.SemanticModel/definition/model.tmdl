@@ -7,7 +7,6 @@ model IBM_HR_Attrition
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table Employees
 ref table 'Gap Closed'

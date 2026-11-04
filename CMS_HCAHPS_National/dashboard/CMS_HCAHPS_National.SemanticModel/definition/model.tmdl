@@ -7,7 +7,6 @@ model CMS_HCAHPS_National
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table 'Patient Experience'
 ref table 'Gap Closed'

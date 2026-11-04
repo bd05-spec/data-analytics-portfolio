@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "9be4cc9c06f5cc9dc18e",
   "position": {
     "x": 24,
@@ -27,43 +27,8 @@
                 }
               },
               "queryRef": "Customers.Segment",
-              "nativeQueryRef": "Segment"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Customer Count"
-                }
-              },
-              "queryRef": "Customers.Customer Count",
-              "nativeQueryRef": "Customer Count"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Churn Rate"
-                }
-              },
-              "queryRef": "Customers.Churn Rate",
-              "nativeQueryRef": "Churn Rate"
+              "nativeQueryRef": "Segment",
+              "active": true
             }
           ]
         },
@@ -82,6 +47,43 @@
               },
               "queryRef": "Customers.Monthly Charges Lost",
               "nativeQueryRef": "Monthly Charges Lost"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customers"
+                    }
+                  },
+                  "Property": "Customer Count"
+                }
+              },
+              "queryRef": "Customers.Customer Count",
+              "nativeQueryRef": "Customer Count",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customers"
+                    }
+                  },
+                  "Property": "Churn Rate"
+                }
+              },
+              "queryRef": "Customers.Churn Rate",
+              "nativeQueryRef": "Churn Rate"
             }
           ]
         }

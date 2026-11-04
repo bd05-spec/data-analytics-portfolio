@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "e02cbaf12b824b8815d2",
   "position": {
     "x": 1056,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Customers.Paperless Billing",
-              "nativeQueryRef": "Paperless Billing"
+              "nativeQueryRef": "Paperless Billing",
+              "active": true
             }
           ]
         }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "d2a57a0af85f45180b3f",
   "position": {
     "x": 1056,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Gap Closed.Gap Closed",
-              "nativeQueryRef": "Gap Closed"
+              "nativeQueryRef": "Gap Closed",
+              "active": true
             }
           ]
         }

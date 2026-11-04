@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a60f9f4cb58e02321903",
   "position": {
     "x": 776,
@@ -27,25 +27,8 @@
                 }
               },
               "queryRef": "Customers.Contract",
-              "nativeQueryRef": "Contract"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customers"
-                    }
-                  },
-                  "Property": "Monthly Charges Lost"
-                }
-              },
-              "queryRef": "Customers.Monthly Charges Lost",
-              "nativeQueryRef": "Monthly Charges Lost"
+              "nativeQueryRef": "Contract",
+              "active": true
             }
           ]
         },
@@ -80,6 +63,24 @@
               "nativeQueryRef": "Share of Monthly Charges Lost"
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customers"
+                    }
+                  },
+                  "Property": "Monthly Charges Lost"
+                }
+              },
+              "queryRef": "Customers.Monthly Charges Lost",
+              "nativeQueryRef": "Monthly Charges Lost"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -97,8 +98,7 @@
             },
             "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

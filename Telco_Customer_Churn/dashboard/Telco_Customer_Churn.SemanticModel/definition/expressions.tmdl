@@ -2,3 +2,5 @@
 expression DataRoot = "https://raw.githubusercontent.com/bd05-spec/data-analytics-portfolio/main" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: e0a383d9-445e-40e2-bb09-ad7a43467206
 
+	annotation PBI_ResultType = Text
+

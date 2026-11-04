@@ -199,3 +199,5 @@ table Customers
 				in
 				    Result
 
+	annotation PBI_ResultType = Table
+

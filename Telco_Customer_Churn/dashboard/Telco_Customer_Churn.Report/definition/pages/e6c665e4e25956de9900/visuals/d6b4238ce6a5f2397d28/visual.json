@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "d6b4238ce6a5f2397d28",
   "position": {
     "x": 840,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Customers.Senior Citizen",
-              "nativeQueryRef": "Senior Citizen"
+              "nativeQueryRef": "Senior Citizen",
+              "active": true
             }
           ]
         }

@@ -7,9 +7,12 @@ model Telco_Customer_Churn
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_ProTooling = ["MCP-PBIModeling"]
+
+annotation PBI_QueryOrder = ["Customers","Gap Closed","Retention Actions","DataRoot"]
 
 ref table Customers
 ref table 'Gap Closed'
 ref table 'Retention Actions'
+
+ref cultureInfo en-US
 

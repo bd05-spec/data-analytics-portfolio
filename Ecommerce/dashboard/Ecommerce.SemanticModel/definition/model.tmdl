@@ -7,7 +7,6 @@ model Ecommerce
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_ProTooling = ["MCP-PBIModeling"]
 
 ref table Date
 ref table Category
